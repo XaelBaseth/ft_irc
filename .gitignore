@@ -1,3 +1,8 @@
-.o
-debug/
+#Compiled object
+*.o
+
+#Binaries
 ircserv
+
+#Misc
+./debug/
