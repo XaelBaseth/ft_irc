@@ -6,3 +6,5 @@ ircserv
 
 #Misc
 ./debug/
+./obj/
+.cache_exists
