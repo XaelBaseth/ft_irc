@@ -3,6 +3,8 @@
 
 #Binaries
 ircserv
+*.out
+micro_server
 
 #Misc
 ./debug/
