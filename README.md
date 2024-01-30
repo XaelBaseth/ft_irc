@@ -15,6 +15,9 @@ The goal of this exercice is to create an IRC server in C++, fully compatible wi
 | [signal](http://manpagesfr.free.fr/man/man2/signal.2.html) | [sigaction](manpagesfr.free.fr/man/man2/sigaction.2.html) | [lseek](http://manpagesfr.free.fr/man/man2/lseek.2.html) |
 | [fstat](https://linux.die.net/man/2/fstat) | [fcntl](http://manpagesfr.free.fr/man/man2/fcntl.2.html) | [poll](http://manpagesfr.free.fr/man/man2/poll.2.html) |
 
+## What is IRC
+
+IRC (Internet Relay Chat) is  an application-level Protocol for exchanging messages in real-time. While, primarly designated for group communication, it also allows you to communicate via private messages and exchange data via the TCP protocol, and cryptographic TSL (optional).
 
 ## What is socket programming
 
@@ -64,10 +67,61 @@ While the read() and write() system calls could be used to send and receive data
 
 Once we are done sending and receiving data, we will be able to close our socket. Just as any other file descriptor, a socket can be closed with a simple call to _close()_. This destroys the file descriptor and prevents any further communication with the socket.
 
+### Handling multiples connections
+
+As the functions are blocking, if we run the mini_server, the system will wait for a connection for a connection request that will never come.
+
+This is not a bad thing, but it can cause issues for a server that attempts to handle several clients at the same time. If we are waiting to receive data from a client, it should not stop us from accepting a new connection or another message from another client.
+
+Thankfully we can use **multiplexing** methods that can make our sockets non-blocking. When we invoke the socket() system call to get a file descriptor for our socket, the operating system’s kernel automatically creates it as “blocking”. If we so desire, we can transform it into a non-blocking socket with the file descriptor manipulation function _fcntl()_.
+
+In order to do so, we can use the **poll()** function. It is used to monitor several file descriptors to see if any of them are ready for I/O operations. IT returns the numbers of file descriptors that have events pending. Naturally, the _poll()_ function returns -1 on failure, and indicate the error in errno.
+
+### CheckLists
+
+[ ] Creates a server that only allows client-server communication.
+
+[ ] Server must be able to handle mutiple clients at the same time and never hang. (I/O operation must be non-blocking.)
+
+[ ] Server use only 1 **poll()** to handle read, write, listen etc. operations
+
+[ ] Client must be able to connect to server without any errors.
+
+[ ] Communication has to be done via TCP/IP(v4 or v6).
+
+[ ] Using the client, you must be able to authenticate, set a nickname, a username, join a channel, send and receive private message.
+
+[ ] All the message sent from one client have to be forwarded to every other client in the channel.
+
+[ ] You must have operators and regulars users. The operator have to have specific channel operators commands:
+
+1. KICK - Eject a client from the channel.
+2. INVITE - Invite a client to a channel.
+3. TOPIC - Change or view the channel topic
+4. MODE - Change the channel mode:
+
+- i: Set/Remove invite-only channel.
+- t: Set/Remove the restrictions of the TOPIC command to channel operators.
+- k: Set/Remove the channel key (password)
+- o: Give/take channel operator privilege
+- l: Set/remove the user limit to channel
+
+[ ] **BONUS** Handle file transfert
+
+[ ] **BONUS** a bot (raultbot ?)
+
 ## Sources
+
+[Subject](https://cdn.intra.42.fr/pdf/pdf/120067/en.subject.pdf)
 
 [Codequoi](https://www.codequoi.com/en/sockets-and-network-programming-in-c/)
 
 [Geeksforgeeks](https://www.geeksforgeeks.org/socket-programming-in-cc-handling-multiple-clients-on-server-without-multi-threading/)
 
 [vildac](http://vidalc.chez.com/lf/socket.html)
+
+[IRC protocol](https://modern.ircdocs.horse/)
+
+[Socket guide pdf](https://beej.us/guide/bgnet/pdf/bgnet_a4_c_1.pdf)
+
+[CHIRC](http://chi.cs.uchicago.edu/chirc/irc.html)
