@@ -6,6 +6,7 @@
 *****************************************************************/
 
 # include <iostream>
+# include <exception>
 # include "Colors.hpp"
 # include "Server.hpp"
 

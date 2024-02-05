@@ -14,10 +14,15 @@
 
 class Server {
 private:
-	
+	std::string	_port;
+	std::string	_password;
 public:
-	Server(/* args */);
+	Server();
 	~Server();
+	class InvalidClientException : public std::exception{
+		public:
+				const char *what(void) const throw();
+	};
 };
 
 /****************************************************************
