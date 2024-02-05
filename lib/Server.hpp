@@ -1,22 +1,28 @@
-#ifndef IRCSERV_HPP
-# define IRCSERV_HPP
+#ifndef SERVER_HPP
+# define SERVER_HPP
 
 /****************************************************************
 * 							LIBRAIRIES							*
 *****************************************************************/
 
-# include <iostream>
 # include "Colors.hpp"
-# include "Server.hpp"
+# include "ircserv.hpp"
 
 /****************************************************************
 * 							CLASSES								*
 *****************************************************************/
 
-class Server;
+class Server {
+private:
+	
+public:
+	Server(/* args */);
+	~Server();
+};
 
 /****************************************************************
 * 							FUNCTIONS							*
 *****************************************************************/
+
 
 #endif

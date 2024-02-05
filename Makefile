@@ -6,7 +6,7 @@
 #    By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/02/05 11:29:30 by acharlot         ###   ########.fr        #
+#    Updated: 2024/02/05 15:29:11 by acharlot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJ_DIR 	=	obj/
 DEBUG_DIR   =   debug/
 CC			=	c++
 CFLAGS		=	-Wall -Wextra -Werror -std=c++98
-DFLAGS		= 	-g3 -fsanitize=address
+DFLAGS		= 	-g3 -fno-eliminate-unused-debug-types
 RM			=	rm -rf
 ECHO		=	echo
 
@@ -43,22 +43,30 @@ MAIN_DIR	=	main/
 MAIN_FILES	=	ircserv
 UTIL_DIR	=	utils/
 UTIL_FILES	=	Colors
+CLAS_DIR	=	class/
+CLAS_FILES	=	Server
 
 SRC_MAI_FILE=	$(addprefix $(MAIN_DIR), $(MAIN_FILES))
 SRC_UTI_FILE=	$(addprefix $(UTIL_DIR), $(UTIL_FILES))
+SRC_CLA_FILE=	$(addprefix $(CLAS_DIR), $(CLAS_FILES))
 
 MAINSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_MAI_FILE)))
 UTILSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_UTI_FILE)))
+CLASSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_CLA_FILE)))
 
 MAINOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_MAI_FILE)))
 UTILOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_UTI_FILE)))
+CLASOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_CLA_FILE)))
 
 DBGMAINOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_MAI_FILE)))
 DBGUTILOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_UTI_FILE)))
+DBGCLAOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_CLA_FILE)))
 
 OBJF		=	.cache_exists
 
-OBJ 		=	$(MAINOBJ) $(UTILOBJ)
+OBJ 		=	$(MAINOBJ) $(UTILOBJ) $(CLASOBJ)
+
+DBGF 		= 	$(DBGUTILOBJ) $(DBGMAINOBJ) $(DBGCLAOBJ)
 
 #Rules
 all:			$(NAME)
@@ -74,16 +82,18 @@ $(OBJF):
 					@mkdir -p $(OBJ_DIR)
 					@mkdir -p $(OBJ_DIR)$(MAIN_DIR)
 					@mkdir -p $(OBJ_DIR)$(UTIL_DIR)
+					@mkdir -p $(OBJ_DIR)$(CLAS_DIR)
 					@touch $(OBJF)
 
-debug: $(DEBUG_DIR) $(DBGMAINOBJ) $(DBGUTILOBJ)
-					@$(CC) $(CFLAGS) $(DFLAGS) $(DBGMAINOBJ) $(DBGUTILOBJ) $(HEADER) -o $(DEBUG_DIR)$(NAME)
+debug: $(DEBUG_DIR) $(DBGF)
+					@$(CC) $(CFLAGS) $(DFLAGS) $(DBGF) $(HEADER) -o $(DEBUG_DIR)$(NAME)
 					@$(ECHO) "$(RED)[$(NAME_CAPS)]:\tdebug files$(DEF_COLOR)\t$(GREEN) => Success!$(DEF_COLOR)\n"
 
 $(DEBUG_DIR):
 					@mkdir -p $(DEBUG_DIR)
 					@mkdir -p $(DEBUG_DIR)$(MAIN_DIR)
 					@mkdir -p $(DEBUG_DIR)$(UTIL_DIR)
+					@mkdir -p $(DEBUG_DIR)$(CLAS_DIR)
 
 $(DEBUG_DIR)%.o: $(SRC_DIR)%.cpp $(OBJF)
 					@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@
