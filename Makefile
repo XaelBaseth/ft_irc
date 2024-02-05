@@ -6,7 +6,7 @@
 #    By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/01/26 16:15:19 by acharlot         ###   ########.fr        #
+#    Updated: 2024/02/05 11:29:30 by acharlot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,21 +41,29 @@ WHITE		=	\033[0;97m
 #Files
 MAIN_DIR	=	main/
 MAIN_FILES	=	ircserv
+UTIL_DIR	=	utils/
+UTIL_FILES	=	Colors
 
 SRC_MAI_FILE=	$(addprefix $(MAIN_DIR), $(MAIN_FILES))
+SRC_UTI_FILE=	$(addprefix $(UTIL_DIR), $(UTIL_FILES))
 
 MAINSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_MAI_FILE)))
+UTILSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_UTI_FILE)))
+
 MAINOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_MAI_FILE)))
-DEBUGOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_MAI_FILE)))
+UTILOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_UTI_FILE)))
+
+DBGMAINOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_MAI_FILE)))
+DBGUTILOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_UTI_FILE)))
 
 OBJF		=	.cache_exists
 
-OBJ 		=	$(MAINOBJ)
+OBJ 		=	$(MAINOBJ) $(UTILOBJ)
 
 #Rules
 all:			$(NAME)
 
-$(NAME):		$(OBJ)
+$(NAME):		$(OBJ) $(OBJF)
 					@$(CC) $(CFLAGS) $(OBJ) $(HEADER) -o $(NAME)
 					@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Success!$(DEF_COLOR)\n"
 
@@ -65,15 +73,17 @@ $(OBJ_DIR)%.o:	$(SRC_DIR)%.cpp $(OBJF)
 $(OBJF):		
 					@mkdir -p $(OBJ_DIR)
 					@mkdir -p $(OBJ_DIR)$(MAIN_DIR)
+					@mkdir -p $(OBJ_DIR)$(UTIL_DIR)
 					@touch $(OBJF)
 
-debug: $(DEBUG_DIR) $(DEBUGOBJ)
-					@$(CC) $(CFLAGS) $(DFLAGS) $(DEBUGOBJ) $(HEADER) -o $(DEBUG_DIR)$(NAME)
+debug: $(DEBUG_DIR) $(DBGMAINOBJ) $(DBGUTILOBJ)
+					@$(CC) $(CFLAGS) $(DFLAGS) $(DBGMAINOBJ) $(DBGUTILOBJ) $(HEADER) -o $(DEBUG_DIR)$(NAME)
 					@$(ECHO) "$(RED)[$(NAME_CAPS)]:\tdebug files$(DEF_COLOR)\t$(GREEN) => Success!$(DEF_COLOR)\n"
 
 $(DEBUG_DIR):
 					@mkdir -p $(DEBUG_DIR)
 					@mkdir -p $(DEBUG_DIR)$(MAIN_DIR)
+					@mkdir -p $(DEBUG_DIR)$(UTIL_DIR)
 
 $(DEBUG_DIR)%.o: $(SRC_DIR)%.cpp $(OBJF)
 					@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@
