@@ -11,9 +11,13 @@
 # include <csignal>
 # include <cerrno>
 # include <cstring>
+# include <poll.h>
+# include <vector>
+# include <unistd.h>
 
 # include "Colors.hpp"
 # include "Server.hpp"
+# include "ErrorMessage.hpp"
 
 /****************************************************************
 * 							CLASSES								*
