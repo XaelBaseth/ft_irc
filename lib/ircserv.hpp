@@ -7,6 +7,11 @@
 
 # include <iostream>
 # include <exception>
+# include <netdb.h>
+# include <csignal>
+# include <cerrno>
+# include <cstring>
+
 # include "Colors.hpp"
 # include "Server.hpp"
 
