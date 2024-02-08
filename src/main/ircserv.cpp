@@ -20,6 +20,14 @@ int	main(int argc, char **argv) {
 		if (server.fillInfos(argv[1]) == FAILURE)
 			return (FAILURE);
 		server.launchServer();
+		try {
+			server.manageServerLoop();
+		}
+		catch(const std::exception& e){
+			std::cerr << ToColor("Caught exception: ", Colors::Red)
+				<< e.what() << std::endl;
+		}
 		return (SUCCESS);
+
 	}
 }

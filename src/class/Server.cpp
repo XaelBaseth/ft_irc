@@ -16,6 +16,14 @@ Server::~Server(void){
 	std::cout << ToColor("Server is shutting down...", Colors::Gold) << std::endl;
 }
 
+							/********************
+							 * GETTER & SETTER *
+							*********************/
+
+std::map<const int, Client>&	Server::getClients(){
+	return (_clients);
+}
+
 /**
  * Error given when the port or password are wrong.
 */
@@ -73,7 +81,7 @@ int	Server::launchServer(void){
 /**
  * Help to set up the structs `hints` and `servinfo`
  * @param port Value given by the user to connect.
- * @return int`SUCCESS` or `FAILURE` wether getaddrinfo works or not.
+ * @return `SUCCESS` or `FAILURE` wether getaddrinfo works or not.
 */
 int	Server::fillInfos(char *port){
 	if (getaddrinfo(NULL, port, &_hints, &_servinfo) < 0){
@@ -83,10 +91,50 @@ int	Server::fillInfos(char *port){
 	return (SUCCESS);
 }
 
-void Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
+/**
+ * Adds a new client to the server's poll file descriptor set and clients map.
+ * 
+ * Creates a new `pollfd` structure sor the client socket, set the events
+ * to monitor for input (`POLLIN`) and output (`POLLOUT`) and adds the pollfd
+ * the vector of polling file descriptors.
+ * Adds a new `Client` object and inserts it into the `newClients` using the
+ * client socket  as the key.
+ * @param client_socket - The file descriptor of the client's socket connection.
+ * @param poll_fds - a vector list referencing the `pollfd` structures 
+ * representing the file descriptors of active connections.
+*/
+void	Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
 {
-	(void)client_socket;
-	(void)poll_fds;
-	//TODO: Handles the adding of client.
-	std::cout << "LOL" << std::endl;
+	pollfd	client_pollfd;
+	Client	newClient(client_socket);
+
+	client_pollfd.fd = client_socket;
+	client_pollfd.events = POLLIN | POLLOUT;
+	poll_fds.push_back(client_pollfd);
+
+	_clients.insert(std::pair<int, Client>(client_socket, newClient));
+	std::cout << ToColor("[Server] Added client #", Colors::DeepPink) 
+	<< client_socket << ToColor(" successfully", Colors::DeepPink) << std::endl;
+}
+
+/**
+ * 	Delete a client from the existing client map managed by the server.
+ * @param poll_fds - a vector list referencing the `pollfd` structures 
+ * representing the file descriptors of active connections.
+ * @param it - iterator pointing to the `pollfd` entry of client to be
+ * deleted within the `poll_fds`
+ * @param current_fd - file descriptor associated with the client to be deleted.
+*/
+void	Server::delClient(std::vector<pollfd> &poll_fds, 
+	std::vector<pollfd>::iterator &it, int current_fd) {
+	std::cout << ToColor("[Server] Deconnection of client #", Colors::DeepPink) 
+	<< current_fd << std::endl;
+
+	int key = current_fd;
+
+	close(current_fd);
+	_clients.erase(key);
+	poll_fds.erase(it);
+
+	std::cout << ToColor("[Server] Client deleted. Total client is now: ", Colors::DeepPink) << (unsigned int)(poll_fds.size() -1) << std::endl;
 }

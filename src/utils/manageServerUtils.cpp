@@ -25,14 +25,69 @@ int	Server::createClientConnexion(std::vector<pollfd>& poll_fds, std::vector<pol
 	return (SUCCESS);
 }
 
+static void	print(std::string type, int client_socket, char *message) {
+	if (message)
+		std::cout << std::endl << type << client_socket << ": " << ToColor(message, Colors::RoyalBlue);
+}
+
 int Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it) {
-	std::cerr << ToColor("TODO", Colors::DeepPink) << std::endl;
-	//TODO: handle client
+	Client	*client;
+	client = getClient(this, it->fd);
+	char	message[MSG_SIZE];
+	int		read_count;
+
+	memset(message, 0, sizeof(message));
+	read_count = recv(it->fd, message, MSG_SIZE, 0);
+
+	if (read_count <= FAILURE) {
+		std::cerr << ToColor("[Server] recv() failed", Colors::Red) << std::endl;
+		delClient(poll_fds, it, it->fd);
+		return (BREAK);
+	}
+	else if (read_count == 0) {
+		std::cout << ToColor("[Server] A client just disconnected", Colors::Orange) << std::endl;
+		delClient(poll_fds, it, it->fd);
+		return (BREAK);
+	}
+	else {
+		print("[Client] Message received from client #", it->fd, message); //!if problem check HERE
+		client->setReadBuffer(message);
+
+		if (client->getReadBuffer().find("\r\n") != std::string::npos) {
+			try {
+				//parseMessage(it->fd, client->getReadBuffer());
+				if (client->getReadBuffer().find("\r\n"))
+					client->getReadBuffer().clear();
+			}
+			catch(const std::exception& e) {
+				std::cout << ToColor("[Server] caught exception: ", Colors::Red);
+				std::cerr << ToColor(e.what(), Colors::Red) << std::endl;
+				//TODO:Uncomment when client IRC is done
+				//if (client->isRegistrationDone() == true)
+				//	client->setDeconnexionStatus(true);
+				return (BREAK);
+			}
+		}
+	}
+	return (SUCCESS);
 }
 
 int Server::handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it, const int current_fd) {
-	std::cerr << ToColor("TODO", Colors::DeepPink) << std::endl;
-	//TODO: handle client disconnection
+	Client	*client = getClient(this, current_fd);
+	if (!client)
+		std::cout << ToColor("[Server] Could not manage to find a connexion to client.", Colors::Red) << std::endl;
+	else {
+		sendServerRpl(current_fd, client->getSendBuffer());
+		client->getSendBuffer().clear();
+		//TODO: Uncomment when client IRC is done
+		(void)it;
+		(void)poll_fds;
+		//if (client->getDeconnexionStatus() == true) {
+		//	delClient(poll_fds, it, current_fd);
+		//	return (BREAK);
+		//}
+	}
+	return (SUCCESS);
 }
 
 int Server::handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it) {
@@ -40,6 +95,8 @@ int Server::handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>
 		std::cerr << ToColor("[Error] listen socket error", Colors::Red) << std::endl;
 		return (FAILURE);
 	}
-	else
+	else {
+		delClient(poll_fds, it, it->fd);
 		return (BREAK);
+	}
 }

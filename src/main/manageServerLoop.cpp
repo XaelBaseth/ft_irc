@@ -1,4 +1,6 @@
-#include "../../lib/Server.hpp"
+#include "../../lib/ircserv.hpp"
+
+bool	server_shutdown;
 
 int	Server::manageServerLoop(){
 	std::vector<pollfd> 	poll_fds;
