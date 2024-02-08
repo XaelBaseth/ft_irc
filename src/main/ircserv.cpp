@@ -1,12 +1,18 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * Handle the quitting of the server properly.
+ * @param signal - signal that needs to be handled.
+*/
+static void	signal_handler(int signal){
+	(void)signal;
+	std::cout << "\033[2D"; //hide the ^C in the terminal
+	server_shutdown = true;
+}
+
+/**
  * Main functions for the ircserv program.
  * TODO: Check if the input of the user is correct.
- * TODO: Start the server.
- * ?TODO: Handle sigint properly?
- * TODO: Loop for the waiting and listening. 
- * ?^ try catch ^?
 */
 int	main(int argc, char **argv) {
 	if (argc != 3){
@@ -14,6 +20,7 @@ int	main(int argc, char **argv) {
 		return (FAILURE);
 	}
 	else {
+		signal(SIGINT, signal_handler);
 		Server	server;
 
 		server.setHints();
