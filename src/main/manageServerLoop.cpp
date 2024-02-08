@@ -2,7 +2,18 @@
 
 bool	server_shutdown;
 
-int	Server::manageServerLoop(){
+/**
+ * @brief Manages the server's main loop using poll for event handling.
+ * 
+ * This function initializes a vector of pollfd structures with the server's file descriptor,
+ * sets up the poll events to wait for input data, and enters a loop waiting for events
+ * on the file descriptors using poll() to handles incoming data from clients.
+ * It dynamically updates the list of file descriptors to watch based on new connections.
+ * The loop breaks when server_shutdown is true or when an interrupt signal is received.
+ * 
+ * @return `FAILURE` or `SUCCESS` depending on the result.
+*/
+int	Server::manageServerLoop(void){
 	std::vector<pollfd> 	poll_fds;
 	pollfd					server_poll_fd;
 

@@ -1,19 +1,16 @@
 #include "../../lib/ircserv.hpp"
 
-/**
- * Constructor for the server class.
-*/
+							/*****************************
+							 * CONSTRUCTOR & DESTRUCTOR *
+							******************************/
 Server::Server(){
-	std::cout << ToColor("Server running...", Colors::RoyalBlue) << std::endl;
-	std::cout << ToColor("Server listening...", Colors::RoyalBlue) << std::endl;
+	std::cout << ToColor("Server running...", Colors::Violet) << std::endl;
+	std::cout << ToColor("Server listening...", Colors::Violet) << std::endl;
 	memset(&_hints, 0, sizeof(_hints));
 }
 
-/**
- * Destructor for the server class.
-*/
 Server::~Server(void){
-	std::cout << ToColor("Server is shutting down...", Colors::Gold) << std::endl;
+	std::cout << ToColor("Server is shutting down...", Colors::Violet) << std::endl;
 }
 
 							/********************
@@ -33,7 +30,12 @@ const char * 	Server::InvalidClientException::what (void) const throw()
 }
 
 /**
- * Attributes the correct parameters to the hint structure to set up the server.
+ * @brief Sets up hints for address resolution.
+ * 
+ * This function initializes the hints structure used for address resolution
+ * using the getaddrinfo() function. It sets the address family to IPv4 or IPv6,
+ * socket type to TCP stream sockets, and flags to indicate passive socket
+ * for localhost default behavior.
 */
 void	Server::setHints(void) {
 	_hints.ai_family = AF_INET;		//*IPV4 or IPV6
@@ -42,16 +44,15 @@ void	Server::setHints(void) {
 }
 
 /**
- * Launch the server with the differents socket functions.
- * 	
- *  1) socket() => get the server socket file descriptor.
- * 	2) setsocktop() => enable the configuration of said socket (here, we wanted
- * 							to allow the re-use of a port if the IP address is different)
- * 	3) bind() => Associate the socket with a specific port.
- * 	4) listen() => Wait for incoming connections.
+ * @brief Launches the server by creating and initializing the server socket.
  * 
- * @return int `SUCCESS` or `FAILURE`
-*/
+ * This function creates a socket using the address family, socket type, and
+ * protocol information stored in _servinfo. It sets the socket options to
+ * allow reusing the port if the IP address changes. Then it binds the socket
+ * to the specified address and port, and starts listening for incoming connections.
+ * 
+ * @return int Returns SUCCESS if the server is successfully launched, otherwise FAILURE.
+ */
 int	Server::launchServer(void){
 	_server_socket_fd = socket(_servinfo->ai_family, _servinfo->ai_socktype, _servinfo->ai_protocol);
 	if (_server_socket_fd == FAILURE) {
@@ -79,9 +80,15 @@ int	Server::launchServer(void){
 }
 
 /**
- * Help to set up the structs `hints` and `servinfo`
- * @param port Value given by the user to connect.
- * @return `SUCCESS` or `FAILURE` wether getaddrinfo works or not.
+ * @brief Fills server information using getaddrinfo.
+ * 
+ * This function fills the server information structure _servinfo by using the
+ * getaddrinfo() function to retrieve address information for the specified port.
+ * If the function fails, it prints an error message and returns FAILURE; otherwise,
+ * it returns SUCCESS.
+ * 
+ * @param port The port number as a string.
+ * @return int Returns SUCCESS if the information is successfully filled, otherwise FAILURE.
 */
 int	Server::fillInfos(char *port){
 	if (getaddrinfo(NULL, port, &_hints, &_servinfo) < 0){
@@ -92,16 +99,16 @@ int	Server::fillInfos(char *port){
 }
 
 /**
- * Adds a new client to the server's poll file descriptor set and clients map.
+ * @brief Adds a new client to the server's client list and poll vector.
  * 
- * Creates a new `pollfd` structure sor the client socket, set the events
- * to monitor for input (`POLLIN`) and output (`POLLOUT`) and adds the pollfd
- * the vector of polling file descriptors.
- * Adds a new `Client` object and inserts it into the `newClients` using the
- * client socket  as the key.
- * @param client_socket - The file descriptor of the client's socket connection.
- * @param poll_fds - a vector list referencing the `pollfd` structures 
- * representing the file descriptors of active connections.
+ * This function creates a new pollfd structure for the client socket,
+ * configures it for both input and output events, and adds it to the
+ * provided poll vector. It also creates a new Client object for the client
+ * socket and adds it to the server's client list. Finally, it prints a
+ * success message indicating the addition of the client.
+ * 
+ * @param client_socket The file descriptor of the new client socket.
+ * @param poll_fds The vector of pollfd structures representing active file descriptors.
 */
 void	Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
 {
@@ -118,12 +125,16 @@ void	Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
 }
 
 /**
- * 	Delete a client from the existing client map managed by the server.
- * @param poll_fds - a vector list referencing the `pollfd` structures 
- * representing the file descriptors of active connections.
- * @param it - iterator pointing to the `pollfd` entry of client to be
- * deleted within the `poll_fds`
- * @param current_fd - file descriptor associated with the client to be deleted.
+ * @brief Deletes a client from the server's client list and poll vector.
+ * 
+ * This function closes the client socket, removes the corresponding Client object
+ * from the server's client list, and erases the pollfd structure associated with
+ * the client socket from the poll vector. It also prints a message indicating the
+ * disconnection of the client and the updated total number of clients.
+ * 
+ * @param poll_fds The vector of pollfd structures representing active file descriptors.
+ * @param it An iterator pointing to the pollfd structure of the client socket.
+ * @param current_fd The file descriptor of the client socket to delete.
 */
 void	Server::delClient(std::vector<pollfd> &poll_fds, 
 	std::vector<pollfd>::iterator &it, int current_fd) {

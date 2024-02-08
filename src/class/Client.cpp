@@ -1,18 +1,16 @@
 #include "../../lib/Client.hpp"
- /**
-  * Constructor of the client class.
- */
+
+							/*****************************
+							 * CONSTRUCTOR & DESTRUCTOR *
+							*****************************/
+
 Client::Client(int client_fd): _client_fd(client_fd){
 	/*std::cout << ToColor("Client constructor for Client #", Colors::Yellow)
 		<< client_fd << std::endl;
 	*/
 }
 
-/**
- * Destructor of the client class.
-*/
 Client::~Client(void){
-	
 }
 
 							/********************
