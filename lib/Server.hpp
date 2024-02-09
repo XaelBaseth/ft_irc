@@ -15,34 +15,61 @@
 /****************************************************************
 * 							CLASSES								*
 *****************************************************************/
+struct server_op
+{
+	std::string	name;
+	std::string	host;
+	std::string	password;
+};
 
 class Client;
+class Channel;
 class Server {
 	private:
-		std::string		_port;
-		std::string		_password;
-		struct addrinfo	_hints;
-		struct addrinfo *_servinfo;
-		int				_server_socket_fd;
-		std::map<const int, Client>	_clients;
+		struct addrinfo					_hints;
+		struct addrinfo 				*_servinfo;
+		int								_server_socket_fd;
+		std::map<const int, Client>		_clients;
+		std::map<std::string, Channel>	_channels;
+		std::string						_port;
+		std::string						_password;
+		std::string						_datetime;
+		std::vector<server_op>			_irc_operators;
+		std::string						_motd;
 	public:
-		Server();
+		Server(std::string port, std::string password, struct tm *timeinfo);
 		~Server(void);
+		
 		//Server.cpp
 		std::map<const int, Client>&	getClients();
-		void	setHints(void);
-		int		launchServer(void);
-		int		fillInfos(char *port);
-		void 	addClient(int client_socket, std::vector<pollfd> &poll_fds);
-		void	delClient(std::vector<pollfd> &poll_fds, std::vector<pollfd>::iterator &it, int current_fd);
-		//manageServerLoop
-		int		manageServerLoop(void);
-		//manageServerUtils
-		int		createClientConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>& new_pollfds);
-		int 	handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
-		int 	handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it, const int current_fd);
-		int 	handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
+		std::string						getPort() const;
+		std::string						getPassword() const;
+		std::string						getDatetime() const;
+		void							setDatetime(struct tm *timeinfo);
+		std::map<std::string, Channel>&	getChannels();
+		std::vector<server_op>&			getIRCOperators();
+		std::string						getMotd() const;
+		void							setPassword(std::string new_pwd);
+		void							setMotd(std::string buffer);
+		void							setHints(void);
 
+		int								launchServer(void);
+		int								fillInfos(char *port);
+		void 							addClient(int client_socket, std::vector<pollfd> &poll_fds);
+		void							delClient(std::vector<pollfd> &poll_fds, std::vector<pollfd>::iterator &it, int current_fd);
+		void							addChannel(std::string &channelName);
+		void							addClientToChannel(std::string &channelName, Client &client);
+		
+		//manageServerLoop
+		int								manageServerLoop(void);
+		
+		//manageServerUtils
+		int								createClientConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>& new_pollfds);
+		int 							handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
+		int 							handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it, const int current_fd);
+		int 							handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
+
+		//Exception
 		class InvalidClientException : public std::exception{
 			public:
 					const char *what(void) const throw();

@@ -20,6 +20,7 @@
 # include "Server.hpp"
 # include "ErrorMessage.hpp"
 # include "Client.hpp"
+# include "Channel.hpp"
 
 /****************************************************************
 * 							LIBRAIRIES							*

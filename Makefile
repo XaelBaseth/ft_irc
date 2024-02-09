@@ -6,7 +6,7 @@
 #    By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/02/08 11:50:16 by acharlot         ###   ########.fr        #
+#    Updated: 2024/02/09 12:11:48 by acharlot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ MAIN_FILES	=	ircserv manageServerLoop
 UTIL_DIR	=	utils/
 UTIL_FILES	=	Colors manageServerUtils utils
 CLAS_DIR	=	class/
-CLAS_FILES	=	Server Client
+CLAS_FILES	=	Server Client Channel
 
 SRC_MAI_FILE=	$(addprefix $(MAIN_DIR), $(MAIN_FILES))
 SRC_UTI_FILE=	$(addprefix $(UTIL_DIR), $(UTIL_FILES))

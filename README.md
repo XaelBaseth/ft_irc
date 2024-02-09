@@ -79,15 +79,15 @@ In order to do so, we can use the **poll()** function. It is used to monitor sev
 
 ### CheckLists
 
-[ ] Creates a server that only allows client-server communication.
+[ X ] Creates a server that only allows client-server communication.
 
-[ ] Server must be able to handle mutiple clients at the same time and never hang. (I/O operation must be non-blocking.)
+[ X ] Server must be able to handle mutiple clients at the same time and never hang. (I/O operation must be non-blocking.)
 
-[ ] Server use only 1 **poll()** to handle read, write, listen etc. operations
+[ X ] Server use only 1 **poll()** to handle read, write, listen etc. operations
 
-[ ] Client must be able to connect to server without any errors.
+[ X ] Client must be able to connect to server without any errors.
 
-[ ] Communication has to be done via TCP/IP(v4 or v6).
+[ X ] Communication has to be done via TCP/IP(v4 or v6).
 
 [ ] Using the client, you must be able to authenticate, set a nickname, a username, join a channel, send and receive private message.
 
@@ -106,7 +106,7 @@ In order to do so, we can use the **poll()** function. It is used to monitor sev
 - o: Give/take channel operator privilege
 - l: Set/remove the user limit to channel
 
-[ ] **BONUS** Handle file transfert
+[ X ] **BONUS** Handle file transfert (not sure if done properly, need to be checked.)
 
 [ ] **BONUS** a bot (raultbot ?)
 

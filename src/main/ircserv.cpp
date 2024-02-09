@@ -26,8 +26,14 @@ int	main(int argc, char **argv) {
 		return (FAILURE);
 	}
 	else {
+		time_t	rawtime;
+		struct tm *timeinfo;
+
+		time(&rawtime);
+		timeinfo = localtime(&rawtime);
+		
 		signal(SIGINT, signal_handler);
-		Server	server;
+		Server	server(argv[1], argv[2], timeinfo);
 
 		server.setHints();
 		if (server.fillInfos(argv[1]) == FAILURE)
@@ -41,6 +47,5 @@ int	main(int argc, char **argv) {
 				<< e.what() << std::endl;
 		}
 		return (SUCCESS);
-
 	}
 }

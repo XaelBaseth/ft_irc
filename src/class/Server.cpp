@@ -1,12 +1,14 @@
-#include "../../lib/ircserv.hpp"
+#include "../../lib/Server.hpp"
 
 							/*****************************
 							 * CONSTRUCTOR & DESTRUCTOR *
 							******************************/
-Server::Server(){
+Server::Server(std::string port, std::string password, struct tm *timeinfo)
+: _servinfo(NULL), _server_socket_fd(0), _port(port), _password(password){
 	std::cout << ToColor("Server running...", Colors::Violet) << std::endl;
 	std::cout << ToColor("Server listening...", Colors::Violet) << std::endl;
 	memset(&_hints, 0, sizeof(_hints));
+	this->setDatetime(timeinfo);
 }
 
 Server::~Server(void){
@@ -17,8 +19,25 @@ Server::~Server(void){
 							 * GETTER & SETTER *
 							*********************/
 
-std::map<const int, Client>&	Server::getClients(){
-	return (_clients);
+std::string						Server::getPort() const{ return (_port);}
+std::string						Server::getPassword() const{ return (_password);}
+std::string						Server::getDatetime() const{ return (_datetime);}
+std::map<std::string, Channel>&	Server::getChannels(){ return (_channels);}
+std::map<const int, Client>&	Server::getClients(){ return (_clients);}
+std::vector<server_op>&		Server::getIRCOperators(){ return (_irc_operators); }
+std::string						Server::getMotd() const{ return (_motd);}
+void							Server::setPassword(std::string new_pwd){ _password = new_pwd;}
+
+void							Server::setDatetime(struct tm *timeinfo){ 
+	char	buffer[80];
+	strftime(buffer,sizeof(buffer),"%d-%m-%Y %H:%M:%S", timeinfo);
+	std::string str(buffer);
+
+	_datetime = str;
+}
+
+void							Server::setMotd(std::string buffer){ 
+	_motd = buffer;
 }
 
 /**
@@ -28,6 +47,10 @@ const char * 	Server::InvalidClientException::what (void) const throw()
 {
 	return "The credentials given are invalid.";
 }
+
+							/**********************
+							 *		FUNCTIONS	 *
+							***********************/
 
 /**
  * @brief Sets up hints for address resolution.
@@ -147,5 +170,32 @@ void	Server::delClient(std::vector<pollfd> &poll_fds,
 	_clients.erase(key);
 	poll_fds.erase(it);
 
-	std::cout << ToColor("[Server] Client deleted. Total client is now: ", Colors::DeepPink) << (unsigned int)(poll_fds.size() -1) << std::endl;
+	std::cout << ToColor("[Server] Client deleted. Total client is now: ", Colors::DeepPink) 
+		<< (unsigned int)(poll_fds.size() -1) << std::endl;
 }
+
+void	Server::addChannel(std::string &channelName){
+	std::map<std::string, Channel>::iterator it = _channels.find(channelName);
+	if (it != _channels.end()){
+		std::cout << ToColor("[Channel] name already exists.", Colors::Yellow) << std::endl;
+		return ;
+	}
+	Channel channel(channelName);
+	_channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
+}
+
+void	Server::addClientToChannel(std::string &channelName, Client &client){
+	std::map<std::string, Channel>::iterator it;
+	it = _channels.find(channelName);
+	
+	std::string	client_nickname = client.getNickname();
+	
+	if (it->second.doesClientExist(client_nickname) == false){
+		it->second.addClientToChannel(client);
+		std::cout << ToColor("[Channel] successfully joined the channel", Colors::Yellow) << std::endl;
+	}
+	else
+		std::cout << ToColor("[Channel] ", Colors::Yellow) << client.getNickname() 
+			<< ToColor(" already here!", Colors::Yellow) << std::endl;
+}
+
