@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/10 12:22:32 by axel              #+#    #+#             */
+/*   Updated: 2024/02/10 12:27:17 by axel             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../lib/Server.hpp"
 
 							/*****************************
@@ -174,6 +186,16 @@ void	Server::delClient(std::vector<pollfd> &poll_fds,
 		<< (unsigned int)(poll_fds.size() -1) << std::endl;
 }
 
+
+/**
+ * @brief Adds a new channel to the server's channel list.
+ * 
+ * This function checks if a channel with the specified name already exists
+ * in the server's channel list. If not, it creates a new channel object with
+ * the provided name and inserts it into the channel list.
+ * 
+ * @param channelName The name of the channel to add.
+ */
 void	Server::addChannel(std::string &channelName){
 	std::map<std::string, Channel>::iterator it = _channels.find(channelName);
 	if (it != _channels.end()){
@@ -183,6 +205,18 @@ void	Server::addChannel(std::string &channelName){
 	Channel channel(channelName);
 	_channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
 }
+
+/**
+ * @brief Adds a client to the specified channel.
+ * 
+ * This function checks if the client is already a member of the channel.
+ * If not, it adds the client to the channel's client list and prints a
+ * success message. If the client is already in the channel, it prints
+ * a message indicating that the client is already present.
+ * 
+ * @param channelName The name of the channel to add the client to.
+ * @param client The client object to add to the channel.
+ */
 
 void	Server::addClientToChannel(std::string &channelName, Client &client){
 	std::map<std::string, Channel>::iterator it;
