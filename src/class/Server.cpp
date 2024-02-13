@@ -40,6 +40,11 @@ void							Server::setMotd(std::string buffer){
 	_motd = buffer;
 }
 
+
+							/**********************
+							 *		FUNCTIONS	 *
+							***********************/
+
 /**
  * Error given when the port or password are wrong.
 */
@@ -47,10 +52,6 @@ const char * 	Server::InvalidClientException::what (void) const throw()
 {
 	return "The credentials given are invalid.";
 }
-
-							/**********************
-							 *		FUNCTIONS	 *
-							***********************/
 
 /**
  * @brief Sets up hints for address resolution.
@@ -61,7 +62,7 @@ const char * 	Server::InvalidClientException::what (void) const throw()
  * for localhost default behavior.
 */
 void	Server::setHints(void) {
-	_hints.ai_family = AF_INET;		//*IPV4 or IPV6
+	_hints.ai_family = AF_INET;			//*IPV4
 	_hints.ai_socktype = SOCK_STREAM;	//*TCP stream sockets
 	_hints.ai_flags = AI_PASSIVE;		//*localhost default
 }
@@ -174,6 +175,15 @@ void	Server::delClient(std::vector<pollfd> &poll_fds,
 		<< (unsigned int)(poll_fds.size() -1) << std::endl;
 }
 
+/**
+ * @brief Adds a new channel to the server.
+ * 
+ * This function checks if a channel with the specified name already exists in the server's
+ * channel list. If not, it creates a new Channel object with the provided name and inserts
+ * it into the channel list.
+ * 
+ * @param channelName The name of the channel to add.
+ */
 void	Server::addChannel(std::string &channelName){
 	std::map<std::string, Channel>::iterator it = _channels.find(channelName);
 	if (it != _channels.end()){
@@ -184,6 +194,17 @@ void	Server::addChannel(std::string &channelName){
 	_channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
 }
 
+/**
+ * @brief Adds a client to a specified channel.
+ * 
+ * This function checks if the client is already a member of the specified channel.
+ * If not, it adds the client to the channel's client list and prints a success message.
+ * If the client is already in the channel, it prints a message indicating that the
+ * client is already present.
+ * 
+ * @param channelName The name of the channel to add the client to.
+ * @param client The client object to add to the channel.
+ */
 void	Server::addClientToChannel(std::string &channelName, Client &client){
 	std::map<std::string, Channel>::iterator it;
 	it = _channels.find(channelName);
@@ -199,3 +220,43 @@ void	Server::addClientToChannel(std::string &channelName, Client &client){
 			<< ToColor(" already here!", Colors::Yellow) << std::endl;
 }
 
+/**
+ * @brief Reads server operators' information from a configuration file.
+ * 
+ * This function reads server operators' information from the specified configuration file.
+ * It opens the file and reads each line, parsing the name, host, and password of each server operator.
+ * The parsed information is stored in a vector of server_op structures (_irc_operators).
+ * 
+ * @param filename The name of the configuration file to read.
+ * @return int Returns SUCCESS if the operation succeeds, otherwise FAILURE.
+ */
+int 		Server::readFromConfigFile(char *filename)
+{
+	std::ifstream				data;
+	std::string					buffer;
+	std::vector<std::string>	operators;
+
+	data.open(filename);
+	if (!data)
+		return (FAILURE);
+	while (getline(data, buffer)) {
+		operators.push_back(buffer);
+	}
+	data.close();
+
+	std::vector<std::string>::iterator it;
+	for (it = operators.begin(); it != operators.end(); it++)
+	{
+		std::string	line = *it;
+		server_op	op;
+		
+		int len = line.size() - (line.size() - line.find_first_of(' '));
+
+		op.name.insert(0, line, 0, len);
+		op.host.insert(0, line, len + 1, line.find_last_of(' ') - len - 1);
+		op.password.insert(0, line, line.find_last_of(' ') + 1, line.size() - 1);
+		
+		_irc_operators.push_back(op);
+	}
+	return (SUCCESS);
+}

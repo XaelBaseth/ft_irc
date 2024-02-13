@@ -59,7 +59,7 @@ class Server {
 		void							delClient(std::vector<pollfd> &poll_fds, std::vector<pollfd>::iterator &it, int current_fd);
 		void							addChannel(std::string &channelName);
 		void							addClientToChannel(std::string &channelName, Client &client);
-		
+		int								readFromConfigFile(char *filename);
 		//manageServerLoop
 		int								manageServerLoop(void);
 		

@@ -31,6 +31,7 @@ class Channel
 		std::string						_mode;
 		std::string						_channel_password;
 		int								_capacity_limit;
+	
 	public:
 		Channel(std::string const &Name);
 		~Channel();
@@ -46,10 +47,23 @@ class Channel
 		std::vector<std::string>		&getOperators();
 		void							setTopic(std::string &newTopic);
 		void							setChannelPassword(std::string password);
+		void							removeChannelPassword();
 		void							setCapacityLimit(int limit);
 
 		bool							doesClientExist(std::string &clientName);
 		void							addClientToChannel(Client &client);
+		void							addToKicked(std::string &kicked_name);
+		void							addToBanned(std::string &banned_name);
+		void							removeFromBanned(std::string &banned_name);
+		bool							isBanned(std::string &banned_name);
+		void							addToVoiced(std::string &voiced_name);
+		void							removeFromVoiced(std::string &voiced_name);
+		bool							isVoiced(std::string &voiced_name);
+		void							addFirstOperator(std::string operatorName);
+		void							removeOperator(std::string operatorName);
+		bool							isOperator(std::string &operatorName);
+		void							addMode(std::string const mode);
+		void							removeMode(std::string const mode);
 };
 
 

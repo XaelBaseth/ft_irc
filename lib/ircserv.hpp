@@ -15,6 +15,7 @@
 # include <vector>
 # include <map>
 # include <unistd.h>
+# include <fstream>
 
 # include "Colors.hpp"
 # include "Server.hpp"
