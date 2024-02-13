@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/02/10 12:26:04 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/13 13:42:13 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	Channel::addToKicked(std::string &kicked_name){
  */
 void	Channel::addToBanned(std::string &banned_name) {
 	std::vector<std::string>::iterator	it;
-	for (it == _banned_users.begin(); it != _banned_users.end(); it++){
+	for (it = _banned_users.begin(); it != _banned_users.end(); it++){
 		if (*it == banned_name){
 			std::cout << ToColor("[Channel]", Colors::Red) << banned_name 
 				<< ToColor(" is already kicked from channel ", Colors::Red) 
