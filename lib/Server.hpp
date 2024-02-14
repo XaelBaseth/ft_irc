@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:18 by axel              #+#    #+#             */
-/*   Updated: 2024/02/10 12:22:18 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/14 12:01:25 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ struct server_op
 	std::string	host;
 	std::string	password;
 };
+
+struct s_cmd;
 
 class Client;
 class Channel;
@@ -80,6 +82,12 @@ class Server {
 		int 							handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
 		int 							handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it, const int current_fd);
 		int 							handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it);
+
+		//parsing
+		void							fillClients(std::map<const int, Client> &client_lists, int client_fd, std::string cmd);
+		void							execCommand(int const client_fd, std::string cmd_line);
+		void							parseMsg(int const client_fd, std::string message);
+		int								parseCommand(std::string cmd_line, s_cmd &cmd_infos);
 
 		//Exception
 		class InvalidClientException : public std::exception{

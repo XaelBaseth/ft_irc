@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:04 by axel              #+#    #+#             */
-/*   Updated: 2024/02/10 12:22:05 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/14 11:58:28 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@
 
 class Client {
 	private:
-		int			_client_fd;
-		std::string	_readbuf;
-		std::string	_sendbuf;
-		bool		_to_deconnect;
-		std::string	_nickname;
-		std::string	_old_nickname;
-		std::string _username;
-		std::string	_realname;
-		std::string	_mode;
-		bool		_connexion_password;
-		bool		_registrationDone;
-		bool		_welcomeSent;
-		bool		_hasAllInfo;
-		int			_nbInfo;
+		int				_client_fd;
+		std::string		_readbuf;
+		std::string		_sendbuf;
+		bool			_to_deconnect;
+		std::string		_nickname;
+		std::string		_old_nickname;
+		std::string 	_username;
+		std::string		_realname;
+		std::string		_mode;
+		bool			_connexion_password;
+		bool			_registrationDone;
+		bool			_welcomeSent;
+		bool			_hasAllInfo;
+		int				_nbInfo;
 
 	public:
 		Client(int client_fd);

@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/02/10 12:22:14 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/14 11:59:53 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include "ErrorMessage.hpp"
 # include "Client.hpp"
 # include "Channel.hpp"
+# include "Command.hpp"
 
 /****************************************************************
 * 							LIBRAIRIES							*
@@ -59,5 +60,9 @@ class Server;
 
 Client*	getClient(Server *server, int const client_fd);
 void	sendServerRpl(int const client_fd, std::string client_buffer);
-
+void	sendClientRegistration(Server *server, int const client_fd, std::map<const int, Client>::iterator &it);
+void	addToClientBuffer(Server *server, int const client_fd, std::string reply);
+Client	&retrieveClient(Server *server, int const client_fd);
+void	sendClientRegistration(Server *server, int const client_fd, std::map<const int, Client>::iterator &it);
+	
 #endif
