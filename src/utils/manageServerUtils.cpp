@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:49 by axel              #+#    #+#             */
-/*   Updated: 2024/02/10 12:22:49 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/14 14:39:49 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,16 +130,15 @@ int Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 
 		if (client->getReadBuffer().find("\r\n") != std::string::npos) {
 			try {
-				//parseMessage(it->fd, client->getReadBuffer());
+				parseMsg(it->fd, client->getReadBuffer());
 				if (client->getReadBuffer().find("\r\n"))
 					client->getReadBuffer().clear();
 			}
 			catch(const std::exception& e) {
 				std::cout << ToColor("[Server] caught exception: ", Colors::Red);
 				std::cerr << ToColor(e.what(), Colors::Red) << std::endl;
-				//TODO:Uncomment when client IRC is done
-				//if (client->isRegistrationDone() == true)
-				//	client->setDeconnexionStatus(true);
+				if (client->isRegistrationDone() == true)
+					client->setDeconnexionStatus(true);
 				return (BREAK);
 			}
 		}

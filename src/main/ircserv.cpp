@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:39 by axel              #+#    #+#             */
-/*   Updated: 2024/02/10 12:22:40 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/14 14:35:31 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int	main(int argc, char **argv) {
 		
 		signal(SIGINT, signal_handler);
 		Server	server(argv[1], argv[2], timeinfo);
+
+		char	filename[34] = "../../config/ServOperators.config";
+		server.readFromConfigFile(filename);
 
 		server.setHints();
 		if (server.fillInfos(argv[1]) == FAILURE)

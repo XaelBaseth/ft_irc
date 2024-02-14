@@ -10,7 +10,7 @@
 /****************************************************************
 * 							LIBRAIRIES							*
 *****************************************************************/
-# define VALID_LEN
+# define VALID_LEN 17
 
 
 /****************************************************************
@@ -33,11 +33,15 @@ struct s_mode
 	std::string	params;
 };
 
-
-
 /****************************************************************
 * 							FUNCTIONS							*
 *****************************************************************/
 
+int		parseCommand(std::string cmd_line, s_cmd &cmd_infos);
+
+void	invite(Server *server, int const client_fd, s_cmd cmd_infos);
+void	join(Server *server, int const client_fd, s_cmd cmd_infos);
+void	nick(Server *server, int const client_fd, s_cmd cmd_infos);
+int		pass(Server *server, int const client_fd, s_cmd cmd_infos);
 
 #endif

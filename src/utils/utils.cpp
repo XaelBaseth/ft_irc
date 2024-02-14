@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:52 by axel              #+#    #+#             */
-/*   Updated: 2024/02/14 11:51:52 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/14 14:15:28 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,81 @@ void	sendClientRegistration(Server *server, int const client_fd,
 		addToClientBuffer(server, client_fd, buf);
 	}
 	data.close();
+}
+
+/**
+ * @brief Retrieves the symbol representing the channel mode.
+ * 
+ * This function retrieves the symbol representing the channel mode:
+ * - "@" for secret channels
+ * - "*" for private channels
+ * - "=" for public channels
+ * 
+ * @param channel The Channel object representing the channel.
+ * @return A string containing the symbol representing the channel mode.
+ */
+std::string	getSymbol(Channel &channel){
+	std::string	symbol;
+
+	if (channel.getMode().find('s') != std::string::npos)
+		symbol += "@";
+	else if (channel.getMode().find('p') != std::string::npos)
+		symbol += "*";
+	else
+		symbol += "=";
+	return (symbol);
+}
+
+/**
+ * @brief Generates a list of channel members.
+ * 
+ * This function generates a list of members in the specified channel, excluding invisible users
+ * if the client requesting the list is not a member of the channel.
+ * 
+ * @param client The nickname of the client requesting the list.
+ * @param channel The Channel object representing the channel.
+ * @return A string containing the list of members in the channel.
+ */
+std::string	getListOfMembers(std::string client, Channel &channel){
+	std::map<std::string, Client>&			client_list	= channel.getClientList();
+	std::map<std::string, Client>::iterator	it;
+	std::string								nick;
+	std::string								members_list;
+
+	for (it = client_list.begin(); it != client_list.end(); it++)
+	{
+		nick.clear();
+		nick = it->second.getNickname();
+		if (it->second.getMode().find('i') != std::string::npos\
+			&& channel.doesClientExist(client) == false)
+				continue;
+			
+		if (channel.isOperator(nick) == true)
+			members_list += "@";
+		members_list += nick;
+		members_list += " ";
+	}
+	if (members_list.size() >= 1 && members_list[members_list.size() - 1] == ' ')
+		members_list.erase(members_list.end()-1);
+	return (members_list);
+}
+
+/**
+ * @brief Extracts the channel name from a message.
+ * 
+ * This function extracts the channel name from a message by searching for the first alphanumeric characters,
+ * hyphens, or underscores, and then appending subsequent alphanumeric characters, hyphens, underscores, or digits
+ * until a non-matching character is encountered.
+ * 
+ * @param msg_to_parse The message from which to extract the channel name.
+ * @return A string containing the extracted channel name.
+ */
+std::string	getChannelName(std::string msg_to_parse){
+	std::string channel_name;
+	size_t i = 0;
+	while (msg_to_parse[i] && (!isalpha(msg_to_parse[i]) && !isdigit(msg_to_parse[i]) && msg_to_parse[i] != '-' && msg_to_parse[i] != '_'))
+		i++;
+	while (msg_to_parse[i] && (isalpha(msg_to_parse[i]) || msg_to_parse[i] == '-' || msg_to_parse[i] == '_' || isdigit(msg_to_parse[i])))
+		channel_name += msg_to_parse[i++];
+	return (channel_name);
 }

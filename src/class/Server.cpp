@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:32 by axel              #+#    #+#             */
-/*   Updated: 2024/02/13 13:40:52 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:34:39 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,17 @@ int	Server::launchServer(void){
 	
 	int	optvalue = 1; //!enables the reuse of a port if the IP address is different.
 	if (setsockopt(_server_socket_fd, SOL_SOCKET, SO_REUSEADDR, &optvalue, sizeof(optvalue)) == FAILURE) {
-		std::cerr << ToColor("[Error] impossible to reuse", Colors::Red) << std::cout;
+		std::cerr << ToColor("[Error] impossible to reuse ", Colors::Red) << std::cout;
 		return (FAILURE);
 	}
 
 	if (bind(_server_socket_fd, _servinfo->ai_addr, _servinfo->ai_addrlen) == FAILURE) {
-		std::cerr << ToColor("[Error] impossible to bind", Colors::Red) << std::cout;
+		std::cerr << ToColor("[Error] impossible to bind ", Colors::Red) << std::cout;
 		return (FAILURE);
 	}
 
 	if (listen(_server_socket_fd, BACKLOG) == FAILURE) {
-		std::cerr << ToColor("[Error] listen failed", Colors::Red) << std::cout;
+		std::cerr << ToColor("[Error] listen failed ", Colors::Red) << std::cout;
 		return (FAILURE);
 	}
 	freeaddrinfo(_servinfo);

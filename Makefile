@@ -6,7 +6,7 @@
 #    By: axel <axel@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/02/14 12:12:43 by axel             ###   ########.fr        #
+#    Updated: 2024/02/14 14:55:42 by axel             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,38 +42,38 @@ WHITE		=	\033[0;97m
 MAIN_DIR	=	main/
 MAIN_FILES	=	ircserv manageServerLoop
 UTIL_DIR	=	utils/
-UTIL_FILES	=	Colors manageServerUtils utils
+UTIL_FILES	=	Colors manageServerUtils utils parsing
 CLAS_DIR	=	class/
 CLAS_FILES	=	Server Client Channel
 COMM_DIR	=	commands/
 COMM_FILES	=	bot invite join kick kill list mode motd names nick notice \
 				oper part pass ping privmsg quit topic user
-MODE_DIR	=	channel_modes
+MODE_DIR	=	channel_modes/
 MODE_FILES	=	ban key limit moderate operator private secret topic voice
 
 SRC_MAI_FILE=	$(addprefix $(MAIN_DIR), $(MAIN_FILES))
 SRC_UTI_FILE=	$(addprefix $(UTIL_DIR), $(UTIL_FILES))
 SRC_CLA_FILE=	$(addprefix $(CLAS_DIR), $(CLAS_FILES))
 SRC_COM_FILE=	$(addprefix $(COMM_DIR), $(COMM_FILES))
-SRC_MOD_FILE=	$(addprefix $(MODE_DIR), $(MODE_FILES_FILES))
+SRC_MOD_FILE=	$(addprefix $(MODE_DIR), $(MODE_FILES))
 
 MAINSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_MAI_FILE)))
 UTILSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_UTI_FILE)))
 CLASSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_CLA_FILE)))
-COMMSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_COMM_FILE)))
-MODESRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_MODE_FILE)))
+COMMSRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_COM_FILE)))
+MODESRC		=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_MOD_FILE)))
 
 MAINOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_MAI_FILE)))
 UTILOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_UTI_FILE)))
 CLASOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_CLA_FILE)))
-COMMOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_COMM_FILE)))
-MODEOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_MODE_FILE)))
+COMMOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_COM_FILE)))
+MODEOBJ		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_MOD_FILE)))
 
 DBGMAINOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_MAI_FILE)))
 DBGUTILOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_UTI_FILE)))
 DBGCLAOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_CLA_FILE)))
-DBGCOMOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_COMM_FILE)))
-DBGMODOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_MODE_FILE)))
+DBGCOMOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_COM_FILE)))
+DBGMODOBJ	=	$(addprefix $(DEBUG_DIR), $(addsuffix .o, $(SRC_MOD_FILE)))
 
 OBJF		=	.cache_exists
 

@@ -22,36 +22,6 @@ static void	splitMsg(std::vector<std::string> &cmds, std::string msg){
 }
 
 /**
- * @brief Fills client information based on received commands.
- * 
- * This function parses the received command and fills the client information
- * accordingly. It checks for commands like NICK and PASS, and performs specific
- * actions based on the command type. For PASS command, it sets the client's
- * connection password status accordingly.
- * 
- * @param client_lists A map containing client information.
- * @param client_fd The file descriptor of the client.
- * @param cmd The received command from the client.
- */
-void	Server::fillClients(std::map<const int, Client> &client_lists, int client_fd, std::string cmd){
-	std::map<const int, Client>::iterator it = client_lists.find(client_fd);
-	s_cmd	cmd_infos;
-	
-	if (parseCommand(cmd, cmd_infos) == FAILURE)
-		return ;
-	
-	if (cmd.find("NICK") != std::string::npos)
-		nick(this, client_fd, cmd_infos);
-	
-	else if (cmd.find("PASS") != std::string::npos){
-		if (pass(this, client_fd, cmd_infos) == SUCCESS)
-			it->second.setConnexionPassword(true);
-		else
-			it->second.setConnexionPassword(false);
-	}
-}
-
-/**
  * @brief Executes a command received from a client.
  * 
  * This function parses the received command and executes the corresponding
@@ -85,21 +55,21 @@ void	Server::execCommand(int const client_fd, std::string cmd_line){
 	switch (index + 1) {
 		case 1: invite(this, client_fd, cmd_infos); break;
 		case 2: join(this, client_fd, cmd_infos); break;
-		case 3: kick(this, client_fd, cmd_infos); break;
-		case 4: kill(this, client_fd, cmd_infos); break;
-		case 5: list(this, client_fd, cmd_infos); break;
-		case 6: modeFunction(this, client_fd, cmd_infos); break;
-		case 7: motd(this, client_fd, cmd_infos); break;
-		case 8: names(this, client_fd, cmd_infos); break;
+		//case 3: kick(this, client_fd, cmd_infos); break;
+		//case 4: kill(this, client_fd, cmd_infos); break;
+		//case 5: list(this, client_fd, cmd_infos); break;
+		//case 6: modeFunction(this, client_fd, cmd_infos); break;
+		//case 7: motd(this, client_fd, cmd_infos); break;
+		//case 8: names(this, client_fd, cmd_infos); break;
 		case 9: nick(this, client_fd, cmd_infos); break;
-    	case 10: notice(this, client_fd, cmd_infos); break;
-		case 11: oper(this, client_fd, cmd_infos); break;
-		case 12: part(this, client_fd, cmd_infos); break;
-		case 13: ping(this, client_fd, cmd_infos); break;
-		case 14: privmsg(this, client_fd, cmd_infos); break;
-		case 15: quit(this, client_fd, cmd_infos); break;
-		case 16: topic(this, client_fd, cmd_infos); break;
-		case 17: user(this, client_fd, cmd_infos); break;
+    	//case 10: notice(this, client_fd, cmd_infos); break;
+		//case 11: oper(this, client_fd, cmd_infos); break;
+		//case 12: part(this, client_fd, cmd_infos); break;
+		//case 13: ping(this, client_fd, cmd_infos); break;
+		//case 14: privmsg(this, client_fd, cmd_infos); break;
+		//case 15: quit(this, client_fd, cmd_infos); break;
+		//case 16: topic(this, client_fd, cmd_infos); break;
+		//case 17: user(this, client_fd, cmd_infos); break;
 		default:
 			addToClientBuffer(this, client_fd, ERR_UNKNOWNCOMMAND(client->getNickname(), cmd_infos.name));
 	}
@@ -127,7 +97,7 @@ void	Server::parseMsg(int const client_fd, std::string message){
 			if (it->second.hasAllInfo() == false){
 				fillClients(_clients, client_fd, cmds[i]);
 				if (it->second.getNbInfo() == 3)
-					it->second.hasAllInfo() == true;
+					it->second.hasAllInfo() = true;
 			}
 			if (it->second.hasAllInfo() == true && it->second.isWelcomeSent() == false){
 				if (it->second.isValid() == SUCCESS){
@@ -188,9 +158,35 @@ int	parseCommand(std::string cmd_line, s_cmd &cmd_infos){
 	for (size_t i = 0; i < cmd_infos.name.size(); i++)
 		cmd_infos.name[i] = std::toupper(cmd_infos.name[i]);
 	
-	// DEBUG
-	std::cout << ToColor("Command : |", Colors::Red) << cmd_infos.name << "|" << std::endl;
-	std::cout << ToColor("Prefix : |", Colors::Blue) << cmd_infos.prefix << std::endl;
-	std::cout <<  ToColor("Prefix : |", Colors::Green) << cmd_infos.message << std::endl;
 	return (SUCCESS);
+}
+
+/**
+ * @brief Fills client information based on received commands.
+ * 
+ * This function parses the received command and fills the client information
+ * accordingly. It checks for commands like NICK and PASS, and performs specific
+ * actions based on the command type. For PASS command, it sets the client's
+ * connection password status accordingly.
+ * 
+ * @param client_lists A map containing client information.
+ * @param client_fd The file descriptor of the client.
+ * @param cmd The received command from the client.
+ */
+void	Server::fillClients(std::map<const int, Client> &client_lists, int client_fd, std::string cmd){
+	std::map<const int, Client>::iterator it = client_lists.find(client_fd);
+	s_cmd	cmd_infos;
+	(void)it;
+	if (parseCommand(cmd, cmd_infos) == FAILURE)
+		return ;
+	
+	if (cmd.find("NICK") != std::string::npos)
+		nick(this, client_fd, cmd_infos);
+	
+	else if (cmd.find("PASS") != std::string::npos){
+		if (pass(this, client_fd, cmd_infos) == SUCCESS)
+			it->second.setConnexionPassword(true);
+		else
+			it->second.setConnexionPassword(false);
+	}
 }
