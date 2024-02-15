@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:32 by axel              #+#    #+#             */
-/*   Updated: 2024/02/14 14:34:39 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/15 13:40:26 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,14 @@ void							Server::setMotd(std::string buffer){
 							***********************/
 
 /**
- * Error given when the port or password are wrong.
-*/
+ * @brief Returns a C-style string describing the exception.
+ * 
+ * This function returns a C-style string describing the exception, 
+ * which indicates that the credentials given are invalid.
+ * 
+ * @return A C-style string describing the exception.
+ */
+
 const char * 	Server::InvalidClientException::what (void) const throw() 
 {
 	return "The credentials given are invalid.";
@@ -92,23 +98,23 @@ void	Server::setHints(void) {
 int	Server::launchServer(void){
 	_server_socket_fd = socket(_servinfo->ai_family, _servinfo->ai_socktype, _servinfo->ai_protocol);
 	if (_server_socket_fd == FAILURE) {
-		std::cerr << ToColor("[Error] unable to create socket", Colors::Red) << std::cout;
+		std::cerr << ToColor("[Error] unable to create socket", Colors::Red) << std::endl;
 		return (FAILURE);
 	}
 	
 	int	optvalue = 1; //!enables the reuse of a port if the IP address is different.
 	if (setsockopt(_server_socket_fd, SOL_SOCKET, SO_REUSEADDR, &optvalue, sizeof(optvalue)) == FAILURE) {
-		std::cerr << ToColor("[Error] impossible to reuse ", Colors::Red) << std::cout;
+		std::cerr << ToColor("[Error] impossible to reuse ", Colors::Red) << std::endl;
 		return (FAILURE);
 	}
 
 	if (bind(_server_socket_fd, _servinfo->ai_addr, _servinfo->ai_addrlen) == FAILURE) {
-		std::cerr << ToColor("[Error] impossible to bind ", Colors::Red) << std::cout;
+		std::cerr << ToColor("[Error] impossible to bind ", Colors::Red) << std::endl;
 		return (FAILURE);
 	}
 
 	if (listen(_server_socket_fd, BACKLOG) == FAILURE) {
-		std::cerr << ToColor("[Error] listen failed ", Colors::Red) << std::cout;
+		std::cerr << ToColor("[Error] listen failed ", Colors::Red) << std::endl;
 		return (FAILURE);
 	}
 	freeaddrinfo(_servinfo);
@@ -253,9 +259,9 @@ int 		Server::readFromConfigFile(char *filename)
 	data.open(filename);
 	if (!data)
 		return (FAILURE);
-	while (getline(data, buffer)) {
+		
+	while (getline(data, buffer))
 		operators.push_back(buffer);
-	}
 	data.close();
 
 	std::vector<std::string>::iterator it;

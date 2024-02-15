@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/02/14 14:15:08 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/15 13:55:55 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ void		sendClientRegistration(Server *server, int const client_fd, std::map<const
 std::string	getSymbol(Channel &channel);
 std::string	getListOfMembers(std::string client, Channel &channel);
 std::string	getChannelName(std::string msg_to_parse);
+std::string	getReason(std::string msg_to_parse);
 	
 #endif

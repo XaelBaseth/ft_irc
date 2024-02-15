@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/02/13 13:42:13 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:25:20 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,21 @@ bool	Channel::doesClientExist(std::string &clientName){
 	if (it == _clientList.end())
 		return (false);
 	return (true);
+}
+
+/**
+ * @brief Removes a client from the channel.
+ * 
+ * This function removes a client from the channel's client list and also removes their operator status, if any.
+ * 
+ * @param clientName The name of the client to be removed.
+ */
+void	Channel::removeClientFromChannel(std::string &clientName){
+	std::map <std::string, Client>::iterator it = this->_clientList.find(clientName);
+	if (it != _clientList.end())
+		this->_clientList.erase(it);
+	
+	removeOperator(clientName); 
 }
 
 /**

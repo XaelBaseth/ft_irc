@@ -52,8 +52,7 @@ void	addChannel(Server *server, std::string const &channelName){
  * @param msg_to_parse The message to parse from which the key is retrieved.
  * @return The extracted key.
  */
-std::string	retrieveKey(std::string msg_to_parse)
-{
+std::string	retrieveKey(std::string msg_to_parse){
 	std::string	key;
 	key.clear();
 	
@@ -63,8 +62,7 @@ std::string	retrieveKey(std::string msg_to_parse)
 		
 	int	begin_pos = (msg_to_parse.find(",") == 0) ? msg_to_parse.find(",") + 1 : 0;
 	
-	while ( msg_to_parse[begin_pos] != ',' && msg_to_parse[begin_pos])
-	{
+	while ( msg_to_parse[begin_pos] != ',' && msg_to_parse[begin_pos]){
 		if (msg_to_parse[begin_pos] == '_' || msg_to_parse[begin_pos] == '-'
 			|| isalpha(msg_to_parse[begin_pos]) || isdigit(msg_to_parse[begin_pos]))
 			key += msg_to_parse[begin_pos];
@@ -86,15 +84,13 @@ std::string	retrieveKey(std::string msg_to_parse)
  * @param channel_name The name of the channel.
  * @param client The client who joined the channel.
  */
-void		sendChanInfos(Server *server, Channel &channel, std::string channel_name, Client &client)
-{
+void		sendChanInfos(Server *server, Channel &channel, std::string channel_name, Client &client){
 	std::string	nick		= client.getNickname();
 	std::string username	= client.getUsername();
  	
 	std::map<std::string, Client>::iterator member = channel.getClientList().begin();
 
-	while (member != channel.getClientList().end())
-	{
+	while (member != channel.getClientList().end()){
 		addToClientBuffer(server, member->second.getClientFd(), RPL_JOIN(user_id(nick, username), channel_name));
 		if (channel.getTopic().empty() == false)
 			addToClientBuffer(server, member->second.getClientFd(), RPL_TOPIC(nick, channel_name, channel.getTopic()));
@@ -117,14 +113,12 @@ void		sendChanInfos(Server *server, Channel &channel, std::string channel_name, 
  * @param str The input string to be checked.
  * @return True if the string contains at least one alphabetic character, false otherwise.
  */
-bool		containsAtLeastOneAlphaChar(std::string str)
-{
+bool		containsAtLeastOneAlphaChar(std::string str){
 	if (str[0] == ' ')
 		str.erase(0, 1);
 	if (str.find(" ") != str.npos)
 		str = str.substr(0, str.find(" "));
-	for (size_t i = 0; i < str.size(); i++)
-	{
+	for (size_t i = 0; i < str.size(); i++){
 		if (isalpha(str[i]))
 			return (true);
 	}

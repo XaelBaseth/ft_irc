@@ -6,7 +6,7 @@
 #    By: axel <axel@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/02/14 14:55:42 by axel             ###   ########.fr        #
+#    Updated: 2024/02/15 14:01:46 by axel             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ WHITE		=	\033[0;97m
 MAIN_DIR	=	main/
 MAIN_FILES	=	ircserv manageServerLoop
 UTIL_DIR	=	utils/
-UTIL_FILES	=	Colors manageServerUtils utils parsing
+UTIL_FILES	=	Colors manageServerUtils utils parsing commandUtils
 CLAS_DIR	=	class/
 CLAS_FILES	=	Server Client Channel
 COMM_DIR	=	commands/

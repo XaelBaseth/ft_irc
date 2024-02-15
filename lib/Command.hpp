@@ -38,10 +38,12 @@ struct s_mode
 *****************************************************************/
 
 int		parseCommand(std::string cmd_line, s_cmd &cmd_infos);
-
 void	invite(Server *server, int const client_fd, s_cmd cmd_infos);
 void	join(Server *server, int const client_fd, s_cmd cmd_infos);
 void	nick(Server *server, int const client_fd, s_cmd cmd_infos);
 int		pass(Server *server, int const client_fd, s_cmd cmd_infos);
+void	kick(Server *server, int const client_fd, s_cmd cmd_infos);
+void	kill(Server *server, int const client_fd, s_cmd cmd_infos);
+void	list(Server *server, int const client_fd, s_cmd cmd_infos);
 
 #endif

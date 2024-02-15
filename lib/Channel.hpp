@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:00 by axel              #+#    #+#             */
-/*   Updated: 2024/02/10 12:22:01 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/15 12:24:53 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ class Channel
 		void							setCapacityLimit(int limit);
 
 		bool							doesClientExist(std::string &clientName);
+		void							removeClientFromChannel(std::string &clientName);
 		void							addClientToChannel(Client &client);
 		void							addToKicked(std::string &kicked_name);
 		void							addToBanned(std::string &banned_name);

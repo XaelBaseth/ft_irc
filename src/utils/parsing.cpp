@@ -55,9 +55,9 @@ void	Server::execCommand(int const client_fd, std::string cmd_line){
 	switch (index + 1) {
 		case 1: invite(this, client_fd, cmd_infos); break;
 		case 2: join(this, client_fd, cmd_infos); break;
-		//case 3: kick(this, client_fd, cmd_infos); break;
-		//case 4: kill(this, client_fd, cmd_infos); break;
-		//case 5: list(this, client_fd, cmd_infos); break;
+		case 3: kick(this, client_fd, cmd_infos); break;
+		case 4: kill(this, client_fd, cmd_infos); break;
+		case 5: list(this, client_fd, cmd_infos); break;
 		//case 6: modeFunction(this, client_fd, cmd_infos); break;
 		//case 7: motd(this, client_fd, cmd_infos); break;
 		//case 8: names(this, client_fd, cmd_infos); break;

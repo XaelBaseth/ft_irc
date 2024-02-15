@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:49 by axel              #+#    #+#             */
-/*   Updated: 2024/02/14 14:39:49 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/15 13:01:04 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,13 +165,10 @@ int Server::handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd
 	else {
 		sendServerRpl(current_fd, client->getSendBuffer());
 		client->getSendBuffer().clear();
-		//TODO: Uncomment when client IRC is done
-		(void)it;
-		(void)poll_fds;
-		//if (client->getDeconnexionStatus() == true) {
-		//	delClient(poll_fds, it, current_fd);
-		//	return (BREAK);
-		//}
+		if (client->getDeconnexionStatus() == true) {
+			delClient(poll_fds, it, current_fd);
+			return (BREAK);
+		}
 	}
 	return (SUCCESS);
 }
