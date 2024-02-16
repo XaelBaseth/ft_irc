@@ -18,3 +18,21 @@ std::string	getReason(std::string msg_to_parse)
 		reason.append(msg_to_parse, msg_to_parse.find(":") + 1, std::string::npos);
 	return (reason);
 }
+
+/**
+ * @brief Broadcasts a message to all members of a channel.
+ * 
+ * This function broadcasts a message to all members of a channel.
+ * 
+ * @param server A pointer to the Server object.
+ * @param channel The Channel object representing the channel.
+ * @param reply The message to broadcast.
+ */
+void	broadcastToAllChannelMembers(Server *server, Channel &channel, std::string reply){
+	std::map<std::string, Client>::iterator member = channel.getClientList().begin();
+
+	while(member != channel.getClientList().end()){
+		addToClientBuffer(server, member->second.getClientFd(), reply);
+		member++;
+	}
+}

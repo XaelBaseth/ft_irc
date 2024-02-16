@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:32 by axel              #+#    #+#             */
-/*   Updated: 2024/02/15 13:40:26 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/16 10:47:16 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,17 @@ void	Server::addClientToChannel(std::string &channelName, Client &client){
 	else
 		std::cout << ToColor("[Channel] ", Colors::Yellow) << client.getNickname() 
 			<< ToColor(" already here!", Colors::Yellow) << std::endl;
+}
+
+bool	Server::isChannel(std::string &channelName){
+    std::map<std::string, Channel>::iterator it;
+    it = _channels.find(channelName);
+    if (it == _channels.end())
+    {
+        std::cout << ToColor("[Server] This channel does not exists", Colors::Red) <<std::endl;
+        return (false);
+    }
+    return (true);
 }
 
 /**

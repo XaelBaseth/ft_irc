@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/02/15 12:25:20 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/16 14:54:14 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int								&Channel::getCapacityLimit(){ return (_capacity_limit);}
 std::map<std::string, Client>	&Channel::getClientList(){ return (_clientList);}
 std::vector<std::string>		&Channel::getBannedUsers(){ return (_banned_users);}
 std::vector<std::string>		&Channel::getKickedUsers(){ return (_kicked_users);}
+std::vector<std::string>		&Channel::getVoicedUsers(){ return (_voiced_users);}
 std::vector<std::string>		&Channel::getOperators(){ return (_operators);}
 
 void	Channel::setTopic(std::string &newTopic){

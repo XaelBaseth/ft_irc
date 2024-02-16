@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:18 by axel              #+#    #+#             */
-/*   Updated: 2024/02/14 14:58:59 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/16 10:47:35 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ class Server {
 		void							addChannel(std::string &channelName);
 		void							addClientToChannel(std::string &channelName, Client &client);
 		int								readFromConfigFile(char *filename);
+		bool							isChannel(std::string &channelName);
 		//manageServerLoop
 		int								manageServerLoop(void);
 		

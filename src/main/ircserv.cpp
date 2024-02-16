@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:39 by axel              #+#    #+#             */
-/*   Updated: 2024/02/15 13:35:46 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/16 14:56:43 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ static void	signal_handler(int signal){
 
 /**
  * Main functions for the ircserv program.
- * TODO: Check if the input of the user is correct.
  * TODO: Handles the IRC implementations.
 */
 int	main(int argc, char **argv) {
-	if (argc == 3){
+	if (argc != 3){
+		std::cerr << ToColor("[Usage] ./ircserv <port> <password>.", Colors::Red) << std::endl;
+		return (FAILURE);
+	}
+	else {
 		time_t	rawtime;
 		struct tm *timeinfo;
 
@@ -43,7 +46,7 @@ int	main(int argc, char **argv) {
 		signal(SIGINT, signal_handler);
 		Server	server(argv[1], argv[2], timeinfo);
 
-		char	filename[35] = "config/ServOperators.config";
+		char	filename[28] = "config/ServOperators.config";
 		server.readFromConfigFile(filename);
 
 		server.setHints();
@@ -58,9 +61,5 @@ int	main(int argc, char **argv) {
 				<< e.what() << std::endl;
 		}
 		return (SUCCESS);
-	}
-	else {
-		std::cerr << ToColor("[Usage] ./ircserv <port> <password>.", Colors::Red) << std::endl;
-		return (FAILURE);
 	}
 }

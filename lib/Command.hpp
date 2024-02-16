@@ -45,5 +45,6 @@ int		pass(Server *server, int const client_fd, s_cmd cmd_infos);
 void	kick(Server *server, int const client_fd, s_cmd cmd_infos);
 void	kill(Server *server, int const client_fd, s_cmd cmd_infos);
 void	list(Server *server, int const client_fd, s_cmd cmd_infos);
+void	modeFunction(Server *server, int const client_fd, s_cmd cmd_infos);
 
 #endif

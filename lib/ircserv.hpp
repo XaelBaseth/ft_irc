@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/02/15 13:55:55 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/16 14:55:11 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,17 @@ std::string	getSymbol(Channel &channel);
 std::string	getListOfMembers(std::string client, Channel &channel);
 std::string	getChannelName(std::string msg_to_parse);
 std::string	getReason(std::string msg_to_parse);
-	
+void	broadcastToAllChannelMembers(Server *server, Channel &channel, std::string reply);
+
+//MODE
+void	banChannelMode(Server *server, std::string datas[4], int const client_fd);
+void	keyChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string mode_str);
+void	limitChannelMode(Server *server, std::string datas[4], int const client_fd);
+void	moderateChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string mode_str);
+void	operatorChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string str);
+void	privateChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string mode_str);
+void	secretChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string mode_str);
+void	topicChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string mode_str);
+void	voiceChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string str);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:00 by axel              #+#    #+#             */
-/*   Updated: 2024/02/15 12:24:53 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/16 14:54:35 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ class Channel
 		std::map<std::string, Client>	&getClientList();
 		std::vector<std::string>		&getBannedUsers();
 		std::vector<std::string>		&getKickedUsers();
+		std::vector<std::string>		&getVoicedUsers();
 		std::vector<std::string>		&getOperators();
 		void							setTopic(std::string &newTopic);
 		void							setChannelPassword(std::string password);
