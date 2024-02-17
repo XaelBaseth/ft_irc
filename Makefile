@@ -90,6 +90,7 @@ $(NAME):		$(OBJ) $(OBJF)
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.cpp $(OBJF)
 					@$(CC) $(CFLAGS) -c $< -o $@
+					@$(ECHO) "\033[1A\033[K$< created"
 
 $(OBJF):		
 					@mkdir -p $(OBJ_DIR)
