@@ -21,6 +21,25 @@ static void	splitMsg(std::vector<std::string> &cmds, std::string msg){
 	}
 }
 
+void Server::fillClients(std::map<const int, Client> &client_list, int client_fd, std::string cmd){
+	std::map<const int, Client>::iterator it = client_list.find(client_fd);
+	s_cmd cmd_infos;
+	if (parseCommand(cmd, cmd_infos) == FAILURE)
+		return ;
+
+	if (cmd.find("NICK") != std::string::npos)
+		nick(this, client_fd, cmd_infos);
+	else if (cmd.find("USER") != std::string::npos)
+		user(this, client_fd, cmd_infos);
+	else if (cmd.find("PASS") != std::string::npos)
+	{
+		if (pass(this, client_fd, cmd_infos) == SUCCESS)
+			it->second.setConnexionPassword(true);
+		else
+			it->second.setConnexionPassword(false);
+	}
+}
+
 /**
  * @brief Executes a command received from a client.
  * 
@@ -75,6 +94,8 @@ void	Server::execCommand(int const client_fd, std::string cmd_line){
 	}
 }
 
+
+
 /**
  * @brief Parses and processes a message received from a client.
  * 
@@ -92,19 +113,24 @@ void	Server::parseMsg(int const client_fd, std::string message){
 
 	splitMsg(cmds, message);
 
-	for (size_t i = 0; i != cmds.size(); i++){
-		if (it->second.isRegistrationDone() == false){
-			if (it->second.hasAllInfo() == false){
+	for (size_t i = 0; i != cmds.size(); i++)
+	{
+		if (it->second.isRegistrationDone() == false)
+		{
+			if (it->second.hasAllInfo() == false)
+			{
 				fillClients(_clients, client_fd, cmds[i]);
 				if (it->second.getNbInfo() == 3)
 					it->second.hasAllInfo() = true;
 			}
-			if (it->second.hasAllInfo() == true && it->second.isWelcomeSent() == false){
-				if (it->second.isValid() == SUCCESS){
+			if (it->second.hasAllInfo() == true && it->second.isWelcomeSent() == false)
+			{
+				if (it->second.isValid() == SUCCESS)
+				{
 					sendClientRegistration(this, client_fd, it);
 					it->second.isWelcomeSent() = true;
 					it->second.isRegistrationDone() = true;
-				}
+				}		
 				else
 					throw Server::InvalidClientException();
 			}
@@ -114,18 +140,10 @@ void	Server::parseMsg(int const client_fd, std::string message){
 	}
 }
 
-/**
- * @brief Parses a command line and extracts command information.
- * 
- * This function takes a command line as input and extracts the command name,
- * prefix, and message information. It populates the provided s_cmd structure
- * with the parsed information.
- * 
- * @param cmd_line The command line to parse.
- * @param cmd_infos Reference to the s_cmd structure to populate.
- * @return int Returns SUCCESS if parsing is successful, FAILURE otherwise.
- */
-int	parseCommand(std::string cmd_line, s_cmd &cmd_infos){
+
+
+int	parseCommand(std::string cmd_line, s_cmd &cmd_infos)
+{
 	if (cmd_line.empty() == true)
 		return (FAILURE);
 	
@@ -159,34 +177,4 @@ int	parseCommand(std::string cmd_line, s_cmd &cmd_infos){
 		cmd_infos.name[i] = std::toupper(cmd_infos.name[i]);
 	
 	return (SUCCESS);
-}
-
-/**
- * @brief Fills client information based on received commands.
- * 
- * This function parses the received command and fills the client information
- * accordingly. It checks for commands like NICK and PASS, and performs specific
- * actions based on the command type. For PASS command, it sets the client's
- * connection password status accordingly.
- * 
- * @param client_lists A map containing client information.
- * @param client_fd The file descriptor of the client.
- * @param cmd The received command from the client.
- */
-void	Server::fillClients(std::map<const int, Client> &client_lists, int client_fd, std::string cmd){
-	std::map<const int, Client>::iterator it = client_lists.find(client_fd);
-	s_cmd	cmd_infos;
-	(void)it;
-	if (parseCommand(cmd, cmd_infos) == FAILURE)
-		return ;
-	
-	if (cmd.find("NICK") != std::string::npos)
-		nick(this, client_fd, cmd_infos);
-	
-	else if (cmd.find("PASS") != std::string::npos){
-		if (pass(this, client_fd, cmd_infos) == SUCCESS)
-			it->second.setConnexionPassword(true);
-		else
-			it->second.setConnexionPassword(false);
-	}
 }

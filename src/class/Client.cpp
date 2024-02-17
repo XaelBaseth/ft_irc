@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:28 by axel              #+#    #+#             */
-/*   Updated: 2024/02/17 10:51:30 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/17 11:03:29 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	Client::setDeconnexionStatus(bool status)
 
 void	Client::setNickname(std::string const &nickname)
 {
-	// If the nickname has more than 9 characters, it must be truncated
 	_nickname = (_nickname.size() > 9) ? nickname.substr(0, 9) : nickname;
 }
 
