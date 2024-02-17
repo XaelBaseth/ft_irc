@@ -1,8 +1,5 @@
 #include "../../lib/ircserv.hpp"
 
-std::string	retrieveNickname(std::string msg_to_parse);
-static bool	containsInvalidCharacters(std::string nickname);
-
 std::string	retrieveNickname(std::string msg_to_parse)
 {
 	std::string nickname;

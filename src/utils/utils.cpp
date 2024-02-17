@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:52 by axel              #+#    #+#             */
-/*   Updated: 2024/02/14 14:15:28 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/17 10:53:23 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	sendClientRegistration(Server *server, int const client_fd,
 	addToClientBuffer(server, client_fd, RPL_ISUPPORT(it->second.getNickname(), "CHANNEL_LEN=32 NICK_LEN=9 TOPIC_LEN=307"));
 
 	std::ifstream	data;
-	char			filepath[26] = "../../config/motd.config";
+	char			filepath[19] = "config/motd.config";
 
 	data.open(filepath);
 	if (!data){

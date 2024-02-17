@@ -10,7 +10,8 @@
  * @param msg_to_parse The message containing the password.
  * @return A string containing the retrieved password.
  */
-std::string	retrievePassword(std::string msg_to_parse){
+std::string	retrievePassword(std::string msg_to_parse)
+{
 	std::string	password;
 	size_t i = 0;
 	
@@ -37,22 +38,26 @@ std::string	retrievePassword(std::string msg_to_parse){
  * @return SUCCESS if the password is correct and the client's number of received information is 
  * incremented, FAILURE otherwise.
  */
-int		pass(Server *server, int const client_fd, s_cmd cmd_infos){
+int		pass(Server *server, int const client_fd, s_cmd cmd_infos)
+{
 	Client&		client		= retrieveClient(server, client_fd);
 	std::string	password	= retrievePassword(cmd_infos.message);
 
 
-	if (cmd_infos.message.empty() == true || password.empty() == true){
+	if (cmd_infos.message.empty() == true || password.empty() == true)
+	{
 		addToClientBuffer(server, client_fd, ERR_NEEDMOREPARAMS(client.getNickname(), cmd_infos.name));
 		return (FAILURE);
 	}
-	else if (server->getPassword() != password){
+	else if (server->getPassword() != password)
+	{
 		addToClientBuffer(server, client_fd, ERR_PASSWDMISMATCH(client.getNickname()));
 		if (client.isRegistrationDone() == false)
 			client.setNbInfo(-1);
 		return (FAILURE);
 	}
-	else{
+	else
+	{
 		client.setNbInfo(+1);
 		return (SUCCESS);
 	}
