@@ -1,6 +1,8 @@
 #include "../../lib/ircserv.hpp"
 
-
+/**
+ * *Prototype for the command => `/mode #channel +option`
+*/
 
 /**
  * @brief Fills mode information structure from a command string.

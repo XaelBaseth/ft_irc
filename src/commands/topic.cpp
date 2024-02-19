@@ -1,5 +1,13 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Need to be an operator to change it.
+ * *Prototype for the command => `/topic #channel :Topic`
+ * 
+ * *For users to view
+ * *Prototype for the command => `/topic`
+*/
+
 std::string	findChannelName(std::string msg_to_parse){
 	std::string channel_name;
 	channel_name.clear();

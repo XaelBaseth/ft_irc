@@ -1,5 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Prototype for the command 	=> `/notcie user`
+ * *							=> `/notice #channel`
+*/
+
 static void  broadcastToChannel(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::map<std::string, Channel>::iterator it_channel, std::string target, std::string msg_to_send)
 {
    

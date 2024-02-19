@@ -1,6 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Prototype for the command => `/list`
+*/
+
+/**
  * @brief Finds the name of a channel in a given message.
  * 
  * This function extracts the name of a channel from a given message. It searches for 

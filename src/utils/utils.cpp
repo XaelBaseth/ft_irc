@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:52 by axel              #+#    #+#             */
-/*   Updated: 2024/02/17 10:53:23 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/19 11:39:26 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	sendServerRpl(int const client_fd, std::string client_buffer) {
 
 	send(client_fd, client_buffer.c_str(), client_buffer.size(), 0);
 	while (getline(buf, reply)) {
-		std::cout << ToColor("[Server] Message sent to client #", Colors::Blue)
-			<< client_fd << ToColor(reply, Colors::Blue) << std::endl;
+		std::cout << ToColor("[Server] Message sent to client #", Colors::White)
+			<< client_fd << ToColor(reply, Colors::Cyan) << std::endl;
 	}
 }
 

@@ -1,6 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Prototype for the command => `/invite nickname #channel`
+*/
+
+/**
  * @brief Finds and extracts the channel name from a message string.
  * 
  * This function extracts the channel name from a message string if it contains

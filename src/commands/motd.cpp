@@ -1,6 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Prototype for the command => `/motd`
+*/
+
+/**
  * @brief Extract the server name from a message.
  * 
  * This function extracts the server name from a message.

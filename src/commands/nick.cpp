@@ -1,5 +1,9 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Prototype for the command => `/nick nickname`
+*/
+
 std::string	retrieveNickname(std::string msg_to_parse)
 {
 	std::string nickname;

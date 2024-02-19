@@ -1,5 +1,9 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Prototype for the command 	=> `/part #channel :Reason`
+*/
+
 static bool			containsAtLeastOneAlphaChar(std::string str)
 {
 	for (size_t i = 0; i < str.size(); i++){

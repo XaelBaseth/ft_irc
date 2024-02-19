@@ -1,5 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Prototype for the command 	=> `/ping server`
+*/
+
+
 int	ping(Server *server, int const client_fd, s_cmd &cmd){
 	Client		&client		= retrieveClient(server, client_fd);
 	std::string	nickname	= client.getNickname();

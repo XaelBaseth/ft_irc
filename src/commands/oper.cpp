@@ -1,5 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * 
+ * *Prototype for the command => `/oper` if the name is one of the operators.
+*/
+
 static bool			isNameValid(Server *server, std::string name)
 {
 	std::vector<server_op>&				operators = server->getIRCOperators();

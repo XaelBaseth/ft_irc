@@ -1,6 +1,11 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Need to be an operators.
+ * *Prototype for the command => `/kick #channel nickname :Reason`
+*/
+
+/**
  * @brief Removes a client from all channels in the server.
  * 
  * This function removes a client from all channels in the server by iterating through
@@ -159,10 +164,10 @@ void	kill(Server *server, int const client_fd, s_cmd cmd_infos){
 	else {
 		addToClientBuffer(server, killed_user->getClientFd(), RPL_KILL(user_id(killer, client.getUsername()), killed, comment));
 
-		std::string quit_reason = ":Killed (" + killer + " (" + comment + "))";
+		std::string quit_reason = ":Killed (" + killer + " " + comment + ")";
 		broadcastQuit(server, RPL_QUIT(user_id(killed, killed_user->getUsername()), quit_reason));
 		
-		std::string error_reason = ":Closing Link: localhost. Killed (" + killer + " (" + comment + "))";
+		std::string error_reason = ":Closing Link: localhost. Killed (" + killer + " " + comment + ")";
 		addToClientBuffer(server, killed_user->getClientFd(), RPL_ERROR(user_id(killed, killed_user->getUsername()), error_reason));
 
 		killed_user->setDeconnexionStatus(true);

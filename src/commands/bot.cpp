@@ -1,10 +1,13 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Prototype for the command => `/invite nickname #channel`
+*/
 
 static void	botRandom(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot)
 {
-	srand(time(NULL)); // initializes the random number generator with a seed value based on the current time
-    int index = rand() % 10 + 1; // number between 1 and 10
+	srand(time(NULL));
+	int index = rand() % 10 + 1;
 	
 	std::string str;
 	switch (index)
@@ -27,7 +30,7 @@ void	bot(Server *server, int const client_fd, std::map<const int, Client>::itera
 	std::string bot = "raultbot";
 	std::string	validCmds[4] = {
 		":HELP",
-		":HOUR",
+		":RANDOM",
 		};
 
 	for (size_t i = 0; i < bot_cmd.size(); i++)
@@ -42,7 +45,7 @@ void	bot(Server *server, int const client_fd, std::map<const int, Client>::itera
 	}
 	switch (index + 1)
 	{
-		case 1: addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Ask me 'HOUR', 'LOVE' or 'RANDOM'")); break;
+		case 1: addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Ask me 'RANDOM'")); break;
 		case 2: botRandom(server, client_fd, it_client, bot); break;
 		default:
 			addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Invalid request, ask 'HELP' for more infos"));

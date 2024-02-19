@@ -1,6 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Prototype for the command => `/names #optionnal_channel`
+*/
+
+/**
 *
 *    @brief Checks if a string contains at least one alphanumeric character, hyphen, or underscore.
 *  
@@ -91,5 +95,4 @@ void	names(Server *server, int const client_fd, s_cmd cmd_infos){
 			addToClientBuffer(server, client_fd, RPL_NAMREPLY(client.getNickname(), symbol, channel_to_name, list_of_members));
 		addToClientBuffer(server, client_fd, RPL_ENDOFNAMES(client.getNickname(), channel_to_name));
 	}
-	
 }

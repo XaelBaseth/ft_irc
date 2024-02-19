@@ -1,5 +1,9 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Prototype for the command 	=> `/user nickname 0 * :realname`
+*/
+
 std::string	findUsername(std::string msg){
 	std::string user;
 	user.clear();

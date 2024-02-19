@@ -1,6 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Prototype for the command 	=> `/pass password`
+*/
+
+/**
  * @brief Retrieves the password from a message.
  * 
  * This function retrieves the password from a message by skipping leading spaces and

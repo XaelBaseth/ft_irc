@@ -1,6 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Prototype for the command => `/join #channel`
+*/
+
+/**
  * @brief Adds a client to a channel.
  * 
  * This function checks if the client is already present in the specified channel.

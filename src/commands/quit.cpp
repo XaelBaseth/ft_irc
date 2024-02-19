@@ -1,5 +1,10 @@
 #include "../../lib/ircserv.hpp"
 
+/**
+ * *Prototype for the command 	=> `/quit :Reason`
+*/
+
+
 static void	broadcastToChan(Server *server, Channel &channel, int const client_fd, 
 std::string nick, std::string user, std::string reason){
 	std::map<std::string, Client>::iterator member = channel.getClientList().begin();

@@ -77,39 +77,29 @@ Thankfully we can use **multiplexing** methods that can make our sockets non-blo
 
 In order to do so, we can use the **poll()** function. It is used to monitor several file descriptors to see if any of them are ready for I/O operations. IT returns the numbers of file descriptors that have events pending. Naturally, the _poll()_ function returns -1 on failure, and indicate the error in errno.
 
-### CheckLists
+### Commands
 
-[ X ] Creates a server that only allows client-server communication.
-
-[ X ] Server must be able to handle mutiple clients at the same time and never hang. (I/O operation must be non-blocking.)
-
-[ X ] Server use only 1 **poll()** to handle read, write, listen etc. operations
-
-[ X ] Client must be able to connect to server without any errors.
-
-[ X ] Communication has to be done via TCP/IP(v4 or v6).
-
-[ ] Using the client, you must be able to authenticate, set a nickname, a username, join a channel, send and receive private message.
-
-[ ] All the message sent from one client have to be forwarded to every other client in the channel.
-
-[ ] You must have operators and regulars users. The operator have to have specific channel operators commands:
-
-1. KICK - Eject a client from the channel.
-2. INVITE - Invite a client to a channel.
-3. TOPIC - Change or view the channel topic
-4. MODE - Change the channel mode:
-
-- i: Set/Remove invite-only channel.
-- t: Set/Remove the restrictions of the TOPIC command to channel operators.
-- k: Set/Remove the channel key (password)
-- o: Give/take channel operator privilege
-- l: Set/remove the user limit to channel
-
-[ X ] **BONUS** Handle file transfert (not sure if done properly, need to be checked.)
-
-[ ] **BONUS** a bot (raultbot ?)
-
+| Command | Description | 
+| :-----------: | :----------- |
+| Invite | invite a user to a channel. |
+| Join | indicates that the client wants to join the given channel(s), each channel using the given key for it. |
+| Kick | can be used to request the forced removal of a user from a channel. |
+| Kill | is used to close the connection between a given client and the server they are connected to. `KILL` is a privileged command and is available only to IRC Operators. |
+| List | is used to get a list of channels along with some information about each channel. |
+| Mode | is used to set or remove options (or modes) from a given target. Our user modes : i, o. Our channels modes: b,k,m,o,p,s,t,v |
+| Motd | is used to get the “Message of the Day” of the given server. |
+| Names | is used to view the nicknames joined to a channel and their channel membership prefixes. |
+| Nick | is used to give the client a nickname or change the previous one. |
+| Notice | is used to send notices between users, as well as to send notices to channels. The difference between `NOTICE` and `PRIVMSG` is that automatic replies must never be sent in response to a `NOTICE` message.  |
+| Oper | is used by a normal user to obtain IRC operator privileges.  |
+| Part | removes the client from the given channel(s). |
+| Pass | is used to set a ‘connection password’. If set, the password must be set before any attempt to register the connection is made. |
+| Ping | is sent by either clients or servers to check the other side of the connection is still connected and/or to check for connection latency, at the application layer. |
+| Privmsg | is used to send private messages between users, as well as to send messages to channels. |
+| Quit | is used to terminate a client’s connection to the server. The server acknowledges this by replying with an `ERROR` message and closing the connection to the client. |
+| Topic | is used to change or view the topic of the given channel. |
+| User | is used at the beginning of a connection to specify the username and realname of a new user. |
+| Bot | is used to call the `raultbot`. |
 ## Sources
 
 [Subject](https://cdn.intra.42.fr/pdf/pdf/120067/en.subject.pdf)

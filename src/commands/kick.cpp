@@ -1,6 +1,11 @@
 #include "../../lib/ircserv.hpp"
 
 /**
+ * *Need to be an operators.
+ * *Prototype for the command => `/kick #channel nickname :Reason`
+*/
+
+/**
  * @brief Extracts the kicked client's name from a kick message.
  * 
  * This function takes a message as input and extracts the name of the client who was 
