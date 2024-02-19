@@ -1,9 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   user.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 15:33:50 by acharlot          #+#    #+#             */
+/*   Updated: 2024/02/19 15:33:50 by acharlot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../lib/ircserv.hpp"
 
 /**
- * *Prototype for the command 	=> `/user nickname 0 * :realname`
-*/
-
+ * @brief Finds the username from the given message.
+ * 
+ * This function extracts the username from the provided message.
+ * If the message is not empty and starts with a space, the leading space is removed.
+ * The username is then extracted from the message until the first space is encountered.
+ * 
+ * @param msg The message to parse.
+ * @return The extracted username.
+ */
 std::string	findUsername(std::string msg){
 	std::string user;
 	user.clear();
@@ -19,6 +37,16 @@ std::string	findUsername(std::string msg){
 	return (user);
 }
 
+/**
+ * @brief Finds the real name from the given message.
+ * 
+ * This function extracts the real name from the provided message.
+ * If the message is not empty and starts with a space, the leading space is removed.
+ * The real name is then extracted from the message after the third space.
+ * 
+ * @param msg The message to parse.
+ * @return The extracted real name.
+ */
 std::string	findRealname(std::string msg){
 	std::string real;
 	real.clear();
@@ -45,6 +73,18 @@ std::string	findRealname(std::string msg){
 	return (real);
 }
 
+/**
+ * @brief Handles the USER command for setting the username and real name of a client.
+ * 
+ * This function parses the message to extract the username and real name.
+ * If either username or real name is empty, an error message is sent to the client.
+ * If the client is already registered, an error message is sent to the client.
+ * Otherwise, the username and real name are set for the client.
+ * 
+ * @param server Pointer to the server object.
+ * @param client_fd File descriptor of the client.
+ * @param cmd_infos Structure containing command information.
+ */
 void	user(Server *server, int const client_fd, s_cmd cmd_infos){
 	Client&		client		= retrieveClient(server, client_fd);
 	std::string	username	= findUsername(cmd_infos.message);

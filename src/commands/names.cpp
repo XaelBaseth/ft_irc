@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   names.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 15:34:42 by acharlot          #+#    #+#             */
+/*   Updated: 2024/02/19 15:34:43 by acharlot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../lib/ircserv.hpp"
 
 /**
@@ -79,7 +91,7 @@ void	names(Server *server, int const client_fd, s_cmd cmd_infos){
 		std::map<std::string, Channel>				channels = server->getChannels();
 		std::map<std::string, Channel>::iterator	channel = channels.find(channel_to_name);
 		if (channel == channels.end()\
-			|| (channel->second.doesClientExist(client.getNickname()) == false \
+			|| (channel->second.doesClientExist(client.getNickname()) == false
 			&& channel->second.getMode().find('s') != std::string::npos)){
 			addToClientBuffer(server, client_fd, RPL_ENDOFNAMES(client.getNickname(), channel_to_name));
 			continue ;

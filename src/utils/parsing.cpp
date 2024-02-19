@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 15:33:16 by acharlot          #+#    #+#             */
+/*   Updated: 2024/02/19 15:33:16 by acharlot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../lib/ircserv.hpp"
 
 /**
@@ -21,6 +33,18 @@ static void	splitMsg(std::vector<std::string> &cmds, std::string msg){
 	}
 }
 
+/**
+ * @brief Fills the client list with information from a command.
+ * 
+ * This function parses the command and fills the client list with information based on the command type.
+ * If the command is a NICK command, it calls the nick function to handle it.
+ * If the command is a USER command, it calls the user function to handle it.
+ * If the command is a PASS command, it calls the pass function to handle it and sets the connection password status accordingly.
+ * 
+ * @param client_list Reference to the map containing client information.
+ * @param client_fd File descriptor of the client.
+ * @param cmd The command string to parse.
+ */
 void Server::fillClients(std::map<const int, Client> &client_list, int client_fd, std::string cmd){
 	std::map<const int, Client>::iterator it = client_list.find(client_fd);
 	s_cmd cmd_infos;
@@ -94,8 +118,6 @@ void	Server::execCommand(int const client_fd, std::string cmd_line){
 	}
 }
 
-
-
 /**
  * @brief Parses and processes a message received from a client.
  * 
@@ -140,14 +162,24 @@ void	Server::parseMsg(int const client_fd, std::string message){
 	}
 }
 
-
-
+/**
+ * @brief Parses a command line string into command information.
+ * 
+ * This function parses the command line string and extracts the command name, prefix, and message.
+ * If the command line is empty, it returns FAILURE.
+ * If the command line starts with a ':', it removes the prefix part before parsing.
+ * It then extracts the command name, prefix, and message from the command line.
+ * The command name is converted to uppercase.
+ * 
+ * @param cmd_line The command line string to parse.
+ * @param cmd_infos Reference to the structure to store command information.
+ * @return SUCCESS if parsing is successful, FAILURE otherwise.
+ */
 int	parseCommand(std::string cmd_line, s_cmd &cmd_infos)
 {
 	if (cmd_line.empty() == true)
 		return (FAILURE);
 	
-	// COMMAND
 	std::string copy = cmd_line;
 	if (cmd_line[0] == ':')
 	{
@@ -164,11 +196,9 @@ int	parseCommand(std::string cmd_line, s_cmd &cmd_infos)
 	else
 		cmd_infos.name.insert(0, copy, 0, copy.find_first_of(' '));
 
-	// PREFIX
 	size_t prefix_length = cmd_line.find(cmd_infos.name, 0);
 	cmd_infos.prefix.assign(cmd_line, 0, prefix_length);
 
-	// MESSAGE
 	size_t msg_beginning = cmd_line.find(cmd_infos.name, 0) + cmd_infos.name.length();
 	cmd_infos.message = cmd_line.substr(msg_beginning, std::string::npos);
 	cmd_infos.message.erase(cmd_infos.message.find("\r"), 1);

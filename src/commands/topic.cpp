@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   topic.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 15:34:01 by acharlot          #+#    #+#             */
+/*   Updated: 2024/02/19 15:34:01 by acharlot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../lib/ircserv.hpp"
 
 /**
@@ -8,6 +20,15 @@
  * *Prototype for the command => `/topic`
 */
 
+/**
+ * @brief Finds the name of the channel mentioned in a message.
+ * 
+ * This function extracts the channel name from the provided message.
+ * If the message does not contain a channel name, an empty string is returned.
+ * 
+ * @param msg_to_parse The message to parse.
+ * @return The name of the channel mentioned in the message.
+ */
 std::string	findChannelName(std::string msg_to_parse){
 	std::string channel_name;
 	channel_name.clear();
@@ -29,6 +50,15 @@ std::string	findChannelName(std::string msg_to_parse){
 	return (channel_name);
 }
 
+/**
+ * @brief Finds the topic mentioned in a message.
+ * 
+ * This function extracts the topic from the provided message.
+ * If the message does not contain a topic, an empty string is returned.
+ * 
+ * @param msg_to_parse The message to parse.
+ * @return The topic mentioned in the message.
+ */
 std::string	findTopic(std::string msg_to_parse){
 	std::string topic;
 
@@ -39,7 +69,18 @@ std::string	findTopic(std::string msg_to_parse){
 	return (topic);
 }
 
-
+/**
+ * @brief Broadcasts a topic change to all members of a channel.
+ * 
+ * This function sends a topic change message to all members of the specified channel.
+ * It iterates through the client list of the channel and sends the topic change message to each member.
+ * 
+ * @param server Pointer to the server object.
+ * @param channel Reference to the channel object.
+ * @param client Reference to the client object.
+ * @param channel_name The name of the channel.
+ * @param topic The new topic of the channel.
+ */
 static void	broadcastToChannel(Server *server, Channel &channel, Client &client,
  std::string channel_name, std::string topic){
 	std::map<std::string, Client>::iterator member = channel.getClientList().begin();
@@ -51,6 +92,21 @@ static void	broadcastToChannel(Server *server, Channel &channel, Client &client,
 	}
 }
 
+/**
+ * @brief Handles the TOPIC command for setting or querying the topic of a channel.
+ * 
+ * This function parses the message to extract the channel name and topic.
+ * If no channel name is provided, an error message is sent to the client.
+ * If the channel does not exist, an error message is sent to the client.
+ * If the client is not a member of the channel, an error message is sent.
+ * If no topic is provided, the current topic of the channel is sent to the client.
+ * If the client does not have sufficient privileges to set the topic, an error message is sent.
+ * Otherwise, the topic is set and broadcasted to all members of the channel.
+ * 
+ * @param server Pointer to the server object.
+ * @param client_fd File descriptor of the client.
+ * @param cmd_infos Structure containing command information.
+ */
 void	topic(Server *server, int const client_fd, s_cmd cmd_infos){
 	std::string channel_name;
 	std::string	topic;
@@ -93,7 +149,5 @@ void	topic(Server *server, int const client_fd, s_cmd cmd_infos){
 			channel->second.setTopic(topic);
 			broadcastToChannel(server, channel->second, client, channel_name, topic);
 		}
-		
 	}
-
 }

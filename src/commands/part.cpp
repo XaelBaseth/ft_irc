@@ -1,9 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   part.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 15:34:30 by acharlot          #+#    #+#             */
+/*   Updated: 2024/02/19 15:34:31 by acharlot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../lib/ircserv.hpp"
 
 /**
  * *Prototype for the command 	=> `/part #channel :Reason`
 */
 
+/**
+ * @brief Checks if a string contains at least one alphabetic character.
+ * 
+ * This function iterates through the characters of the string and checks if
+ * any of them is alphabetic using the isalpha function from the C standard library.
+ * If at least one alphabetic character is found, it returns true, otherwise it returns false.
+ * 
+ * @param str The string to check.
+ * @return true if the string contains at least one alphabetic character, false otherwise.
+ */
 static bool			containsAtLeastOneAlphaChar(std::string str)
 {
 	for (size_t i = 0; i < str.size(); i++){
@@ -13,6 +35,21 @@ static bool			containsAtLeastOneAlphaChar(std::string str)
 	return (false);
 }
 
+/**
+ * @brief Handles the PART command for leaving one or more channels.
+ * 
+ * This function parses the message to extract the channel name(s) and reason.
+ * If no channel name is provided, an error message is sent to the client.
+ * For each channel name provided, it checks if the client is in the channel.
+ * If the channel does not exist, an error message is sent. If the client is not
+ * in the channel, another error message is sent. Otherwise, the client is removed
+ * from the channel, a part message is sent to the client, and the part message
+ * is broadcasted to all members of the channel.
+ * 
+ * @param server Pointer to the server object.
+ * @param client_fd File descriptor of the client.
+ * @param cmd_infos Structure containing command information.
+ */
 void				part(Server *server, int const client_fd, s_cmd cmd_infos){
 	Client		client		= retrieveClient(server, client_fd);
 	std::string nick		= client.getNickname();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircserv.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:39 by axel              #+#    #+#             */
-/*   Updated: 2024/02/17 10:53:42 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/19 15:33:45 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	signal_handler(int signal){
 
 /**
  * Main functions for the ircserv program.
- * TODO: Handles the IRC implementations.
 */
 int	main(int argc, char **argv) {
 	if (argc != 3){

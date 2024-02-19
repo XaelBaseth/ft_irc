@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   kill.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 15:36:29 by acharlot          #+#    #+#             */
+/*   Updated: 2024/02/19 15:36:30 by acharlot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../lib/ircserv.hpp"
 
 /**
@@ -34,7 +46,7 @@ static void	removeFromServer(Server *server, std::string killed_user){
  * @param reply The quit message to broadcast.
  */
 static void	broadcastQuit(Server *server, std::string reply){
-    std::map<const int, Client>&		client_list = server->getClients();
+	std::map<const int, Client>&		client_list = server->getClients();
 	std::map<const int, Client>::iterator it_client;
 	
 	for (it_client = client_list.begin(); it_client != client_list.end(); it_client++)
