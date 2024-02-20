@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:07 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:34:08 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:34:16 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * *Prototype for the command 		=> `/msg nickname : 'msg' for an user.'
- * *								=> `/msg #channel : 'msg' for an user.'
+ * *								=> `/msg #channel : 'msg' for a channel.'
 */
 
 /**

@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:33:16 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:33:16 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:24:17 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,20 +135,15 @@ void	Server::parseMsg(int const client_fd, std::string message){
 
 	splitMsg(cmds, message);
 
-	for (size_t i = 0; i != cmds.size(); i++)
-	{
-		if (it->second.isRegistrationDone() == false)
-		{
-			if (it->second.hasAllInfo() == false)
-			{
+	for (size_t i = 0; i != cmds.size(); i++){
+		if (it->second.isRegistrationDone() == false){
+			if (it->second.hasAllInfo() == false){
 				fillClients(_clients, client_fd, cmds[i]);
 				if (it->second.getNbInfo() == 3)
 					it->second.hasAllInfo() = true;
 			}
-			if (it->second.hasAllInfo() == true && it->second.isWelcomeSent() == false)
-			{
-				if (it->second.isValid() == SUCCESS)
-				{
+			if (it->second.hasAllInfo() == true && it->second.isWelcomeSent() == false){
+				if (it->second.isValid() == SUCCESS){
 					sendClientRegistration(this, client_fd, it);
 					it->second.isWelcomeSent() = true;
 					it->second.isRegistrationDone() = true;

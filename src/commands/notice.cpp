@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:36 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:34:37 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:25:13 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ std::string target, std::string msg_to_send){
 	}
 	std::map<std::string, Client>::iterator member = it_channel->second.getClientList().begin();
 	while (member != it_channel->second.getClientList().end()){
-		addToClientBuffer(server, member->second.getClientFd(), RPL_NOTICE(it_client->second.getNickname(), it_client->second.getUsername(), target, msg_to_send));
-	member++;
+		if (member->second.getClientFd() != client_fd)
+			addToClientBuffer(server, member->second.getClientFd(), RPL_NOTICE(it_client->second.getNickname(), it_client->second.getUsername(), target, msg_to_send));
+		member++;
 	}
 }
 

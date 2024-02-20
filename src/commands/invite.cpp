@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:47 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:36:47 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:44:11 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ void	invite(Server *server, int const client_fd, s_cmd cmd_infos){
 		addToClientBuffer(server, client_fd, ERR_USERONCHANNEL(client_nickname, invited_client, channel_name));
 		return ;
 	}
-	addToClientBuffer(server, client_fd, \
+	addToClientBuffer(server, client_fd,
 		RPL_INVITING(user_id(client_nickname, client.getUsername()), client_nickname, invited_client, channel_name));
 	std::map<const int, Client>&			clients = server->getClients();
 	std::map<const int, Client>::iterator	it;
 
 	for (it = clients.begin(); it != clients.end(); it++){
 		if (it->second.getNickname() == invited_client){
-			addToClientBuffer(server, it->second.getClientFd(), \
+			addToClientBuffer(server, it->second.getClientFd(),
 				RPL_INVITE(user_id(client_nickname, client.getUsername()), it->second.getNickname(), channel_name));
 			break ;
 		}

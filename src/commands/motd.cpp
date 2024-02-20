@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:45 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:36:11 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:37:51 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ void	motd(Server *server, int const client_fd, s_cmd cmd_infos){
 		
 		buf = RPL_MOTDSTART(client, servername);
 		while (getline(data, motd_lines))
-		{
 			buf += RPL_MOTD(client, motd_lines);
-		}
 		buf += RPL_ENDOFMOTD(client);
 		addToClientBuffer(server, client_fd, buf);
 	}
