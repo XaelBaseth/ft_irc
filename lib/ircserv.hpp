@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircserv.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/02/16 14:55:11 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/20 15:17:46 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,24 @@
 * 							LIBRAIRIES							*
 *****************************************************************/
 
-# include <iostream>
-# include <exception>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
 # include <netdb.h>
-# include <csignal>
-# include <cerrno>
 # include <cstring>
-# include <poll.h>
+# include <cstdlib>
+# include <iostream>
 # include <vector>
 # include <map>
+# include <poll.h>
 # include <unistd.h>
+# include <sstream>
 # include <fstream>
+# include <csignal>
+# include <string>
+# include <cerrno>
+# include <ctime>
 
 # include "Colors.hpp"
 # include "Server.hpp"
