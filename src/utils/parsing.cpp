@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:33:16 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/21 13:58:58 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/21 14:09:20 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void Server::fillClients(std::map<const int, Client> &client_list, int client_fd
  */
 void	Server::execCommand(int const client_fd, std::string cmd_line){
 	std::string	validCmds[VALID_LEN] = {
-		"INVITE", "JOIN", "KICK", "KILL", "LIST", "MODE",
-		"MOTD", "NAMES", "NICK", "NOTICE", "OPER", "PART",
+		"INVITE", "JOIN", "KICK", "MODE",
+		"MOTD", "NAMES", "NICK", "OPER", "PART",
 		"PING", "PRIVMSG", "QUIT", "TOPIC", "USER"
 	};
 
@@ -99,20 +99,17 @@ void	Server::execCommand(int const client_fd, std::string cmd_line){
 		case 1: invite(this, client_fd, cmd_infos); break;
 		case 2: join(this, client_fd, cmd_infos); break;
 		case 3: kick(this, client_fd, cmd_infos); break;
-		case 4: kill(this, client_fd, cmd_infos); break; //!To delete
-		case 5: list(this, client_fd, cmd_infos); break; //!To delete
-		case 6: modeFunction(this, client_fd, cmd_infos); break;
-		case 7: motd(this, client_fd, cmd_infos); break;
-		case 8: names(this, client_fd, cmd_infos); break;
-		case 9: nick(this, client_fd, cmd_infos); break; 
-    	case 10: notice(this, client_fd, cmd_infos); break; //!To delete
-		case 11: oper(this, client_fd, cmd_infos); break;
-		case 12: part(this, client_fd, cmd_infos); break;
-		case 13: ping(this, client_fd, cmd_infos); break;
-		case 14: privmsg(this, client_fd, cmd_infos); break;
-		case 15: quit(this, client_fd, cmd_infos); break;
-		case 16: topic(this, client_fd, cmd_infos); break;
-		case 17: user(this, client_fd, cmd_infos); break;
+		case 4: modeFunction(this, client_fd, cmd_infos); break;
+		case 5: motd(this, client_fd, cmd_infos); break;
+		case 6: names(this, client_fd, cmd_infos); break;
+		case 7: nick(this, client_fd, cmd_infos); break; 
+		case 8: oper(this, client_fd, cmd_infos); break;
+		case 9: part(this, client_fd, cmd_infos); break;
+		case 10: ping(this, client_fd, cmd_infos); break;
+		case 11: privmsg(this, client_fd, cmd_infos); break;
+		case 12: quit(this, client_fd, cmd_infos); break;
+		case 13: topic(this, client_fd, cmd_infos); break;
+		case 14: user(this, client_fd, cmd_infos); break;
 		default:
 			addToClientBuffer(this, client_fd, ERR_UNKNOWNCOMMAND(client->getNickname(), cmd_infos.name));
 	}

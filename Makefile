@@ -6,7 +6,7 @@
 #    By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/02/20 16:01:33 by acharlot         ###   ########.fr        #
+#    Updated: 2024/02/21 14:08:43 by acharlot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ UTIL_FILES	=	Colors manageServerUtils utils parsing commandUtils
 CLAS_DIR	=	class/
 CLAS_FILES	=	Server Client Channel
 COMM_DIR	=	commands/
-COMM_FILES	=	bot invite join kick kill list mode motd names nick notice \
+COMM_FILES	=	bot invite join kick mode motd names nick \
 				oper part pass ping privmsg quit topic user
 MODE_DIR	=	channel_modes/
 MODE_FILES	=	key limit operator topic
