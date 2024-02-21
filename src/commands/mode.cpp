@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:20 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:36:21 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:00:18 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,24 +83,14 @@ static void	changeChannelMode(Server *server,s_mode mode_infos, int const client
 		datas[1] = mode_infos.target;
 		datas[2] = str;
 		datas[3] = mode_infos.params;
-		if (str.find("b") != std::string::npos)
-			banChannelMode(server, datas, client_fd);
 		if (str.find("k") != std::string::npos)
 			keyChannelMode(server, mode_infos, client_fd, str);
 		if (str.find("l") != std::string::npos)
 			limitChannelMode(server, datas, client_fd);
-		if (str.find("m") != std::string::npos)
-			moderateChannelMode(server, mode_infos, client_fd, str);
 		if (str.find("o") != std::string::npos)
 			operatorChannelMode(server, mode_infos, client_fd, str);
-		if (str.find("p") != std::string::npos)
-			privateChannelMode(server, mode_infos, client_fd, str);
-		if (str.find("s") != std::string::npos)
-			secretChannelMode(server, mode_infos, client_fd, str);
 		if (str.find("t") != std::string::npos)
 			topicChannelMode(server, mode_infos, client_fd, str);
-		if (str.find("v") != std::string::npos)
-			voiceChannelMode(server, mode_infos, client_fd, str);
 	}
 }
 
