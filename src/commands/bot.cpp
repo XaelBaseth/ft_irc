@@ -6,14 +6,14 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:49 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:36:50 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:59:40 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../lib/ircserv.hpp"
 
 /**
- * *Prototype for the command => `/invite nickname #channel`
+ * *Prototype for the command => `/msg raultbot: command`
 */
 
 static void	botRandom(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot)

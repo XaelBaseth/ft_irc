@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:33:16 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/20 13:24:17 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:58:58 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ void	Server::execCommand(int const client_fd, std::string cmd_line){
 		case 1: invite(this, client_fd, cmd_infos); break;
 		case 2: join(this, client_fd, cmd_infos); break;
 		case 3: kick(this, client_fd, cmd_infos); break;
-		case 4: kill(this, client_fd, cmd_infos); break;
-		case 5: list(this, client_fd, cmd_infos); break;
+		case 4: kill(this, client_fd, cmd_infos); break; //!To delete
+		case 5: list(this, client_fd, cmd_infos); break; //!To delete
 		case 6: modeFunction(this, client_fd, cmd_infos); break;
 		case 7: motd(this, client_fd, cmd_infos); break;
 		case 8: names(this, client_fd, cmd_infos); break;
-		case 9: nick(this, client_fd, cmd_infos); break;
-    	case 10: notice(this, client_fd, cmd_infos); break;
+		case 9: nick(this, client_fd, cmd_infos); break; 
+    	case 10: notice(this, client_fd, cmd_infos); break; //!To delete
 		case 11: oper(this, client_fd, cmd_infos); break;
 		case 12: part(this, client_fd, cmd_infos); break;
 		case 13: ping(this, client_fd, cmd_infos); break;

@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:32 by axel              #+#    #+#             */
-/*   Updated: 2024/02/21 11:42:07 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:27:48 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ int	Server::launchServer(void){
 		std::cerr << ToColor("[Error] impossible to reuse: " + std::string(strerror(errno)), Colors::Red) << std::endl;
 		return (FAILURE);
 	}
-
 
 	if (bind(_server_socket_fd, _servinfo->ai_addr, _servinfo->ai_addrlen) == FAILURE) {
 		std::cerr << ToColor("[Error] impossible to bind: " + std::string(strerror(errno)), Colors::Red)  << std::endl;
