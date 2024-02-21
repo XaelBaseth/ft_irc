@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/02/21 11:25:51 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:22:43 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 # define BREAK 2
 # define CONTINUE 3
 # define BACKLOG 10
-# define MAX_CLIENT 4
+# define MAX_CLIENT 12
 # define MSG_SIZE 4096
 
 extern bool	server_shutdown;
