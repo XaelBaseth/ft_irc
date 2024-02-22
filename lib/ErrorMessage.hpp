@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:10 by axel              #+#    #+#             */
-/*   Updated: 2024/02/22 14:15:23 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:23:52 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@
 # define ERR_USERNOTINCHANNEL(client, nickname, channel) (client + " " + nickname + " #" + channel + " :They aren't on that channel\r\n")
 # define RPL_KICK(user_id, channel, kicked, reason) (user_id + " KICK #" + channel + " " + kicked + " " + reason + "\r\n")
 
-// KILL
-# define ERR_NOPRIVILEGES(client) ("481 " + client + " :Permission Denied- You're not an IRC operator\r\n")
-# define RPL_KILL(user_id, killed, comment) (user_id + " KILL " + killed + " " + comment + "\r\n")
-
 // MODE
 /* user mode */
 #define MODE_USERMSG(client, mode) (":" + client + " MODE " + client + " :" + mode + "\r\n")
@@ -64,25 +60,22 @@
 #define RPL_ADDVOICE(nickname, username, channel, mode, param) (":" + nickname + "!" + username + "@localhost MODE #" + channel + " " + mode + " " + param + "\r\n")
 
 // MOTD
-#define ERR_NOSUCHSERVER(client, servername) (client + " " + servername + " :No such server\r\n")
-#define ERR_NOMOTD(client) (client + " :MOTD File is missing\r\n")
-#define RPL_MOTDSTART(client, servername) (client + " :- " + servername + " Message of the day - \r\n")
-#define RPL_MOTD(client, motd_line) (client + " :" + motd_line + "\r\n")
-#define RPL_ENDOFMOTD(client) (client + " :End of /MOTD command.\r\n")
+#define ERR_NOSUCHSERVER(client, servername) (":localhost 402 " + client + " " + servername + " :No such server\r\n")
+#define ERR_NOMOTD(client) (":localhost 422 " + client + " :MOTD File is missing\r\n")
+#define RPL_MOTDSTART(client, servername) (":localhost 375 " + client + " :- " + servername + " Message of the day - \r\n")
+#define RPL_MOTD(client, motd_line) (":localhost 372 " + client + " :" + motd_line + "\r\n")
+#define RPL_ENDOFMOTD(client) (":localhost 376 " + client + " :End of /MOTD command.\r\n")
 
 
 // NAMES
-# define RPL_NAMREPLY(client, symbol, channel, list_of_nicks) (client + " " + symbol + " #" + channel + " :" + list_of_nicks + "\r\n")
-# define RPL_ENDOFNAMES(client, channel) (client + " #" + channel + " :End of /NAMES list.\r\n")
+# define RPL_NAMREPLY(client, symbol, channel, list_of_nicks) (":localhost 353 " + client + " " + symbol + " #" + channel + " :" + list_of_nicks + "\r\n")
+# define RPL_ENDOFNAMES(client, channel) (":localhost 366 " + client + " #" + channel + " :End of /NAMES list.\r\n")
 
 // NICK
-# define ERR_NONICKNAMEGIVEN(client) (client + " :There is no nickname.\r\n")
+# define ERR_NONICKNAMEGIVEN(client) (":localhost 431 " + client + " :There is no nickname.\r\n")
 # define ERR_ERRONEUSNICKNAME(client, nickname) (":localhost 432 " + client + " " + nickname + " :Erroneus nickname\r\n")
 # define ERR_NICKNAMEINUSE(client, nickname) (":localhost 433 " + client + " " + nickname + " :Nickname is already in use.\r\n")
 # define RPL_NICK(oclient, uclient, client) (":" + oclient + "!" + uclient + "@localhost NICK " +  client + "\r\n")
-
-// NOTICE
-# define RPL_NOTICE(nick, username, target, message) (":" + nick + "!" + username + "@localhost NOTICE " + target + " " + message + "\r\n")
 
 // OPER
 # define ERR_NOOPERHOST(client) (client + " :No O-lines for your host\r\n")
