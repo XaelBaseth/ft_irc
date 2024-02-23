@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:07 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/20 14:08:10 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 21:49:04 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,6 @@ std::map<std::string, Channel>::iterator it_channel, std::string target, std::st
 		{
 			std::cout << ToColor("[Server] ", Colors::Red) << it_client->second.getNickname() 
 			<< ToColor(" is kicked from the channel and can't send messages anymore", Colors::Red) << std::endl;
-			return ;
-		}
-	}
-	if (it_channel->second.getMode().find("m") != std::string::npos){
-		if (it_channel->second.isOperator(it_client->second.getNickname()) == false &&
-		it_channel->second.isVoiced(it_client->second.getNickname()) == false){
-			addToClientBuffer(server, client_fd, ERR_CANNOTSENDTOCHAN(it_client->second.getNickname(), it_channel->second.getName()));
 			return ;
 		}
 	}

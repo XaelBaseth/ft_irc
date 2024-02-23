@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:00 by axel              #+#    #+#             */
-/*   Updated: 2024/02/23 14:47:48 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 21:48:38 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class Channel
 		std::string						_mode;
 		std::string						_channel_password;
 		int								_capacity_limit;
-		std::list<std::string>			_list_invited;
+		std::vector<std::string>		_list_invited;
 	
 	public:
 		Channel(std::string const &Name);
@@ -59,29 +59,24 @@ class Channel
 		std::vector<std::string>		&getKickedUsers();
 		std::vector<std::string>		&getVoicedUsers();
 		std::vector<std::string>		&getOperators();
-		std::list<std::string>			&getListInvited();
+		std::vector<std::string>		&getListInvited();
 		void							setTopic(std::string &newTopic);
 		void							setChannelPassword(std::string password);
 		void							removeChannelPassword();
 		void							setCapacityLimit(int limit);
-		void							setInviteOnly(std::list<std::string> list_invited);
 
 		bool							doesClientExist(std::string &clientName);
 		void							removeClientFromChannel(std::string &clientName);
 		void							addClientToChannel(Client &client);
 		void							addToKicked(std::string &kicked_name);
-		void							addToBanned(std::string &banned_name);
-		void							removeFromBanned(std::string &banned_name);
-		bool							isBanned(std::string &banned_name);
-		void							addToVoiced(std::string &voiced_name);
-		void							removeFromVoiced(std::string &voiced_name);
-		bool							isVoiced(std::string &voiced_name);
 		void							addFirstOperator(std::string operatorName);
 		void							removeOperator(std::string operatorName);
 		bool							isOperator(std::string &operatorName);
 		void							addMode(std::string const mode);
 		void							removeMode(std::string const mode);
 		void							addInvitedUser(const std::string& nickname);
+		void 							removeFromInvitedUser(const std::string &nickname);
+		bool							isInvited(std::string &nickname);
 };
 
 

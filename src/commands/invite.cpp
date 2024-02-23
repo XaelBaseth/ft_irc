@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:47 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/23 16:06:22 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 22:12:44 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	invite(Server *server, int const client_fd, s_cmd cmd_infos){
 	std::string	client_nickname	= client.getNickname();
 	std::string channel_name 	= findChannel(cmd_infos.message);
 	std::string invited_client	= findNickname(cmd_infos.message);
-
+	
 	if (client_nickname.empty() || channel_name.empty()){
 		addToClientBuffer(server, client_fd, ERR_NEEDMOREPARAMS(client_nickname, cmd_infos.name));
 		return ;
@@ -98,9 +98,8 @@ void	invite(Server *server, int const client_fd, s_cmd cmd_infos){
 		return ;
 	}
 	
-	if (channel->second.getMode().find("i")){
-		channel->second.addInvitedUser(invited_client);
-	}
+	channel->second.addInvitedUser(invited_client);
+
 	addToClientBuffer(server, client_fd,
 		RPL_INVITING(user_id(client_nickname, client.getUsername()), client_nickname, invited_client, channel_name));
 

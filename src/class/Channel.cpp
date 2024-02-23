@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/02/23 18:31:26 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/23 22:27:54 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 Channel::Channel(std::string const &Name)
 : _name(Name), _capacity_limit(-1){
-	_banned_users.clear();
 	_clientList.clear();
 	_list_invited.clear();
 	_topic.clear();
@@ -42,7 +41,7 @@ std::vector<std::string>		&Channel::getBannedUsers(){ return (_banned_users);}
 std::vector<std::string>		&Channel::getKickedUsers(){ return (_kicked_users);}
 std::vector<std::string>		&Channel::getVoicedUsers(){ return (_voiced_users);}
 std::vector<std::string>		&Channel::getOperators(){ return (_operators);}
-std::list<std::string>			&Channel::getListInvited(){return (_list_invited);}
+std::vector<std::string>		&Channel::getListInvited(){return (_list_invited);}
 
 void	Channel::setTopic(std::string &newTopic){
 	_topic = newTopic;
@@ -52,9 +51,6 @@ void	Channel::setChannelPassword(std::string password){
 	_channel_password = password;
 }
 
-void	Channel::setInviteOnly(std::list<std::string> list_invited){
-	_list_invited = list_invited;
-}
 
 void	Channel::setCapacityLimit(int limit){
 	_capacity_limit = limit;
@@ -134,155 +130,6 @@ void	Channel::addToKicked(std::string &kicked_name){
 	std::cout << ToColor("[Channel]", Colors::Red) << kicked_name 
 				<< ToColor(" is now kicked from channel ", Colors::Red) 
 				<< getName() << std::endl;
-}
-
-/**
- * @brief Adds a user to the list of banned users in the channel.
- * 
- * This function checks if the specified user is already in the list of banned users.
- * If not, it adds the user to the list and prints a message indicating the action.
- * 
- * @param banned_name The name of the user to be banned.
- */
-void	Channel::addToBanned(std::string &banned_name) {
-	std::vector<std::string>::iterator	it;
-	for (it = _banned_users.begin(); it != _banned_users.end(); it++){
-		if (*it == banned_name){
-			std::cout << ToColor("[Channel]", Colors::Red) << banned_name 
-				<< ToColor(" is already kicked from channel ", Colors::Red) 
-				<< getName() << std::endl;
-			return ;
-		}
-		_banned_users.push_back(banned_name);
-		std::cout << ToColor("[Channel]", Colors::Red) << banned_name 
-				<< ToColor(" is now kicked from channel ", Colors::Red)
-				<< getName() << std::endl;
-	}
-}
-
-/**
- * @brief Removes a user from the list of banned users in the channel.
- * 
- * This function searches for the specified user in the list of banned users.
- * If found, it removes the user from the list and prints a message indicating
- * the action. If the user is not found, it prints a message indicating that
- * the user has never been banned from the channel.
- * 
- * @param banned_name The name of the user to be removed from the banned list.
- */
-void	Channel::removeFromBanned(std::string &banned_name){
-	std::vector<std::string>::iterator	user;
-	for (user = _banned_users.begin(); user != _banned_users.end(); user++) {
-		if (*user == banned_name) {
-			_banned_users.erase(user);
-			std::cout << ToColor("[Channel]", Colors::Red) << banned_name 
-				<< ToColor(" is not banned anymore from channel ", Colors::Red) 
-				<< getName() << std::endl;
-			return ;
-		}
-	}
-	std::cout << ToColor("[Channel]", Colors::Red) << banned_name 
-				<< ToColor(" has never been banned from channel ", Colors::Red)
-				<< getName() << std::endl;
-}
-
-/**
- * @brief Checks if a user is banned from the channel.
- * 
- * This function iterates through the list of banned users in the channel.
- * If the specified user is found in the list, it returns true indicating
- * that the user is banned. If the list is empty or if the user is not found,
- * it returns false indicating that the user is not banned.
- * 
- * @param banned_name The name of the user to check for banned status.
- * @return bool Returns true if the user is banned, otherwise false.
- */
-bool	Channel::isBanned(std::string &banned_name){
-	std::vector<std::string>::iterator	user;
-	if (_banned_users.empty() == true)
-		return (false);
-	for (user = _banned_users.begin(); user != _banned_users.end(); user++) {
-		if (*user == banned_name)
-			return (true);
-	}
-	return (false);
-}
-
-/**
- * @brief Adds a user to the list of voiced users in the channel.
- * 
- * This function checks if the specified user is already in the list of voiced users.
- * If not, it adds the user to the list and prints a message indicating the action.
- * 
- * @param voiced_name The name of the user to be voiced.
- */
-void	Channel::addToVoiced(std::string &voiced_name){
-	std::vector<std::string>::iterator	it;
-	for (it = _voiced_users.begin(); it != _voiced_users.end(); it++){
-		if (*it == voiced_name){
-			std::cout << ToColor("[Channel]", Colors::Red) << voiced_name 
-				<< ToColor(" is already voiced from channel ", Colors::Red) 
-				<< getName() << std::endl;
-			return ;
-		}
-	}
-	_voiced_users.push_back(voiced_name);
-	std::cout << ToColor("[Channel]", Colors::Red) << voiced_name 
-				<< ToColor(" is now voiced from channel ", Colors::Red)
-				<< getName() << std::endl;
-}
-
-/**
- * @brief Removes a user from the list of voiced users in the channel.
- * 
- * This function searches for the specified user in the list of voiced users.
- * If found, it removes the user from the list and prints a message indicating
- * the action. If the user is not found, it prints a message indicating that
- * the user has never been voiced in the channel.
- * 
- * @param voiced_name The name of the user to be removed from the voiced list.
- */
-void	Channel::removeFromVoiced(std::string &voiced_name)
-{
-	std::vector<std::string>::iterator user;
-	for (user = _voiced_users.begin(); user != _voiced_users.end(); user++)
-	{
-		if (*user == voiced_name)
-		{
-			_voiced_users.erase(user);
-			std::cout << ToColor("[Channel]", Colors::Red) << voiced_name 
-				<< ToColor(" is not voiced from channel ", Colors::Red) 
-				<< getName() << std::endl;
-			return ;
-		}
-	}
-	std::cout << ToColor("[Channel]", Colors::Red) << voiced_name 
-				<< ToColor(" has never been voiced from channel ", Colors::Red)
-				<< getName() << std::endl;
-}
-
-/**
- * @brief Checks if a user is voiced in the channel.
- * 
- * This function iterates through the list of voiced users in the channel.
- * If the specified user is found in the list, it returns true indicating
- * that the user is voiced. If the list is empty or if the user is not found,
- * it returns false indicating that the user is not voiced.
- * 
- * @param voiced_name The name of the user to check for voiced status.
- * @return bool Returns true if the user is voiced, otherwise false.
- */
-bool	Channel::isVoiced(std::string &voiced_name)
-{
-	std::vector<std::string>::iterator user;
-	if (_voiced_users.empty() == true) 
-		return (false);
-	for (user = _voiced_users.begin(); user != _voiced_users.end(); user++)
-	{
-		if (*user == voiced_name)
-			return (true);
-	}
-	return (false);	
 }
 
 /**
@@ -383,6 +230,29 @@ void	Channel::removeChannelPassword(){
  * @param nickname The nickname of the user to be invited.
  * 
 */
-void Channel::addInvitedUser(const std::string& nickname) {
-		_list_invited.push_back(nickname);
+void Channel::addInvitedUser(const std::string &nickname){
+	std::vector<std::string>::iterator	it;
+	for (it = _list_invited.begin(); it != _list_invited.end(); it++){
+		if (*it == nickname){
+			std::cout << ToColor("[Channel] ", Colors::Red) << nickname 
+				<< ToColor(" is already invited on the channel ", Colors::Red) 
+				<< getName() << std::endl;
+			return ;
+		}
+	}	
+	_list_invited.push_back(nickname);
+	std::cout << ToColor("[Channel] ", Colors::Red) << nickname 
+			<< ToColor(" is now invited on the channel ", Colors::Red)
+			<< getName() << std::endl;
+}
+
+bool Channel::isInvited(std::string &nickname){
+	std::vector<std::string>::iterator	it;
+	if (_list_invited.empty() == true)
+		return (false);
+	for (it = _list_invited.begin(); it != _list_invited.end(); it++){
+		if (*it == nickname)
+			return (true);
+	}
+	return (false);
 }

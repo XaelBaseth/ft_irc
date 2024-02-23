@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:44 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/23 19:34:54 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/23 22:44:50 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,16 +182,9 @@ void	join(Server *server, int const client_fd, s_cmd cmd_infos){
 			addToClientBuffer(server, client_fd, ERR_CHANNELISFULL(client_nickname, channel_name));
 			continue ;
 		}
-
-		else if (it_chan->second.getMode().find("i") != std::string::npos){
-			std::list<std::string> invitedUsers = it_chan->second.getListInvited();
-			if (std::find(invitedUsers.begin(), invitedUsers.end(), client_nickname) == invitedUsers.end()){
+		if (it_chan->second.getMode().find('i') != std::string::npos){
+			if (it_chan->second.isInvited(client_nickname) == false){
 				addToClientBuffer(server, client_fd, ERR_NOTINVITED(client_nickname, channel_name));
-				continue ;
-			}
-			else {
-				addClientToChannel(server, channel_name, client);
-				sendChanInfos(server, it_chan->second, channel_name, client);
 			}
 		}
 		
