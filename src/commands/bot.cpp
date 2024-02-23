@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:49 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/21 13:59:40 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:36:06 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	botRandom(Server *server, int const client_fd, std::map<const int, C
 
 void	bot(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot_cmd){
 	std::string bot = "raultbot";
-	std::string	validCmds[4] = {
+	std::string	validCmds[2] = {
 		":HELP",
 		":RANDOM",
 		};
@@ -49,7 +49,7 @@ void	bot(Server *server, int const client_fd, std::map<const int, Client>::itera
 		bot_cmd[i] = std::toupper(bot_cmd[i]);
 	
 	int index = 0;
-	while (index < 4)
+	while (index < 2)
 	{
 		if (bot_cmd == validCmds[index])
 			break;

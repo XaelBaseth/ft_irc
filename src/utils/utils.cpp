@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:52 by axel              #+#    #+#             */
-/*   Updated: 2024/02/20 13:09:38 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:05:21 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	addToClientBuffer(Server *server, int const client_fd, std::string reply){
  * @return Client& A reference to the client object associated with the client file descriptor.
  */
 Client &retrieveClient(Server *server, int const client_fd){
-	std::map<const int, Client>&	client_list = server->getClients();
+	std::map<const int, Client>&			client_list = server->getClients();
 	std::map<const int, Client>::iterator	it_client = client_list.find(client_fd);
 
 	Client	&client = it_client->second;

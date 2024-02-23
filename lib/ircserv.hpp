@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/02/21 12:22:43 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 11:46:36 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <iostream>
 # include <vector>
 # include <map>
+# include <list>
 # include <poll.h>
 # include <unistd.h>
 # include <sstream>
@@ -35,6 +36,7 @@
 # include <string>
 # include <cerrno>
 # include <ctime>
+# include <algorithm>
 
 # include "Colors.hpp"
 # include "Server.hpp"
@@ -78,6 +80,7 @@ std::string	getReason(std::string msg_to_parse);
 void		broadcastToAllChannelMembers(Server *server, Channel &channel, std::string reply);
 
 //MODE
+void	inviteOnlyMode(Server *server, std::string datas[4], int const client_fd);
 void	keyChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string mode_str);
 void	limitChannelMode(Server *server, std::string datas[4], int const client_fd);
 void	operatorChannelMode(Server *server, s_mode mode_infos, int const client_fd, std::string str);

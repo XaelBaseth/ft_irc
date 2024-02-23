@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/02/17 11:11:57 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/23 16:15:50 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Channel::Channel(std::string const &Name)
 : _name(Name), _capacity_limit(-1){
 	_banned_users.clear();
 	_clientList.clear();
+	_list_invited.clear();
 	_topic.clear();
 }
 
@@ -41,6 +42,7 @@ std::vector<std::string>		&Channel::getBannedUsers(){ return (_banned_users);}
 std::vector<std::string>		&Channel::getKickedUsers(){ return (_kicked_users);}
 std::vector<std::string>		&Channel::getVoicedUsers(){ return (_voiced_users);}
 std::vector<std::string>		&Channel::getOperators(){ return (_operators);}
+std::list<std::string>			&Channel::getListInvited(){return (_list_invited);}
 
 void	Channel::setTopic(std::string &newTopic){
 	_topic = newTopic;
@@ -48,6 +50,10 @@ void	Channel::setTopic(std::string &newTopic){
 
 void	Channel::setChannelPassword(std::string password){
 	_channel_password = password;
+}
+
+void	Channel::setInviteOnly(std::list<std::string> list_invited){
+	_list_invited = list_invited;
 }
 
 void	Channel::setCapacityLimit(int limit){
@@ -367,4 +373,16 @@ void	Channel::removeMode(std::string const mode){
  */
 void	Channel::removeChannelPassword(){
 	_channel_password.clear();
+}
+
+/**
+ * @brief Add the user to the invite list.
+ * 
+ * This function adds the user to an invite list.
+ * 
+ * @param nickname The nickname of the user to be invited.
+ * 
+*/
+void Channel::addInvitedUser(const std::string& nickname) {
+		_list_invited.push_back(nickname);
 }

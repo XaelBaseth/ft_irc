@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:10 by axel              #+#    #+#             */
-/*   Updated: 2024/02/22 14:23:52 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 11:45:50 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
 # define ERR_BANNEDFROMCHAN(client, channel) (client + " #" + channel + " :Cannot join channel (+b)\r\n")
 # define ERR_BADCHANNELKEY(client, channel) (client + " #" + channel + " :Cannot join channel (+k)\r\n")
+# define ERR_NOTINVITED(client, channel) (client + " #" + channel + ": Cannot join channel (+i)\r\n")
 
 // KICK
 # define ERR_USERNOTINCHANNEL(client, nickname, channel) (client + " " + nickname + " #" + channel + " :They aren't on that channel\r\n")

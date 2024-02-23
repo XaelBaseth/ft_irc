@@ -6,7 +6,7 @@
 #    By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/02/22 13:50:03 by acharlot         ###   ########.fr        #
+#    Updated: 2024/02/23 10:41:23 by acharlot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ COMM_DIR	=	commands/
 COMM_FILES	=	bot invite join kick mode motd names nick \
 				oper part pass ping privmsg quit topic user
 MODE_DIR	=	channel_modes/
-MODE_FILES	=	key limit operator topic
+MODE_FILES	=	inviteOnly key limit operator topic
 
 SRC_MAI_FILE=	$(addprefix $(MAIN_DIR), $(MAIN_FILES))
 SRC_UTI_FILE=	$(addprefix $(UTIL_DIR), $(UTIL_FILES))

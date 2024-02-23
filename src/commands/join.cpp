@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:44 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:36:44 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:23:32 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,8 @@ void	join(Server *server, int const client_fd, s_cmd cmd_infos){
 
 		std::map<std::string, Channel>&				channels = server->getChannels();
 		std::map<std::string, Channel>::iterator	it = channels.find(channel_name);
-		if (it == channels.end()){
+		if (it == channels.end())
 			addChannel(server, channel_name);
-		}
 		else if (it->second.getMode().find('k') != std::string::npos){
 			std::string	key = retrieveKey(cmd_infos.message);
 			cmd_infos.message.erase(cmd_infos.message.find(key), key.length());
@@ -183,8 +182,19 @@ void	join(Server *server, int const client_fd, s_cmd cmd_infos){
 			addToClientBuffer(server, client_fd, ERR_CHANNELISFULL(client_nickname, channel_name));
 			continue ;
 		}
-		if (it_chan->second.getMode().find("b") != std::string::npos && it_chan->second.isBanned(client_nickname) == true)
-			addToClientBuffer(server, client_fd, ERR_BANNEDFROMCHAN(client_nickname, channel_name));
+
+		else if (it_chan->second.getMode().find("i") != std::string::npos){
+			std::list<std::string> invitedUsers = it_chan->second.getListInvited();
+			if (std::find(invitedUsers.begin(), invitedUsers.end(), client_nickname) == invitedUsers.end()){
+				addToClientBuffer(server, client_fd, ERR_NOTINVITED(client_nickname, channel_name));
+				continue ;
+			}
+			else {
+				addClientToChannel(server, channel_name, client);
+				sendChanInfos(server, it_chan->second, channel_name, client);
+			}
+		}
+		
 		else{
 			addClientToChannel(server, channel_name, client);
 			if (it_chan->second.getOperators().empty())

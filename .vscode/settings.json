@@ -52,6 +52,7 @@
 		"csignal": "cpp",
 		"cstring": "cpp",
 		"map": "cpp",
-		"numbers": "cpp"
+		"numbers": "cpp",
+		"list": "cpp"
 	}
 }

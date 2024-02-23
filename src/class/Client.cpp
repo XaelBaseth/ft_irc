@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:28 by axel              #+#    #+#             */
-/*   Updated: 2024/02/17 11:03:29 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/22 14:33:12 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 Client::Client(int client_fd)
 : _client_fd(client_fd), _to_deconnect(false), _connexion_password(false),
   _registrationDone(false), _welcomeSent(false), _hasAllInfo(false), _nbInfo(0){
-	/*std::cout << ToColor("Client constructor for Client #", Colors::Yellow)
-		<< client_fd << std::endl;
-	*/
 }
 
 Client::~Client(void){

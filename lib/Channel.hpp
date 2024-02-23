@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:00 by axel              #+#    #+#             */
-/*   Updated: 2024/02/16 14:54:35 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/23 14:47:48 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class Channel
 		std::string						_mode;
 		std::string						_channel_password;
 		int								_capacity_limit;
+		std::list<std::string>			_list_invited;
 	
 	public:
 		Channel(std::string const &Name);
@@ -58,10 +59,12 @@ class Channel
 		std::vector<std::string>		&getKickedUsers();
 		std::vector<std::string>		&getVoicedUsers();
 		std::vector<std::string>		&getOperators();
+		std::list<std::string>			&getListInvited();
 		void							setTopic(std::string &newTopic);
 		void							setChannelPassword(std::string password);
 		void							removeChannelPassword();
 		void							setCapacityLimit(int limit);
+		void							setInviteOnly(std::list<std::string> list_invited);
 
 		bool							doesClientExist(std::string &clientName);
 		void							removeClientFromChannel(std::string &clientName);
@@ -78,6 +81,7 @@ class Channel
 		bool							isOperator(std::string &operatorName);
 		void							addMode(std::string const mode);
 		void							removeMode(std::string const mode);
+		void							addInvitedUser(const std::string& nickname);
 };
 
 

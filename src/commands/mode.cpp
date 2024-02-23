@@ -6,7 +6,7 @@
 /*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:20 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/20 16:00:18 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:56:31 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static void	changeChannelMode(Server *server,s_mode mode_infos, int const client
 		datas[1] = mode_infos.target;
 		datas[2] = str;
 		datas[3] = mode_infos.params;
+		if (str.find("i") != std::string::npos)
+			inviteOnlyMode(server, datas, client_fd);
 		if (str.find("k") != std::string::npos)
 			keyChannelMode(server, mode_infos, client_fd, str);
 		if (str.find("l") != std::string::npos)
@@ -172,7 +174,7 @@ static void	modeForUser(Server *server, s_mode mode_infos, int const client_fd){
 	if (mode_infos.mode[0] == '+' || mode_infos.mode[0] == '-'){
 		std::string::iterator pos = mode_infos.mode.begin();
 		while (pos != mode_infos.mode.end()){
-			if (*pos == '+'){
+			if (*pos == '+'){ //+i indicates that the user needs to be on the channel for WHOIS
 				pos++;
 				while (*pos != '+' && *pos != '-' && pos != mode_infos.mode.end()){
 					if (*pos == 'i'){
