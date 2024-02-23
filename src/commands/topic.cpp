@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:01 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:34:01 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/23 18:32:06 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ std::string	findTopic(std::string msg_to_parse){
  * @param channel_name The name of the channel.
  * @param topic The new topic of the channel.
  */
-static void	broadcastToChannel(Server *server, Channel &channel, Client &client,
+static void	broadcastTopicToChannel(Server *server, Channel &channel, Client &client,
  std::string channel_name, std::string topic){
 	std::map<std::string, Client>::iterator member = channel.getClientList().begin();
 	std::string								client_nickname = client.getNickname();
@@ -132,6 +132,7 @@ void	topic(Server *server, int const client_fd, s_cmd cmd_infos){
 	}
 
 	topic = findTopic(cmd_infos.message);
+	std::cout << "[TOPIC] => " << topic << std::endl;
 	
 	if (topic.empty()){
 		if (channel->second.getTopic().empty() == false)
@@ -147,7 +148,7 @@ void	topic(Server *server, int const client_fd, s_cmd cmd_infos){
 			if (topic == ":")
 				topic.clear();
 			channel->second.setTopic(topic);
-			broadcastToChannel(server, channel->second, client, channel_name, topic);
+			broadcastTopicToChannel(server, channel->second, client, channel_name, topic);
 		}
 	}
 }
