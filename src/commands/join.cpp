@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:44 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/23 22:44:50 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/24 10:16:46 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,9 @@ void	join(Server *server, int const client_fd, s_cmd cmd_infos){
 			std::string	key = retrieveKey(cmd_infos.message);
 			cmd_infos.message.erase(cmd_infos.message.find(key), key.length());
 			if (key != it->second.getChannelPassword()){
+				std::cout << "IM IN (normal behavior)" << std::endl << std::endl;
+				std::cout << "server: " << server << std::endl << std::endl;
+				std::cout << "client_fd: " << client_fd << std::endl << std::endl;
 				addToClientBuffer(server, client_fd, ERR_BADCHANNELKEY(client_nickname, channel_name));
 				continue ;
 			}
@@ -185,6 +188,11 @@ void	join(Server *server, int const client_fd, s_cmd cmd_infos){
 		if (it_chan->second.getMode().find('i') != std::string::npos){
 			if (it_chan->second.isInvited(client_nickname) == false){
 				addToClientBuffer(server, client_fd, ERR_NOTINVITED(client_nickname, channel_name));
+				continue ;
+			}
+			else{
+				addClientToChannel(server, channel_name, client);
+				sendChanInfos(server, it_chan->second, channel_name, client);
 			}
 		}
 		

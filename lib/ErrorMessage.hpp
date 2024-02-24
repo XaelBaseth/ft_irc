@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:10 by axel              #+#    #+#             */
-/*   Updated: 2024/02/23 20:06:23 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/24 10:26:25 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ void	sendServerRpl(int const client_fd, std::string client_buffer);
 
 // JOIN
 # define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
-# define ERR_BANNEDFROMCHAN(client, channel) ("474 " + client + " #" + channel + " :Cannot join channel (+b)\r\n")
+# define ERR_NOTINVITED(client, channel) ("473 " + client + " #" + channel + " : Cannot join channel (+i)\r\n")
 # define ERR_BADCHANNELKEY(client, channel) ("475 " + client + " #" + channel + " :Cannot join channel (+k)\r\n")
-# define ERR_NOTINVITED(client, channel) ("473" + client + " #" + channel + " : Cannot join channel (+i)\r\n")
 
 // KICK
 # define ERR_USERNOTINCHANNEL(client, nickname, channel) ("441 " + client + " " + nickname + " #" + channel + " :They aren't on that channel\r\n")
@@ -110,11 +109,5 @@ void	sendServerRpl(int const client_fd, std::string client_buffer);
 
 // USER
 # define ERR_ALREADYREGISTERED(client) (":localhost 462 " + client + " :You may not reregister.\r\n")
-
-
-
-
-
-
 
 #endif

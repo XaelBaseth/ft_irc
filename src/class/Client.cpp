@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:28 by axel              #+#    #+#             */
-/*   Updated: 2024/02/22 14:33:12 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/24 10:37:11 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,83 +44,68 @@ bool&			Client::hasAllInfo() 			{ return (_hasAllInfo); }
 bool&			Client::getDeconnexionStatus()	{ return (_to_deconnect); }
 int				Client::getNbInfo() const 		{ return (_nbInfo); }
 
-void	Client::setReadBuffer(std::string const &buf)
-{
+void	Client::setReadBuffer(std::string const &buf){
 	_readbuf += buf;
 }
 
-void	Client::resetReadBuffer(std::string const &str)
-{
+void	Client::resetReadBuffer(std::string const &str){
 	_readbuf.clear();
 	_readbuf = str;
 }
 
-void	Client::setSendBuffer(std::string const &buf)
-{
+void	Client::setSendBuffer(std::string const &buf){
 	_sendbuf += buf;
 }
 
-void	Client::setDeconnexionStatus(bool status)
-{
+void	Client::setDeconnexionStatus(bool status){
 	_to_deconnect = status;
 }
 
-void	Client::setNickname(std::string const &nickname)
-{
+void	Client::setNickname(std::string const &nickname){
 	_nickname = (_nickname.size() > 9) ? nickname.substr(0, 9) : nickname;
 }
 
-void	Client::setOldNickname(std::string const &nickname)
-{
+void	Client::setOldNickname(std::string const &nickname){
 	_old_nickname = nickname;
 }
 
-void	Client::setUsername(std::string const &username)
-{
+void	Client::setUsername(std::string const &username){
 	_username = username;
 }
 
-void	Client::setRealname(std::string const &realname)
-{
+void	Client::setRealname(std::string const &realname){
 	_realname = realname;
 }
 
-void	Client::addMode(std::string const mode)
-{
+void	Client::addMode(std::string const mode){
 	if (_mode.empty() == true)
 		_mode = "+" + mode;
 	else 
 		_mode += mode;
 }
 
-void	Client::removeMode(std::string const mode)
-{
+void	Client::removeMode(std::string const mode){
 	size_t pos = _mode.find(mode);
 	_mode.erase(pos, 1);
 }
 
-void	Client::setConnexionPassword(bool boolean)
-{
+void	Client::setConnexionPassword(bool boolean){
 	_connexion_password = boolean;
 }
 
-void	Client::setRegistrationDone(bool boolean)
-{
+void	Client::setRegistrationDone(bool boolean){
 	_registrationDone = boolean;
 }
 
-void	Client::setWelcomeSent(bool boolean)
-{
+void	Client::setWelcomeSent(bool boolean){
 	_welcomeSent = boolean;
 }
 
-void	Client::setHasAllInfo(bool boolean)
-{
+void	Client::setHasAllInfo(bool boolean){
 	_hasAllInfo = boolean;
 }
 
-void	Client::setNbInfo(int n)
-{
+void	Client::setNbInfo(int n){
 	_nbInfo += n;
 	if (_nbInfo <= 0)
 		_nbInfo = 0;

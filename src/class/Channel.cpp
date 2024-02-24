@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/02/23 22:27:54 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/24 10:26:06 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,14 @@ void Channel::addInvitedUser(const std::string &nickname){
 			<< getName() << std::endl;
 }
 
+/**
+ * @brief Check if a given nickname is invited to the channel.
+ * 
+ * This function checks if a given nickname is invited to the channel.
+ * 
+ * @param nickname The nickname of the user to be invited.
+ * @return `true` or `false` depending if the user is invited or not.
+*/
 bool Channel::isInvited(std::string &nickname){
 	std::vector<std::string>::iterator	it;
 	if (_list_invited.empty() == true)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commandUtils.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:33:06 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:33:06 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/24 10:27:54 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
  * @param msg_to_parse The message from which to extract the reason.
  * @return The reason extracted from the message.
  */
-std::string	getReason(std::string msg_to_parse)
-{
+std::string	getReason(std::string msg_to_parse){
 	std::string reason;
 	
 	reason.clear();

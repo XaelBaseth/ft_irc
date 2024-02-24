@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:52 by axel              #+#    #+#             */
-/*   Updated: 2024/02/23 15:05:21 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/24 10:33:45 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	sendClientRegistration(Server *server, int const client_fd,
 		it->second.getUsername()), it->second.getNickname()));
 	addToClientBuffer(server, client_fd, RPL_YOURHOST(it->second.getNickname(), "42_FT_IRC", "1,1"));
 	addToClientBuffer(server, client_fd, RPL_CREATED(it->second.getNickname(), server->getDatetime()));
-	addToClientBuffer(server, client_fd, RPL_MYINFO(it->second.getNickname(), "localhost", "1.1", "io", "kost", "k"));
+	addToClientBuffer(server, client_fd, RPL_MYINFO(it->second.getNickname(), "localhost", "1.1", "io", "kot", "k"));
 	addToClientBuffer(server, client_fd, RPL_ISUPPORT(it->second.getNickname(), "CHANNEL_LEN=32 NICK_LEN=9 TOPIC_LEN=307"));
 
 	std::ifstream	data;

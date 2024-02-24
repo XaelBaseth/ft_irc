@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   names.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:42 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:34:43 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/02/24 10:34:36 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 */
 
 /**
-*
 *    @brief Checks if a string contains at least one alphanumeric character, hyphen, or underscore.
 *  
 *	 This function iterates through the characters of the given string and checks if it contains at least
@@ -36,7 +35,6 @@ static bool		containsAtLeastOneAlphaChar(std::string str){
 }
 
 /**
-*
 *    @brief Extracts a channel name from a given message.
 *
 *    This function parses the given message to extract a channel name.
@@ -90,7 +88,7 @@ void	names(Server *server, int const client_fd, s_cmd cmd_infos){
 
 		std::map<std::string, Channel>				channels = server->getChannels();
 		std::map<std::string, Channel>::iterator	channel = channels.find(channel_to_name);
-		if (channel == channels.end()\
+		if (channel == channels.end()
 			|| (channel->second.doesClientExist(client.getNickname()) == false
 			&& channel->second.getMode().find('s') != std::string::npos)){
 			addToClientBuffer(server, client_fd, RPL_ENDOFNAMES(client.getNickname(), channel_to_name));
