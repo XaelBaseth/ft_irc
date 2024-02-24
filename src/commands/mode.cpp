@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:20 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/24 10:14:41 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/24 10:52:54 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,13 +174,19 @@ static void	modeForUser(Server *server, s_mode mode_infos, int const client_fd){
 	if (mode_infos.mode[0] == '+' || mode_infos.mode[0] == '-'){
 		std::string::iterator pos = mode_infos.mode.begin();
 		while (pos != mode_infos.mode.end()){
-			if (*pos == '+'){ //+i indicates that the user needs to be on the channel for WHOIS
+			if (*pos == '+'){
 				pos++;
 				while (*pos != '+' && *pos != '-' && pos != mode_infos.mode.end()){
 					if (*pos == 'i'){
 						if (it_user_target->second.getMode().find("i") == std::string::npos){
 							it_user_target->second.addMode("i");
 							addToClientBuffer(server, client_fd, MODE_USERMSG(it_client->second.getNickname(), "+i"));
+						}
+						if (*pos == 'o'){
+							if (it_user_target->second.getMode().find("o") == std::string::npos){
+								it_user_target->second.addMode("o");
+								addToClientBuffer(server, client_fd, MODE_USERMSG(it_client->second.getNickname(), "+o"));
+							}
 						}
 					}
 					pos++;

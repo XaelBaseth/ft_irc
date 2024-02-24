@@ -6,7 +6,7 @@
 /*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:38:03 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/24 10:27:26 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/24 10:46:08 by axel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	operatorChannelMode(Server *server, s_mode mode_infos, int const client_fd,
 	if (str[0] == '+'){
 		if (it != it_channel_target->second.getOperators().end())
 			return ;
+		
 		it_channel_target->second.getOperators().push_back(mode_infos.params);
 		broadcastToAllChannelMembers(server, it_channel_target->second, MODE_CHANNELMSGWITHPARAM(mode_infos.target, "+o", mode_infos.params));
 	}
