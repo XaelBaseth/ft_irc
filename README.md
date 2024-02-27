@@ -101,8 +101,8 @@ In order to do so, we can use the **poll()** function. It is used to monitor sev
 | invite-only | Requires people to be /INVITE'd to the channel. | `/mode <#channel> +i` |
 | password-protected | Require users to specify a channel key in order to join. | `/mode <#channel> +k <key>` |
 | limited | Limit the amount of users that may be in the channel. | `/mode <#channel> limit +l <limits>` |
-| operators | Channel operators | `/mode <user> +o `|
-| topic | Restrict the topic to operators only. | `\mode <#channel> limit +t` |
+| operators | Channel operators | `/mode <#channel> +o <user>`|
+| topic | Restrict the topic to operators only. | `/mode <#channel> limit +t` |
 
 ## Sources
 

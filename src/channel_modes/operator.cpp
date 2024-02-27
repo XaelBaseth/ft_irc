@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operator.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:38:03 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/24 10:46:08 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/27 14:16:50 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ void	operatorChannelMode(Server *server, s_mode mode_infos, int const client_fd,
 	std::map<const int, Client>::iterator it_client = server->getClients().find(client_fd);
 	std::map<std::string, Channel>::iterator it_channel_target = server->getChannels().find(mode_infos.target);
 	
-	if (mode_infos.params.empty() == true)
+	if (mode_infos.params.empty() == true){
 		return ;
+	}
 
 	std::map<const int, Client>::iterator it_user_target = server->getClients().begin();
 	while (it_user_target != server->getClients().end()){
@@ -50,7 +51,7 @@ void	operatorChannelMode(Server *server, s_mode mode_infos, int const client_fd,
 		if (*it == mode_infos.params)
 			break;
 	}
-
+	
 	if (str[0] == '+'){
 		if (it != it_channel_target->second.getOperators().end())
 			return ;
@@ -64,7 +65,7 @@ void	operatorChannelMode(Server *server, s_mode mode_infos, int const client_fd,
 		it_channel_target->second.getOperators().erase(it);
 		broadcastToAllChannelMembers(server, it_channel_target->second, MODE_CHANNELMSGWITHPARAM(mode_infos.target, "-o", mode_infos.params));
 	}
-	std::cout << "check operators du channel :" << std::endl;
+	std::cout << "check operators: " << std::endl;
 	for (std::vector<std::string>::iterator it = it_channel_target->second.getOperators().begin(); it != it_channel_target->second.getOperators().end(); it++)
 		std::cout << *it << std::endl;
 }

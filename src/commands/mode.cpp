@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:20 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/24 10:52:54 by axel             ###   ########.fr       */
+/*   Updated: 2024/02/27 15:19:02 by acharlot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ static void	changeChannelMode(Server *server,s_mode mode_infos, int const client
 			inviteOnlyMode(server, datas, client_fd);
 		if (str.find("k") != std::string::npos)
 			keyChannelMode(server, mode_infos, client_fd, str);
-		if (str.find("l") != std::string::npos)
-			limitChannelMode(server, datas, client_fd);
 		if (str.find("o") != std::string::npos)
 			operatorChannelMode(server, mode_infos, client_fd, str);
+		if (str.find("l") != std::string::npos)
+			limitChannelMode(server, datas, client_fd);
 		if (str.find("t") != std::string::npos)
 			topicChannelMode(server, mode_infos, client_fd, str);
 	}
@@ -151,8 +151,8 @@ static void	modeForChannel(Server *server, s_mode mode_infos, int const client_f
  */
 static void	modeForUser(Server *server, s_mode mode_infos, int const client_fd){
 	std::map<const int, Client>::iterator it_client = server->getClients().find(client_fd);
-
 	std::map<const int, Client>::iterator it_user_target = server->getClients().begin();
+
 	while (it_user_target != server->getClients().end()){
 		if (it_user_target->second.getNickname() == mode_infos.target)
 			break;
@@ -181,12 +181,6 @@ static void	modeForUser(Server *server, s_mode mode_infos, int const client_fd){
 						if (it_user_target->second.getMode().find("i") == std::string::npos){
 							it_user_target->second.addMode("i");
 							addToClientBuffer(server, client_fd, MODE_USERMSG(it_client->second.getNickname(), "+i"));
-						}
-						if (*pos == 'o'){
-							if (it_user_target->second.getMode().find("o") == std::string::npos){
-								it_user_target->second.addMode("o");
-								addToClientBuffer(server, client_fd, MODE_USERMSG(it_client->second.getNickname(), "+o"));
-							}
 						}
 					}
 					pos++;
@@ -234,6 +228,7 @@ void	modeFunction(Server *server, int const client_fd, s_cmd cmd_infos){
 
 	if (mode_infos.target[0] == '#')
 		modeForChannel(server, mode_infos, client_fd);
-	else
+	else{
 		modeForUser(server, mode_infos, client_fd);
+	}
 }
