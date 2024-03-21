@@ -6,22 +6,13 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:49 by acharlot          #+#    #+#             */
-/*   Updated: 2024/03/21 11:39:53 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/21 11:45:04 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../lib/ircserv.hpp"
 
 t_bot bot_question;
-
-struct Country
-{
-	std::string name;
-	std::string capital;
-	double size;
-	long long population;
-	std::string president;
-};
 
 bool searchString(const char* mainString, const char* subString)
 {

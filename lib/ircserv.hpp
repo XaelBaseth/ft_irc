@@ -6,7 +6,7 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/03/21 08:39:28 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/21 11:45:01 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,15 @@ extern bool	server_shutdown;
 *****************************************************************/
 
 class Server;
+
+struct Country
+{
+	std::string name;
+	std::string capital;
+	double size;
+	long long population;
+	std::string president;
+};
 
 /****************************************************************
 * 							FUNCTIONS							*
