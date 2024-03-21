@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:04 by axel              #+#    #+#             */
-/*   Updated: 2024/02/14 11:58:28 by axel             ###   ########.fr       */
+/*   Updated: 2024/03/21 09:44:35 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,28 @@
 /****************************************************************
 * 							CLASSES								*
 *****************************************************************/
+
+enum QuestionType
+{
+	None,
+	Capital,
+	President,
+	LargerArea,
+	MostPopulated
+};
+
+typedef struct s_bot
+{
+	QuestionType questionType;
+	std::string country1, country2;
+	std::string president1, president2;
+	std::string capital1, capital2;
+	double area1, area2;
+	int pop1, pop2;
+	std::string answer;
+}				t_bot;
+
+extern t_bot bot_question;
 
 class Client {
 	private:

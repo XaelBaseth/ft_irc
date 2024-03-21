@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:07 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/23 21:49:04 by axel             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:25:14 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ std::map<std::string, Channel>::iterator it_channel, std::string target, std::st
 	std::vector<std::string> banned_users = it_channel->second.getBannedUsers();
 	for (std::vector<std::string>::iterator it = banned_users.begin(); it != banned_users.end(); it++){
 		if (*it == it_client->second.getNickname()){
-			std::cout << ToColor("[Server] ", Colors::Red) << it_client->second.getNickname() 
-			<< ToColor(" is banned from the channel and can't send messages anymore", Colors::Red) << std::endl;
+			std::cout << ToColor("[Server] ", Colors::Red()) << it_client->second.getNickname() 
+			<< ToColor(" is banned from the channel and can't send messages anymore", Colors::Red()) << std::endl;
 			return ;
 		}
 	}
@@ -47,8 +47,8 @@ std::map<std::string, Channel>::iterator it_channel, std::string target, std::st
 	for (std::vector<std::string>::iterator it = kicked_users.begin(); it != kicked_users.end(); it++){
 		if (*it == it_client->second.getNickname())
 		{
-			std::cout << ToColor("[Server] ", Colors::Red) << it_client->second.getNickname() 
-			<< ToColor(" is kicked from the channel and can't send messages anymore", Colors::Red) << std::endl;
+			std::cout << ToColor("[Server] ", Colors::Red()) << it_client->second.getNickname() 
+			<< ToColor(" is kicked from the channel and can't send messages anymore", Colors::Red()) << std::endl;
 			return ;
 		}
 	}
@@ -136,10 +136,10 @@ void	privmsg(Server *server, int const client_fd, s_cmd cmd_infos){
 			it_target++;
 		}
 		if (it_target == client_list.end() && it_channel == channel_list.end()){
-			if (target == "raultbot")
-			bot(server, client_fd, it_client, msg_to_send);
+			if (target == BOT_NAME)
+				bot(server, client_fd, it_client, msg_to_send);
 			else
-			addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));   
+				addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));   
 		}
 		else{
 			if (it_target == client_list.end()){

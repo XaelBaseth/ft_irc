@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manageServerUtils.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:49 by axel              #+#    #+#             */
-/*   Updated: 2024/02/24 10:29:36 by axel             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:24:15 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	acceptSocket(int listenSocket){
  * @param client_socket The file descriptor of the client socket.
 */
 static void	tooManyClients(int client_socket){
-	std::cout << ToColor(ERR_SERV_FULL, Colors::Red) << std::endl;
+	std::cout << ToColor(ERR_SERV_FULL, Colors::Red()) << std::endl;
 	send(client_socket, ERR_SERV_FULL, strlen(ERR_SERV_FULL) + 1, 0);
 	close(client_socket);
 }
@@ -61,7 +61,7 @@ static void	tooManyClients(int client_socket){
 int	Server::createClientConnexion(std::vector<pollfd>& poll_fds, std::vector<pollfd>& new_pollfds){
 	int	client_socket = acceptSocket(_server_socket_fd);
 	if (client_socket == -1) {
-		std::cerr << ToColor("[Error] unable to accept", Colors::Red) << std::endl;
+		std::cerr << ToColor("[Error] unable to accept", Colors::Red()) << std::endl;
 		return (CONTINUE);
 	}
 	if (poll_fds.size() - 1 < MAX_CLIENT)
@@ -86,7 +86,7 @@ int	Server::createClientConnexion(std::vector<pollfd>& poll_fds, std::vector<pol
 */
 static void	print(std::string type, int client_socket, char *message){
 	if (message)
-		std::cout << std::endl << type << client_socket << ": " << ToColor(message, Colors::RoyalBlue);
+		std::cout << std::endl << type << client_socket << ": " << ToColor(message, Colors::RoyalBlue());
 }
 
 /**
@@ -115,12 +115,12 @@ int Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 	read_count = recv(it->fd, message, MSG_SIZE, 0);
 
 	if (read_count <= FAILURE){
-		std::cerr << ToColor("[Server] recv() failed", Colors::Red) << std::endl;
+		std::cerr << ToColor("[Server] recv() failed", Colors::Red()) << std::endl;
 		delClient(poll_fds, it, it->fd);
 		return (BREAK);
 	}
 	else if (read_count == 0){
-		std::cout << ToColor("[Server] A client just disconnected", Colors::Orange) << std::endl;
+		std::cout << ToColor("[Server] A client just disconnected", Colors::Orange()) << std::endl;
 		delClient(poll_fds, it, it->fd);
 		return (BREAK);
 	}
@@ -135,8 +135,8 @@ int Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 					client->getReadBuffer().clear();
 			}
 			catch(const std::exception& e){
-				std::cout << ToColor("[Server] caught exception: ", Colors::Red);
-				std::cerr << ToColor(e.what(), Colors::Red) << std::endl;
+				std::cout << ToColor("[Server] caught exception: ", Colors::Red());
+				std::cerr << ToColor(e.what(), Colors::Red()) << std::endl;
 				if (client->isRegistrationDone() == true)
 					client->setDeconnexionStatus(true);
 				return (BREAK);
@@ -161,7 +161,7 @@ int Server::handleExistingConnexion(std::vector<pollfd>& poll_fds, std::vector<p
 int Server::handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it, const int current_fd){
 	Client	*client = getClient(this, current_fd);
 	if (!client)
-		std::cout << ToColor("[Server] Could not manage to find a connexion to client.", Colors::Red) << std::endl;
+		std::cout << ToColor("[Server] Could not manage to find a connexion to client.", Colors::Red()) << std::endl;
 	else {
 		sendServerRpl(current_fd, client->getSendBuffer());
 		client->getSendBuffer().clear();
@@ -187,7 +187,7 @@ int Server::handlePolloutEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd
 */
 int Server::handlePollerEvent(std::vector<pollfd>& poll_fds, std::vector<pollfd>::iterator &it){
 	if (it->fd == _server_socket_fd) {
-		std::cerr << ToColor("[Error] listen socket error", Colors::Red) << std::endl;
+		std::cerr << ToColor("[Error] listen socket error", Colors::Red()) << std::endl;
 		return (FAILURE);
 	}
 	else {

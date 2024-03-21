@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircserv.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:13 by axel              #+#    #+#             */
-/*   Updated: 2024/02/23 11:46:36 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/03/21 08:39:28 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 # define BACKLOG 10
 # define MAX_CLIENT 12
 # define MSG_SIZE 4096
+# define BOT_NAME "raultbot"
 
 extern bool	server_shutdown;
 /****************************************************************

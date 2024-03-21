@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:32 by axel              #+#    #+#             */
-/*   Updated: 2024/02/21 13:27:48 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:46:00 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 							******************************/
 Server::Server(std::string port, std::string password, struct tm *timeinfo)
 : _servinfo(NULL), _server_socket_fd(0), _port(port), _password(password){
-	std::cout << ToColor("Server running...", Colors::Violet) << std::endl;
-	std::cout << ToColor("Server listening...", Colors::Violet) << std::endl;
+	std::cout << ToColor("Server running...", Colors::Violet()) << std::endl;
+	std::cout << ToColor("Server listening...", Colors::Violet()) << std::endl;
 	memset(&_hints, 0, sizeof(_hints));
 	this->setDatetime(timeinfo);
 }
 
 Server::~Server(void){
-	std::cout << ToColor("Server is shutting down...", Colors::Violet) << std::endl;
+	std::cout << ToColor("Server is shutting down...", Colors::Violet()) << std::endl;
 }
 
 							/********************
@@ -98,23 +98,23 @@ void	Server::setHints(void) {
 int	Server::launchServer(void){
 	_server_socket_fd = socket(_servinfo->ai_family, _servinfo->ai_socktype, _servinfo->ai_protocol);
 	if (_server_socket_fd == FAILURE) {
-		std::cerr << ToColor("[Error] unable to create socket", Colors::Red) << std::endl;
+		std::cerr << ToColor("[Error] unable to create socket", Colors::Red()) << std::endl;
 		return (FAILURE);
 	}
 	
 	int	optvalue = 1; //!enables the reuse of a port if the IP address is different.
 	if (setsockopt(_server_socket_fd, SOL_SOCKET, SO_REUSEADDR, &optvalue, sizeof(optvalue)) == FAILURE) {
-		std::cerr << ToColor("[Error] impossible to reuse: " + std::string(strerror(errno)), Colors::Red) << std::endl;
+		std::cerr << ToColor("[Error] impossible to reuse: " + std::string(strerror(errno)), Colors::Red()) << std::endl;
 		return (FAILURE);
 	}
 
 	if (bind(_server_socket_fd, _servinfo->ai_addr, _servinfo->ai_addrlen) == FAILURE) {
-		std::cerr << ToColor("[Error] impossible to bind: " + std::string(strerror(errno)), Colors::Red)  << std::endl;
+		std::cerr << ToColor("[Error] impossible to bind: " + std::string(strerror(errno)), Colors::Red())  << std::endl;
 		return (FAILURE);
 	}
 
 	if (listen(_server_socket_fd, BACKLOG) == FAILURE) {
-		std::cerr << ToColor("[Error] listen failed: " + std::string(strerror(errno)), Colors::Red) << std::endl;
+		std::cerr << ToColor("[Error] listen failed: " + std::string(strerror(errno)), Colors::Red()) << std::endl;
 		return (FAILURE);
 	}
 	freeaddrinfo(_servinfo);
@@ -134,7 +134,7 @@ int	Server::launchServer(void){
 */
 int	Server::fillInfos(char *port){
 	if (getaddrinfo(NULL, port, &_hints, &_servinfo) < 0){
-		std::cerr << ToColor("[Error] unable to use addrinfo", Colors::Red) << std::endl;
+		std::cerr << ToColor("[Error] unable to use addrinfo", Colors::Red()) << std::endl;
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -162,8 +162,8 @@ void	Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
 	poll_fds.push_back(client_pollfd);
 
 	_clients.insert(std::pair<int, Client>(client_socket, newClient));
-	std::cout << ToColor("[Server] Added client #", Colors::DeepPink) 
-	<< client_socket << ToColor(" successfully", Colors::DeepPink) << std::endl;
+	std::cout << ToColor("[Server] Added client #", Colors::DeepPink()) 
+	<< client_socket << ToColor(" successfully", Colors::DeepPink()) << std::endl;
 }
 
 /**
@@ -180,7 +180,7 @@ void	Server::addClient(int client_socket, std::vector<pollfd> &poll_fds)
 */
 void	Server::delClient(std::vector<pollfd> &poll_fds, 
 	std::vector<pollfd>::iterator &it, int current_fd) {
-	std::cout << ToColor("[Server] Deconnection of client #", Colors::DeepPink) 
+	std::cout << ToColor("[Server] Client disconnected #", Colors::DeepPink()) 
 	<< current_fd << std::endl;
 
 	int key = current_fd;
@@ -189,7 +189,7 @@ void	Server::delClient(std::vector<pollfd> &poll_fds,
 	_clients.erase(key);
 	poll_fds.erase(it);
 
-	std::cout << ToColor("[Server] Client deleted. Total client is now: ", Colors::DeepPink) 
+	std::cout << ToColor("[Server] Client deleted. Total client is now: ", Colors::DeepPink()) 
 		<< (unsigned int)(poll_fds.size() -1) << std::endl;
 }
 
@@ -206,7 +206,7 @@ void	Server::delClient(std::vector<pollfd> &poll_fds,
 void	Server::addChannel(std::string &channelName){
 	std::map<std::string, Channel>::iterator it = _channels.find(channelName);
 	if (it != _channels.end()){
-		std::cout << ToColor("[Channel] name already exists.", Colors::Yellow) << std::endl;
+		std::cout << ToColor("[Channel] name already exists.", Colors::Yellow()) << std::endl;
 		return ;
 	}
 	Channel channel(channelName);
@@ -233,11 +233,11 @@ void	Server::addClientToChannel(std::string &channelName, Client &client){
 	
 	if (it->second.doesClientExist(client_nickname) == false){
 		it->second.addClientToChannel(client);
-		std::cout << ToColor("[Channel] successfully joined the channel", Colors::Yellow) << std::endl;
+		std::cout << ToColor("[Channel] successfully joined the channel", Colors::Yellow()) << std::endl;
 	}
 	else
-		std::cout << ToColor("[Channel] ", Colors::Yellow) << client.getNickname() 
-			<< ToColor(" already here!", Colors::Yellow) << std::endl;
+		std::cout << ToColor("[Channel] ", Colors::Yellow()) << client.getNickname() 
+			<< ToColor(" already here!", Colors::Yellow()) << std::endl;
 }
 
 bool	Server::isChannel(std::string &channelName){
@@ -245,7 +245,7 @@ bool	Server::isChannel(std::string &channelName){
     it = _channels.find(channelName);
     if (it == _channels.end())
     {
-        std::cout << ToColor("[Server] This channel does not exists", Colors::Red) <<std::endl;
+        std::cout << ToColor("[Server] This channel does not exists", Colors::Red()) <<std::endl;
         return (false);
     }
     return (true);

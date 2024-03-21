@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manageServerLoop.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:42 by axel              #+#    #+#             */
-/*   Updated: 2024/02/17 11:07:07 by axel             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:23:42 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int Server::manageServerLoop(){
 		if (poll((pollfd *)&poll_fds[0], (unsigned int)poll_fds.size(), -1) <= SUCCESS){
 			if (errno == EINTR)
 				break ;
-			std::cerr << ToColor("[Server] Poll error", Colors::Red) << std::endl;
+			std::cerr << ToColor("[Server] Poll error", Colors::Red()) << std::endl;
 			throw ;
 		}
 

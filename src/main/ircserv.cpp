@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircserv.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:39 by axel              #+#    #+#             */
-/*   Updated: 2024/02/19 15:33:45 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:40:32 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	signal_handler(int signal){
 */
 int	main(int argc, char **argv) {
 	if (argc != 3){
-		std::cerr << ToColor("[Usage] ./ircserv <port> <password>.", Colors::Red) << std::endl;
+		std::cerr << ToColor("[Usage] ./ircserv <port> <password>.", Colors::Red()) << std::endl;
 		return (FAILURE);
 	}
 	else {
@@ -42,6 +42,7 @@ int	main(int argc, char **argv) {
 		time(&rawtime);
 		timeinfo = localtime(&rawtime);
 		
+		srand(static_cast<unsigned int>(time(NULL)));
 		signal(SIGINT, signal_handler);
 		Server	server(argv[1], argv[2], timeinfo);
 
@@ -56,7 +57,7 @@ int	main(int argc, char **argv) {
 			server.manageServerLoop();
 		}
 		catch(const std::exception& e){
-			std::cerr << ToColor("Caught exception: ", Colors::Red)
+			std::cerr << ToColor("Caught exception: ", Colors::Red())
 				<< e.what() << std::endl;
 		}
 		return (SUCCESS);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+         #
+#    By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/08 10:14:02 by acharlot          #+#    #+#              #
-#    Updated: 2024/02/23 10:41:23 by acharlot         ###   ########.fr        #
+#    Updated: 2024/03/20 14:44:18 by cpothin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ WHITE		=	\033[0;97m
 MAIN_DIR	=	main/
 MAIN_FILES	=	ircserv manageServerLoop
 UTIL_DIR	=	utils/
-UTIL_FILES	=	Colors manageServerUtils utils parsing commandUtils
+UTIL_FILES	=	manageServerUtils utils parsing commandUtils
 CLAS_DIR	=	class/
 CLAS_FILES	=	Server Client Channel
 COMM_DIR	=	commands/
@@ -84,7 +84,7 @@ DBGF 		= 	$(DBGUTILOBJ) $(DBGMAINOBJ) $(DBGCLAOBJ) $(DBGCOMOBJ) $(DBGMODOBJ)
 #Rules
 all:			$(NAME)
 
-$(NAME):		$(OBJ) $(OBJF)
+$(NAME):		$(OBJ)
 					@$(CC) $(CFLAGS) $(OBJ) $(HEADER) -o $(NAME)
 					@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Success!$(DEF_COLOR)\n"
 

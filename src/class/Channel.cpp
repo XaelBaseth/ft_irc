@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/02/24 10:26:06 by axel             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:24:44 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,15 +120,15 @@ void	Channel::addToKicked(std::string &kicked_name){
 	std::vector<std::string>::iterator	it;
 	for (it = _kicked_users.begin(); it != _kicked_users.end(); it++){
 		if (*it == kicked_name){
-			std::cout << ToColor("[Channel]", Colors::Red) << kicked_name 
-				<< ToColor(" is already kicked from channel ", Colors::Red) 
+			std::cout << ToColor("[Channel]", Colors::Red()) << kicked_name 
+				<< ToColor(" is already kicked from channel ", Colors::Red()) 
 				<< getName() << std::endl;
 			return ;
 		}
 	}
 	_kicked_users.push_back(kicked_name);
-	std::cout << ToColor("[Channel]", Colors::Red) << kicked_name 
-				<< ToColor(" is now kicked from channel ", Colors::Red) 
+	std::cout << ToColor("[Channel]", Colors::Red()) << kicked_name 
+				<< ToColor(" is now kicked from channel ", Colors::Red()) 
 				<< getName() << std::endl;
 }
 
@@ -234,15 +234,15 @@ void Channel::addInvitedUser(const std::string &nickname){
 	std::vector<std::string>::iterator	it;
 	for (it = _list_invited.begin(); it != _list_invited.end(); it++){
 		if (*it == nickname){
-			std::cout << ToColor("[Channel] ", Colors::Red) << nickname 
-				<< ToColor(" is already invited on the channel ", Colors::Red) 
+			std::cout << ToColor("[Channel] ", Colors::Red()) << nickname 
+				<< ToColor(" is already invited on the channel ", Colors::Red()) 
 				<< getName() << std::endl;
 			return ;
 		}
 	}	
 	_list_invited.push_back(nickname);
-	std::cout << ToColor("[Channel] ", Colors::Red) << nickname 
-			<< ToColor(" is now invited on the channel ", Colors::Red)
+	std::cout << ToColor("[Channel] ", Colors::Red()) << nickname 
+			<< ToColor(" is now invited on the channel ", Colors::Red())
 			<< getName() << std::endl;
 }
 

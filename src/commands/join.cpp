@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axel <axel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:44 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/24 10:16:46 by axel             ###   ########.fr       */
+/*   Updated: 2024/03/20 15:24:58 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	addClientToChannel(Server *server, std::string &channelName, Client &client
 	if (it->second.doesClientExist(client_nickname) == false)
 		it->second.getClientList().insert(std::pair<std::string, Client>(client.getNickname(), client));
 	else
-		std::cout << ToColor("[Client] ", Colors::Yellow) << ToColor(client.getNickname(), Colors::Yellow)
-			<< ToColor(" already here", Colors::Yellow) << std::endl; 
+		std::cout << ToColor("[Client] ", Colors::Yellow()) << ToColor(client.getNickname(), Colors::Yellow())
+			<< ToColor(" already here", Colors::Yellow()) << std::endl; 
 }
 
 /**
@@ -50,7 +50,7 @@ void	addClientToChannel(Server *server, std::string &channelName, Client &client
 void	addChannel(Server *server, std::string const &channelName){
 	std::map<std::string, Channel>::iterator	it = server->getChannels().find(channelName);
 	if (it != server->getChannels().end()){
-		std::cout << ToColor("[Channel] already exists.", Colors::Red) << std::endl;
+		std::cout << ToColor("[Channel] already exists.", Colors::Red()) << std::endl;
 		return ;
 	}
 	Channel channel(channelName);
