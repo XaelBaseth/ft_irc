@@ -6,7 +6,7 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/03/20 15:24:44 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/21 16:24:38 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ std::string						&Channel::getChannelPassword(){ return (_channel_password);}
 int								&Channel::getCapacityLimit(){ return (_capacity_limit);}
 std::map<std::string, Client>	&Channel::getClientList(){ return (_clientList);}
 std::vector<std::string>		&Channel::getBannedUsers(){ return (_banned_users);}
-std::vector<std::string>		&Channel::getKickedUsers(){ return (_kicked_users);}
 std::vector<std::string>		&Channel::getVoicedUsers(){ return (_voiced_users);}
 std::vector<std::string>		&Channel::getOperators(){ return (_operators);}
 std::vector<std::string>		&Channel::getListInvited(){return (_list_invited);}

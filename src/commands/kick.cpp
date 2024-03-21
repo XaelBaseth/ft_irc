@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:32 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:36:33 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:17:21 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ void				kick(Server *server, int const client_fd, s_cmd cmd_infos){
 
 	if (channel_name.empty() || kicked_name.empty()){
 		addToClientBuffer(server, client_fd, ERR_NEEDMOREPARAMS(requester_name, cmd_infos.name));
+		return ;
+	}
+	else if (requester_name == kicked_name){
+		addToClientBuffer(server, client_fd, ERR_CANTKICKYOURSELF(requester_name, channel_name));
 		return ;
 	}
 	else if (it_chan == channels.end()){
