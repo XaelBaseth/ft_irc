@@ -6,7 +6,7 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:04 by axel              #+#    #+#             */
-/*   Updated: 2024/03/21 09:44:35 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/23 14:47:40 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_bot
 	double area1, area2;
 	int pop1, pop2;
 	std::string answer;
+	s_bot() : questionType(None), country1(""), country2(""), president1(""), president2(""), capital1(""), capital2(""), area1(0.0), area2(0.0), pop1(0), pop2(0), answer("") {}
 }				t_bot;
 
-extern t_bot bot_question;
 
 class Client {
 	private:
@@ -70,6 +70,7 @@ class Client {
 		Client(int client_fd);
 		~Client(void);
 		
+		t_bot			bot_question;
 		int				getClientFd()const;
 		std::string&	getSendBuffer();
 		std::string&	getReadBuffer();

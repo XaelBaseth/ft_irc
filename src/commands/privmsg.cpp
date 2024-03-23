@@ -6,7 +6,7 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:07 by acharlot          #+#    #+#             */
-/*   Updated: 2024/03/21 16:25:24 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/23 15:07:34 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,6 @@
  */
 static void  broadcastToChannel(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client,
 std::map<std::string, Channel>::iterator it_channel, std::string target, std::string msg_to_send){
-	std::vector<std::string> banned_users = it_channel->second.getBannedUsers();
-	for (std::vector<std::string>::iterator it = banned_users.begin(); it != banned_users.end(); it++){
-		if (*it == it_client->second.getNickname()){
-			std::cout << ToColor("[Server] ", Colors::Red()) << it_client->second.getNickname() 
-			<< ToColor(" is banned from the channel and can't send messages anymore", Colors::Red()) << std::endl;
-			return ;
-		}
-	}
-	std::vector<std::string> kicked_users = it_channel->second.getKickedUsers();
-	for (std::vector<std::string>::iterator it = kicked_users.begin(); it != kicked_users.end(); it++){
-		if (*it == it_client->second.getNickname())
-		{
-			std::cout << ToColor("[Server] ", Colors::Red()) << it_client->second.getNickname() 
-			<< ToColor(" is kicked from the channel and can't send messages anymore", Colors::Red()) << std::endl;
-			return ;
-		}
-	}
-
 	std::map<std::string, Client>::iterator member = it_channel->second.getClientList().begin();
 	while (member != it_channel->second.getClientList().end())
 	{
@@ -95,7 +77,7 @@ static bool isUserinChannel(std::map<const int, Client>::iterator it_client, std
  * @param cmd_infos Structure containing command information.
  */
 void	privmsg(Server *server, int const client_fd, s_cmd cmd_infos){ 
-	std::map<const int, Client>				client_list = server->getClients();
+	std::map<const int, Client>				&client_list = server->getClients();
 	std::map<std::string, Channel> 			channel_list = server->getChannels(); 
 	std::map<const int, Client>::iterator 	it_client = client_list.find(client_fd);
 	std::string 							target;
@@ -130,22 +112,22 @@ void	privmsg(Server *server, int const client_fd, s_cmd cmd_infos){
 		std::map<std::string, Channel>::iterator it_channel = channel_list.find(target);
 		
 		std::map<const int, Client>::iterator it_target = client_list.begin();
-		while (it_target!=client_list.end()){
+		while (it_target != client_list.end()){
 			if (it_target->second.getNickname() == target)
 				break;
 			it_target++;
 		}
 		if (it_target == client_list.end() && it_channel == channel_list.end()){
 			if (target == BOT_NAME)
-				bot(server, client_fd, it_client, msg_to_send);
+				bot(server, client_fd, it_client->second, msg_to_send);
 			else
 				addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));   
 		}
 		else{
 			if (it_target == client_list.end()){
-			if (isUserinChannel(it_client, it_channel) == true){
-				target.insert(1, "#"); 
-				broadcastToChannel(server, client_fd, it_client, it_channel, target, msg_to_send);
+				if (isUserinChannel(it_client, it_channel) == true){
+					target.insert(1, "#"); 
+					broadcastToChannel(server, client_fd, it_client, it_channel, target, msg_to_send);
 			}
 			else
 				addToClientBuffer(server, client_fd, ERR_NOSUCHNICK(it_client->second.getNickname(), target));

@@ -6,7 +6,7 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 12:22:25 by axel              #+#    #+#             */
-/*   Updated: 2024/03/21 16:24:38 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/23 15:44:00 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ std::string						&Channel::getMode(){ return (_mode);}
 std::string						&Channel::getChannelPassword(){ return (_channel_password);}
 int								&Channel::getCapacityLimit(){ return (_capacity_limit);}
 std::map<std::string, Client>	&Channel::getClientList(){ return (_clientList);}
-std::vector<std::string>		&Channel::getBannedUsers(){ return (_banned_users);}
 std::vector<std::string>		&Channel::getVoicedUsers(){ return (_voiced_users);}
 std::vector<std::string>		&Channel::getOperators(){ return (_operators);}
 std::vector<std::string>		&Channel::getListInvited(){return (_list_invited);}
@@ -46,7 +45,7 @@ void	Channel::setTopic(std::string &newTopic){
 	_topic = newTopic;
 }
 
-void	Channel::setChannelPassword(std::string password){
+void	Channel::setChannelPassword(std::string &password){
 	_channel_password = password;
 }
 
@@ -73,11 +72,15 @@ void	Channel::setCapacityLimit(int limit){
 bool	Channel::doesClientExist(std::string &clientName){
 	if (_clientList.size() == 0)
 		return (false);
-	
-	std::map<std::string, Client>::iterator it = _clientList.find(clientName);
-	if (it == _clientList.end())
-		return (false);
-	return (true);
+	else
+	{
+		std::map<std::string, Client>::iterator it;
+		for (it = _clientList.begin(); it != _clientList.end(); it++){
+			if (it->second.getNickname() == clientName)
+				return true;
+		}
+	}
+	return (false);
 }
 
 /**
@@ -88,6 +91,12 @@ bool	Channel::doesClientExist(std::string &clientName){
  * @param clientName The name of the client to be removed.
  */
 void	Channel::removeClientFromChannel(std::string &clientName){
+
+	// std::map<std::string, Client>::iterator it;
+	// for (it = _clientList.begin(); it != _clientList.end(); it++){
+	// 	if (it->second.getNickname() == clientName)
+	// 		this->_clientList.erase(it);
+	// }
 	std::map <std::string, Client>::iterator it = this->_clientList.find(clientName);
 	if (it != _clientList.end())
 		this->_clientList.erase(it);
@@ -108,30 +117,6 @@ void	Channel::addClientToChannel(Client &client){
 }
 
 /**
- * @brief Adds a user to the list of kicked users in the channel.
- * 
- * This function checks if the specified user is already in the list of kicked users.
- * If not, it adds the user to the list and prints a message indicating the action.
- * 
- * @param kicked_name The name of the user to be kicked.
- */
-void	Channel::addToKicked(std::string &kicked_name){
-	std::vector<std::string>::iterator	it;
-	for (it = _kicked_users.begin(); it != _kicked_users.end(); it++){
-		if (*it == kicked_name){
-			std::cout << ToColor("[Channel]", Colors::Red()) << kicked_name 
-				<< ToColor(" is already kicked from channel ", Colors::Red()) 
-				<< getName() << std::endl;
-			return ;
-		}
-	}
-	_kicked_users.push_back(kicked_name);
-	std::cout << ToColor("[Channel]", Colors::Red()) << kicked_name 
-				<< ToColor(" is now kicked from channel ", Colors::Red()) 
-				<< getName() << std::endl;
-}
-
-/**
  * @brief Adds the first operator to the channel.
  * 
  * This function adds the specified operator name to the list of operators
@@ -139,9 +124,17 @@ void	Channel::addToKicked(std::string &kicked_name){
  * 
  * @param operatorName The name of the first operator to add.
  */
-void	Channel::addFirstOperator(std::string operatorName){
+void	Channel::addFirstOperator(std::string &operatorName){
 	if (_operators.empty())
 		_operators.push_back(operatorName);
+}
+
+void printOperators(std::vector<std::string> &operators)
+{
+	std::vector<std::string>::iterator it;
+	for (it = operators.begin(); it != operators.end(); it++){
+		std::cout << *it << std::endl;
+	}	
 }
 
 /**
@@ -152,12 +145,25 @@ void	Channel::addFirstOperator(std::string operatorName){
  * 
  * @param operatorName The name of the operator to remove.
  */
-void	Channel::removeOperator(std::string operatorName){
+void	Channel::removeOperator(std::string &operatorName){
 	std::vector<std::string>::iterator it;
 	for (it = _operators.begin(); it != _operators.end(); it++){
 		if (*it == operatorName)
 			_operators.erase(it);
 	}
+	printOperators(_operators);
+}
+
+void	Channel::renameOperator(std::string &operatorName, std::string &newName){
+	std::vector<std::string>::iterator it;
+	for (it = _operators.begin(); it != _operators.end(); it++){
+		if (*it == operatorName)
+		{
+			*it = newName;
+			break;
+		}
+	}
+	printOperators(_operators);
 }
 
 /**

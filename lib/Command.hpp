@@ -47,7 +47,7 @@ void	kill(Server *server, int const client_fd, s_cmd cmd_infos);
 void	list(Server *server, int const client_fd, s_cmd cmd_infos);
 void	modeFunction(Server *server, int const client_fd, s_cmd cmd_infos);
 void	notice(Server *server, int const client_fd, s_cmd cmd_infos);
-void	bot(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot_cmd);
+void	bot(Server *server, int const client_fd, Client &client, std::string bot_cmd);
 void	motd(Server *server, int const client_fd, s_cmd cmd_infos);
 void	names(Server *server, int const client_fd, s_cmd cmd_infos);
 void oper(Server *server, int const client_fd, s_cmd cmd_infos);

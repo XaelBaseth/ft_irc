@@ -6,7 +6,7 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:32 by acharlot          #+#    #+#             */
-/*   Updated: 2024/03/21 16:17:21 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:30:04 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void				kick(Server *server, int const client_fd, s_cmd cmd_infos){
 	}
 	else{
 		broadcastToChannel(server, it_chan->second, requester, kicked_name, reason);
-		it_chan->second.getClientList().erase(kicked_name);
-		it_chan->second.addToKicked(kicked_name);
+		// it_chan->second.getClientList().erase(kicked_name);
+		it_chan->second.removeClientFromChannel(kicked_name);
 	}
 }

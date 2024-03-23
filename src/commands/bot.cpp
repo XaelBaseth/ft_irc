@@ -6,13 +6,11 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:49 by acharlot          #+#    #+#             */
-/*   Updated: 2024/03/21 11:45:04 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/23 15:11:14 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../lib/ircserv.hpp"
-
-t_bot bot_question;
 
 bool searchString(const char* mainString, const char* subString)
 {
@@ -66,23 +64,22 @@ void removeQuotes(std::string &str)
 
 std::string formatNumber(double number)
 {
-    std::stringstream ss;
-    ss << std::fixed << std::setprecision(3) << number; // Fixed precision with 3 decimal places
-
-    std::string str = ss.str();
-
-    size_t decimalPos = str.find('.'); // Find decimal point position
-    if (decimalPos != std::string::npos)
-    {
-        int length = decimalPos;
-        if (length > 3)
-            for (int i = length - 3; i > 0; i -= 3)
-                str.insert(i, ",");
-    }
-    return str;
+    std::ostringstream oss;
+    int precision = number == static_cast<int>(number) ? 0 : 2;
+    if (precision == 2)
+        oss << std::fixed << std::setprecision(2) << number;
+    else
+        oss << static_cast<int>(number);
+    std::string result = oss.str();
+    size_t pointPos = result.find('.');
+    if (pointPos == std::string::npos)
+        pointPos = result.size();
+    for (int i = pointPos - 3; i > 0; i -= 3)
+        result.insert(i, ",");
+    return result;
 }
 
-static void	botQuizz(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string msg)
+static void	botQuizz(Server *server, int const client_fd, Client &client, std::string &msg)
 {
     std::string bot = BOT_NAME;
     s_cmd cmd_infos;
@@ -125,19 +122,19 @@ static void	botQuizz(Server *server, int const client_fd, std::map<const int, Cl
             removeQuotes(monarch);
             if (nbRand == rand1)
             {
-                bot_question.area1 = area;
-                bot_question.capital1 = city;
-                bot_question.country1 = country;
-                bot_question.pop1 = population;
-                bot_question.president1 = monarch;
+                client.bot_question.area1 = area;
+                client.bot_question.capital1 = city;
+                client.bot_question.country1 = country;
+                client.bot_question.pop1 = population;
+                client.bot_question.president1 = monarch;
             }
             else if (nbRand == rand2)
             {
-                bot_question.area2 = area;
-                bot_question.capital2 = city;
-                bot_question.country2 = country;
-                bot_question.pop2 = population;
-                bot_question.president2 = monarch;
+                client.bot_question.area2 = area;
+                client.bot_question.capital2 = city;
+                client.bot_question.country2 = country;
+                client.bot_question.pop2 = population;
+                client.bot_question.president2 = monarch;
             }
             if (searchString(msg.c_str(), ToUpper(country).c_str()))
             {
@@ -146,32 +143,32 @@ static void	botQuizz(Server *server, int const client_fd, std::map<const int, Cl
                 {
                     foundWords++;
                     ss0 << TEAL << country << RESET << " has " << GREEN << formatNumber(population) << RESET << " inhabitants.\n";
-                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), ss0.str()));
+                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), ss0.str()));
                 }
                 if (searchString(msg.c_str(), "PRESIDENT") || searchString(msg.c_str(), "MONARCH") || searchString(msg.c_str(), "KING") || searchString(msg.c_str(), "QUEEN"))
                 {
                     foundWords++;
                     ss0.str("");
                     ss0 << "The president of " << TEAL << country << RESET << " is " << GREEN << monarch << RESET << ".\n";
-                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), ss0.str()));
+                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), ss0.str()));
                 }
                 if (searchString(msg.c_str(), "AREA"))
                 {
                     foundWords++;
                     ss0.str("");
                     ss0 << "The area of " << TEAL << country << RESET << " is " << GREEN << formatNumber(area) << RESET << " Km².\n";
-                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), ss0.str()));
+                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), ss0.str()));
                 }
                 if (searchString(msg.c_str(), "CAPITAL") || searchString(msg.c_str(), "CITY"))
                 {
                     foundWords++;
                     ss0.str("");
                     ss0 << "The capital of " << TEAL << country << RESET << " is " << GREEN << city << RESET << ".\n";
-                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), ss0.str()));
+                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), ss0.str()));
                 }
                 cmd_infos.message = ss0.str();
                 if (foundWords == 1)
-                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Ask infos about " + TEAL + country + RESET + ": Population, area, capital, president."));
+                    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Ask infos about " + TEAL + country + RESET + ": Population, area, capital, president."));
             }
         }
         else
@@ -183,29 +180,29 @@ static void	botQuizz(Server *server, int const client_fd, std::map<const int, Cl
         trim(msg);
         if (msg != ":QUIZZ")
         {
-            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "I don't understand your question."));
-            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Please type \"quizz\" to get a random question or \"quizz <any country>\" to get informations about a country."));
+            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "I don't understand your question."));
+            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Please type \"quizz\" to get a random question or \"quizz <any country>\" to get informations about a country."));
             return;
         }
         int randomValue = rand() % 4 + 1;
-        bot_question.questionType = (QuestionType)randomValue;
-        switch (bot_question.questionType)
+        client.bot_question.questionType = (QuestionType)randomValue;
+        switch (client.bot_question.questionType)
         {
             case Capital:
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "What is the capital of " + TEAL + bot_question.country1 + RESET + "?"));
-                bot_question.answer = bot_question.capital1;
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "What is the capital of " + TEAL + client.bot_question.country1 + RESET + "?"));
+                client.bot_question.answer = client.bot_question.capital1;
             break;
             case President:
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Who is the president of " + TEAL + bot_question.country1 + RESET + "?"));
-                bot_question.answer = bot_question.president1;
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Who is the president of " + TEAL + client.bot_question.country1 + RESET + "?"));
+                client.bot_question.answer = client.bot_question.president1;
             break;
             case LargerArea:
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Which country has the largest area? " + TEAL + bot_question.country1 + RESET + " or " + TEAL + bot_question.country2 + RESET + "?"));
-                bot_question.answer = bot_question.area1 > bot_question.area2 ? bot_question.country1 : bot_question.country2;
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Which country has the largest area? " + TEAL + client.bot_question.country1 + RESET + " or " + TEAL + client.bot_question.country2 + RESET + "?"));
+                client.bot_question.answer = client.bot_question.area1 > client.bot_question.area2 ? client.bot_question.country1 : client.bot_question.country2;
             break;
             case MostPopulated:
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Which country is the most populated? " + TEAL + bot_question.country1 + RESET + " or " + TEAL + bot_question.country2 + RESET + "?"));
-                bot_question.answer = bot_question.pop1 > bot_question.pop2 ? bot_question.country1 : bot_question.country2;
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Which country is the most populated? " + TEAL + client.bot_question.country1 + RESET + " or " + TEAL + client.bot_question.country2 + RESET + "?"));
+                client.bot_question.answer = client.bot_question.pop1 > client.bot_question.pop2 ? client.bot_question.country1 : client.bot_question.country2;
             break;
             default:
             break;
@@ -213,10 +210,10 @@ static void	botQuizz(Server *server, int const client_fd, std::map<const int, Cl
     }
 }
 
-/**
- * *Prototype for the command => `/msg raultbot: command`
+/*
+    Prototype for the command => `/msg raultbot: command`
 */
-static void	botRandom(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot)
+static void	botRandom(Server *server, int const client_fd, Client &client, std::string bot)
 {
 	int index = rand() % 10 + 1;
 	
@@ -234,10 +231,17 @@ static void	botRandom(Server *server, int const client_fd, std::map<const int, C
 		case 9: str = "The unicorn is the national animal of Scotland"; break;
 		case 10: str = "In 2014, there was a Tinder match in Antarctica"; break;
 	}
-	addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), str));
+	addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), str));
 }
 
-void	bot(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot_cmd){
+std::string doubleToString(double nb)
+{
+    std::ostringstream oss;
+    oss << nb;
+    return oss.str();
+}
+
+void	bot(Server *server, int const client_fd, Client &client, std::string bot_cmd){
 	std::string bot = BOT_NAME;
 	std::string	validCmds[3] = {
 		":HELP",
@@ -247,32 +251,37 @@ void	bot(Server *server, int const client_fd, std::map<const int, Client>::itera
 
 	for (size_t i = 0; i < bot_cmd.size(); i++)
 		bot_cmd[i] = std::toupper(bot_cmd[i]);
-	
-    if (bot_question.questionType != None)
+    if (client.bot_question.questionType != None)
     {
-        if (searchString(bot_cmd.c_str(), ToUpper(bot_question.answer).c_str()))
+        if (searchString(bot_cmd.c_str(), ToUpper(client.bot_question.answer).c_str())
+            || (bot_cmd == ":1"
+                && ((client.bot_question.questionType == LargerArea || client.bot_question.questionType == MostPopulated)
+                    && client.bot_question.answer == client.bot_question.country1))
+            || (bot_cmd == ":2"
+                && ((client.bot_question.questionType == LargerArea || client.bot_question.questionType == MostPopulated)
+                    && client.bot_question.answer == client.bot_question.country2)))
         {
-            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), GREEN + "Good answer!" + RESET));
+            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), GREEN + "Good answer!" + RESET));
         }
         else
         {
-            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), RED + "Wrong!" + RESET));
-            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "The right answer is " + GREEN + bot_question.answer + RESET + "."));
+            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), RED + "Wrong!" + RESET));
+            addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "The right answer is " + GREEN + client.bot_question.answer + RESET + "."));
         }
-        switch (bot_question.questionType)
+        switch (client.bot_question.questionType)
         {
             case LargerArea:
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "The area of " + TEAL + bot_question.country1 + RESET + " is " + TEAL + formatNumber(bot_question.area1) + RESET + "."));
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "The area of " + TEAL + bot_question.country2 + RESET + " is " + TEAL + formatNumber(bot_question.area2) + RESET + "."));
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "The area of " + TEAL + client.bot_question.country1 + RESET + " is " + TEAL + formatNumber(client.bot_question.area1) + RESET + " Km²."));
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "The area of " + TEAL + client.bot_question.country2 + RESET + " is " + TEAL + formatNumber(client.bot_question.area2) + RESET + " Km²."));
             break;
             case MostPopulated:
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "The population of " + TEAL + bot_question.country1 + RESET + " is " + TEAL + formatNumber(bot_question.pop1) + RESET + "."));
-                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "The population of " + TEAL + bot_question.country2 + RESET + " is " + TEAL + formatNumber(bot_question.pop2) + RESET + "."));
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), TEAL + client.bot_question.country1 + RESET + " has " + TEAL + formatNumber(client.bot_question.pop1) + RESET + " inhabitants."));
+                addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), TEAL + client.bot_question.country2 + RESET + " has " + TEAL + formatNumber(client.bot_question.pop2) + RESET + " inhabitants."));
             break;
             default:
             break;
         }
-        bot_question.questionType = None;
+        client.bot_question.questionType = None;
         return;
     }
 	int index = 0;
@@ -284,10 +293,10 @@ void	bot(Server *server, int const client_fd, std::map<const int, Client>::itera
 	}
 	switch (index + 1)
 	{
-		case 1: addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Ask me 'RANDOM' or 'QUIZZ': You can ask questions about the President, the Capital, the Size and the Population of any Country")); break;
-		case 2: botRandom(server, client_fd, it_client, bot); break;
-		case 3: botQuizz(server, client_fd, it_client, bot_cmd); break;
+		case 1: addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Ask me 'RANDOM' or 'QUIZZ': You can ask questions about the President, the Capital, the Size and the Population of any Country")); break;
+		case 2: botRandom(server, client_fd, client, bot); break;
+		case 3: botQuizz(server, client_fd, client, bot_cmd); break;
 		default:
-			addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Invalid request, ask 'HELP' for more infos"));
+			addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Invalid request, ask 'HELP' for more infos"));
 	}
 }

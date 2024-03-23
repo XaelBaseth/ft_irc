@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:34:39 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/19 15:34:40 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:47:13 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,24 @@ void	nick(Server *server, int const client_fd, s_cmd cmd_infos){
 		
 		if (client.isRegistrationDone() == true)
 		{
+			std::map<std::string, Channel>::iterator	it;
+			for (it = server->getChannels().begin(); it != server->getChannels().end(); it++)
+			{
+				std::map<std::string, Client>::iterator it2;
+				for (it2 = it->second.getClientList().begin(); it2 != it->second.getClientList().end(); it2++)
+				{
+					if (it2->second.getNickname() == client.getNickname())
+					{
+						std::string oldName = client.getNickname();
+						it2->second.setNickname(nickname);
+						it->second.renameOperator(oldName, nickname);
+					}
+					std::cout << "\tNickname:" << it2->second.getNickname() << std::endl << "\tOld nickname:" << it2->second.getOldNickname() << std::endl;
+				}
+			}
 			client.setOldNickname(client.getNickname());
-			std::cout << "[Server] Nickname change registered. Old nickname is now : " << client.getOldNickname() << std::endl;
-		
 			client.setNickname(nickname);
-			
+			std::cout << "[Server] Nickname change registered. New nickname is now: " << client.getNickname() << std::endl;
 		}
 	}
 	addToClientBuffer(server, client_fd, RPL_NICK(client.getOldNickname(), client.getUsername(), client.getNickname()));
