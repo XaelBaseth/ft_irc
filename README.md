@@ -80,7 +80,7 @@ In order to do so, we can use the **poll()** function. It is used to monitor sev
 ### Commands
 
 | Command | Description | Commands |
-| :-----------: | :----------- | :--------: |
+| ------- | ----------- | -------- |
 | Invite | invite a user to a channel. | `/invite <user>`|
 | Join | indicates that the client wants to join the given channel(s), each channel using the given key for it. | `/join <#channel>` |
 | Kick | can be used to request the forced removal of a user from a channel. | `/kick <user> : <Reason>` |
@@ -97,12 +97,25 @@ In order to do so, we can use the **poll()** function. It is used to monitor sev
 ### Modes
 
 | Modes | Description | Command |
-| :---------: | :------------| :---------: |
+| ----- | ------------| ------- |
 | invite-only | Requires people to be /INVITE'd to the channel. | `/mode <#channel> +i` |
 | password-protected | Require users to specify a channel key in order to join. | `/mode <#channel> +k <key>` |
 | limited | Limit the amount of users that may be in the channel. | `/mode <#channel> limit +l <limits>` |
 | operators | Channel operators | `/mode <#channel> +o <user>`|
 | topic | Restrict the topic to operators only. | `/mode <#channel> limit +t` |
+
+### Bot commands
+
+`/msg raultbot` to start a chat with the bot.
+
+| Command | Description | Complete Command |
+| ------- | ------------| ---------------- |
+| help | To get the commands.  | `/msg raultbot help` |
+| random | The bot will send you a random sentence.  | `/msg raultbot random` |
+| joke | Prints a joke. | `/msg raultbot joke` |
+| quizz | Starts a quizz. | `/msg raultbot quizz` |
+| quizz &lt;any country&gt; | Does nothing, ask with a parameter. | `/msg raultbot quizz <any country>` |
+| quizz &lt;any country&gt; &lt;leader/area/population/capital&gt; | Gives an information about the country. | `/msg raultbot quizz <any country> <leader/area/population/capital>` |
 
 ## Sources
 
