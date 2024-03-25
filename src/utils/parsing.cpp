@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acharlot <acharlot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:33:16 by acharlot          #+#    #+#             */
-/*   Updated: 2024/02/21 14:09:20 by acharlot         ###   ########.fr       */
+/*   Updated: 2024/03/25 19:01:23 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	Server::execCommand(int const client_fd, std::string cmd_line){
 		"MOTD", "NAMES", "NICK", "OPER", "PART",
 		"PING", "PRIVMSG", "QUIT", "TOPIC", "USER"
 	};
-
 	Client	*client = getClient(this, client_fd);
 	s_cmd	cmd_infos;
 	int	index = 0;
@@ -131,7 +130,6 @@ void	Server::parseMsg(int const client_fd, std::string message){
 	std::map<const int, Client>::iterator	it = _clients.find(client_fd);
 
 	splitMsg(cmds, message);
-
 	for (size_t i = 0; i != cmds.size(); i++){
 		if (it->second.isRegistrationDone() == false){
 			if (it->second.hasAllInfo() == false){

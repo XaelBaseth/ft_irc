@@ -6,7 +6,7 @@
 /*   By: cpothin <cpothin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:36:49 by acharlot          #+#    #+#             */
-/*   Updated: 2024/03/23 17:58:57 by cpothin          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:15:27 by cpothin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,23 @@ std::string formatNumber(double number)
     for (int i = pointPos - 3; i > 0; i -= 3)
         result.insert(i, ",");
     return result;
+}
+
+static void FirstAnswer(Server *server, int const client_fd, Client &client)
+{
+    std::string bot = BOT_NAME;
+    
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Hello !"));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "I am the spirit of Mr Rault."));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Ask me anything about geography."));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "Commands are:"));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "- " + TEAL + "HELP" + RESET + " -> Can I help you?"));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "- " + TEAL + "RANDOM" + RESET + " -> To get a random sentence."));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "- " + TEAL + "JOKE" + RESET + " -> To get a random programming joke."));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "- " + TEAL + "QUIZZ" + RESET + " -> I'll ask a question and you'll have to answer!"));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "- " + TEAL + "QUIZZ <ANY COUNTRY> <POPULATION/CAPITAL/LEADER/AREA>" + RESET + " -> To give you some informations about <any country>."));
+    addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, client.getNickname(), "------------------------------------------"));
+    client.bot_question.firstTime = true;
 }
 
 static void	botQuizz(Server *server, int const client_fd, Client &client, std::string &msg)
@@ -347,6 +364,10 @@ void	bot(Server *server, int const client_fd, Client &client, std::string bot_cm
 		":JOKE",
 		};
 
+    if (client.bot_question.firstTime == false)
+    {
+        FirstAnswer(server, client_fd, client);
+    }
 	for (size_t i = 0; i < bot_cmd.size(); i++)
 		bot_cmd[i] = std::toupper(bot_cmd[i]);
     if (client.bot_question.questionType != None)
